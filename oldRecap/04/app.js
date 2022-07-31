@@ -15,6 +15,10 @@ if (command === 'add'){
     notes.saveNote('Last', 'our final hope')
 } else if (command === 'remove'){
     notes.removeNote('Second')
+} else if ( command === 'read'){
+    console.log(notes.readAllNote())
+}else if ( command === 'readOne'){
+    notes.readNote(process.argv[3])
 }
 
 

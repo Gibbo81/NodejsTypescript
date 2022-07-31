@@ -36,10 +36,9 @@ const saveNote = function(notes){
     fs.writeFileSync(fileName, JSON.stringify(notes))
 }
 
-const loadAll = function(){
+const loadAll = () => {
     try{
-        var pippo = fs.readFileSync('test.json')
-        const dataBuffer = fs.readFileSync('noteRepo.json')//(fileName)
+        const dataBuffer = fs.readFileSync(fileName)
         const string = dataBuffer.toString()
         return JSON.parse(string)
     }
@@ -49,8 +48,19 @@ const loadAll = function(){
     }
 }
 
+const readSingleNote = (title) =>{
+    var notes = loadAll()
+    var note = notes.find( (x) => x.title === title)    
+    if (note){
+        console.log("title: "+ note.title+ " -- body: "+ note.body)
+    } else {
+        console.log("note: "+ title+ " not found!!!!")
+    }    
+}
 
 module.exports = {
     saveNote : save,
-    removeNote : remove
+    removeNote : remove,
+    readAllNote : loadAll,
+    readNote : readSingleNote
 }
