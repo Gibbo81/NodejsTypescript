@@ -12,3 +12,13 @@ setTimeout(()=>{
 
 
 console.log('end')
+
+
+function sum(x, y, callBack){
+    var result = x+y;
+    setTimeout(()=>{
+        callBack(result)
+    }, 5000)
+}
+
+sum(10,55, (value)=> console.log('the value is: '+ value))
