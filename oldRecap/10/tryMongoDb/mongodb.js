@@ -23,8 +23,9 @@ MongoClient.connect(connectionURL, { useNewUrlParser: true}, (error, client) =>{
 //mainTasks()
 //updateTasks()
 deleteTasks()
-  .then(console.log)
-  .catch(console.error)
+//pippus()
+  .then(result => console.log(result))
+  .catch(error => console.log(error))
   .finally(() => client.close());
 
 //interract with user collection
@@ -50,7 +51,7 @@ async function main() {
         {
             name: "lucy-many",
             age: 69
-        } ])
+        }])
         console.log(resultMany)
 
         const user = await usersCollection.findOne({ name: "io"});
@@ -118,10 +119,11 @@ async function updateTasks(){
         const collection = db.collection('tasks');
 
         var result = await collection.updateOne({ _id : new ObjectID('62f5097738370aed6b1cb06f')  },     //filter
-                                                { $set:{ description: 'task888', completed: true} })   //update using set operator
+                                                { $set:{ description: 'task888', completed: true} })   //update 2 fields using set operator
         console.log(result)
 
-        result = await collection.updateMany({ description : 'task13'}, { $set: { completed : false}, $inc: { inc: 101.1 }})
+        result = await collection.updateMany({ description : 'task13'}, 
+                                             { $set: { completed : false}, $inc: { inc: 101.1 }})
         console.log(result)
 
         return 'DONE3'
@@ -150,6 +152,40 @@ async function deleteTasks(){
         console.log(result)
 
         return 'DONE - delete'
+    }
+    catch(e){
+        console.log(e)
+        throw(e)
+    } 
+}
+
+async function pippus(){
+    try{
+        await client.connect();
+        console.log('Connected successfully to server');
+
+        const db = client.db(dbName);      
+        const collection = db.collection('Pippus');
+
+        var resultMany = await collection.insertMany([{
+            name: "max-many",
+            age: 68,
+            data : {
+                preferredBook: "the star",
+                preferredColor : 'red'
+            }
+        },
+        {
+            name: "lucy-many",
+            age: 42,
+            data : {
+                preferredCar: "Pandabus",
+                preferredColor : 'yellow'
+            }
+        }])
+        console.log(resultMany)
+
+        return 'DONE - pippus'
     }
     catch(e){
         console.log(e)
