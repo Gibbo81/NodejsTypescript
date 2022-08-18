@@ -2,41 +2,41 @@ const mongodb = require('mongodb')
 const ObjectID = mongodb.ObjectId
 const connectionFactory = require('./dbConnection') 
 const dbName = "task-manager"
-const collectionName = 'users'
+const collectionName = 'tasks'
 
-
-class dbUser{
-    constructor(name, age, email, password){
-        this.name = name
-        this.age = age
-        this.email = email
-        this.password = password
+class dbTask{
+    constructor(description, completed){
+        this.description = description
+        this.completed =(completed === undefined) ? false : completed        
     }
 }
 
-const readAllUsers = async function(){
+const readAllTasks = async function(data){
     const client = await connectionFactory()
     const db = client.db(dbName);      
     const collection = db.collection(collectionName)
-    var users = await collection.find({}).toArray()
+    var tasks = await collection.find({}).toArray()
     client.close()
     var result = []
-    users.forEach((user) => result.push(new dbUser(user.name, user.age, user.email, user.password)))
+    tasks.forEach((task) => result.push(new dbTask(task.description, task.completed)))
     return result
 }
 
-const readUserById = async function(id){
+async function ReadTaskById(id){
     const client = await connectionFactory()
     const db = client.db(dbName);      
     const collection = db.collection(collectionName)
-    var user = await collection.findOne({_id : new ObjectID(id)})
+    var task = await collection.findOne({_id : new ObjectID(id)})
     client.close()
-    return (user) ? new dbUser(user.name, user.age, user.email, user.password) : null
+    if (task)
+        return new dbTask(task.description, task.completed)
+    return null
 }
 
-const createUser = async function(data){
+const createTask = async function(data){
     const client = await connectionFactory()
     const db = client.db(dbName);      
+
     const collection = db.collection(collectionName)
     var result = await collection.insertOne(data)
     client.close()
@@ -44,8 +44,8 @@ const createUser = async function(data){
 }
 
 module.exports = {
-    addUser : createUser,
-    dbUser : dbUser,
-    getAllUsers : readAllUsers,
-    readUserById
+    addtask : createTask,
+    dbTask : dbTask,
+    readAllTasks,
+    ReadTaskById
 }
