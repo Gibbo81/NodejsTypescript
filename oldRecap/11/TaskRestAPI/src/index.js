@@ -45,6 +45,40 @@ app.get('/users/:id', async (req, res) =>{
     }     
 })
 
+app.patch('/users/:id', async (req, res) =>{
+    try{
+        var changes = {};
+        if (req.body.name)  
+            changes.name = req.body.name
+        if (req.body.age)  
+            changes.age = req.body.age
+        if (req.body.personalEmail)  
+            changes.email = req.body.personalEmail
+        if (req.body.password)  
+            changes.password = req.body.password
+        if (isEmpty(changes))
+            return res.status(400).send({ Error : "No changes present"})
+
+        var result = await mongoUsers.updateUserById(req.params.id, changes)
+        return res.send(result)       
+    }
+    catch(e) {
+        console.log(e)
+        return res.status(500).send(CreateError(e))  
+    }     
+})
+
+app.delete('/users/:id', async (req, res) =>{
+    try{        
+        var remainingUser = await mongoUsers.deleteUserById(req.params.id)
+        return res.send(remainingUser)            
+    }
+    catch(e) {
+        console.log(e)
+        return res.status(500).send(CreateError(e))  
+    }     
+})
+
 app.post('/tasks', async (req, res) =>{
     try{
         var erros = taskCheckData(req.body)
@@ -85,6 +119,17 @@ app.get('/tasks/:id', async (req, res) =>{
     }     
 })
 
+app.delete('/tasks/:id', async (req, res) =>{
+    try{        
+        var remainingTasks = await mongoTasks.deleteTaskById(req.params.id)        
+        return res.send(remainingTasks)            
+    }
+    catch(e) {
+        console.log(e)
+        return res.status(500).send(CreateError(e))  
+    }     
+})
+
 function taskCheckData(request){
     result =[]
     if ( !request.description )
@@ -112,6 +157,10 @@ function CreateError(e){
 
 function createBadRequest(res, erros){
     return res.status(400).send({ missingFields : erros})
+}
+
+function isEmpty(obj) {
+    return Object.keys(obj).length === 0;
 }
 
 //start listening on port 3010
