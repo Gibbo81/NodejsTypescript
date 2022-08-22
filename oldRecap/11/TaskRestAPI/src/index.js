@@ -48,18 +48,20 @@ app.get('/users/:id', async (req, res) =>{
 app.patch('/users/:id', async (req, res) =>{
     try{
         var changes = {};
-        if (req.body.name)  
+        if (req.body.name!== undefined)  
             changes.name = req.body.name
-        if (req.body.age)  
+        if (req.body.age!== undefined)  
             changes.age = req.body.age
-        if (req.body.personalEmail)  
+        if (req.body.personalEmail!== undefined)  
             changes.email = req.body.personalEmail
-        if (req.body.password)  
+        if (req.body.password!== undefined)  
             changes.password = req.body.password
         if (isEmpty(changes))
             return res.status(400).send({ Error : "No changes present"})
 
         var result = await mongoUsers.updateUserById(req.params.id, changes)
+        if (result.matchedCount === 0)
+            return res.status(404).send()
         return res.send(result)       
     }
     catch(e) {
@@ -130,20 +132,41 @@ app.delete('/tasks/:id', async (req, res) =>{
     }     
 })
 
+app.patch('/tasks/:id', async (req, res) =>{
+    try{
+        var changes = {};
+        if (req.body.description !== undefined)  
+            changes.description = req.body.description
+        if (req.body.completed !== undefined)  
+            changes.completed = req.body.completed
+        if (isEmpty(changes))
+            return res.status(400).send({ Error : "No changes present"})
+
+        var result = await mongoTasks.updateTaskById(req.params.id, changes)
+        if (result.matchedCount === 0)
+            return res.status(404).send()
+        return res.send(result)       
+    }
+    catch(e) {
+        console.log(e)
+        return res.status(500).send(CreateError(e))  
+    }     
+})
+
 function taskCheckData(request){
     result =[]
-    if ( !request.description )
+    if ( request.description === undefined )
         result.push('missing description')
     return result;
 }
 
 function userCheckData(request){
     result =[]
-    if ( !request.name )
+    if ( request.name === undefined  )
         result.push('missing name')
-    if ( !request.password )
+    if ( request.password === undefined  )
         result.push('missing password')
-    if ( !request.personalEmail)
+    if ( request.personalEmail  === undefined )
         result.push('missing email')
     return result;
 }

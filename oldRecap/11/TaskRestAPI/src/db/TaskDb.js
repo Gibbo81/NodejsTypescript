@@ -49,6 +49,14 @@ const deleteTaskById = async (id) => {
     return { pendingTasks, completedTasks}
 }
 
+const updateTaskById = async (id, changes) =>{
+    const client = await connectionFactory()    
+    const collection = getCollection(client);
+    var result = await collection.updateOne({_id : new ObjectID(id)}, { $set: changes})
+    client.close()
+    return result
+}
+
 const getCollection = (client) => {
     const db = client.db(dbName); 
     return db.collection(collectionName)
@@ -59,5 +67,6 @@ module.exports = {
     dbTask : dbTask,
     readAllTasks,
     ReadTaskById,
-    deleteTaskById
+    deleteTaskById,
+    updateTaskById
 }
