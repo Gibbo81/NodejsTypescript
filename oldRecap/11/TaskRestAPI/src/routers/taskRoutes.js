@@ -5,7 +5,7 @@ const router = new express.Router()
 
 router.post('/tasks', async (req, res) =>{
     try{
-        var erros = utilities.taskCheckData(req.body)
+        var erros = taskCheckData(req.body)
         if ( erros.length >0 )
             return utilities.createBadRequest(res, erros)
 
@@ -15,7 +15,7 @@ router.post('/tasks', async (req, res) =>{
     }
     catch(e) {
         console.log(e)
-        return res.status(500).send(CreateError(e))  
+        return res.status(500).send(utilities.CreateError(e))  
     }     
 })
 
@@ -26,7 +26,7 @@ router.get('/tasks', async (req, res) =>{
     }
     catch(e) {
         console.log(e)
-        return res.status(500).send(CreateError(e))  
+        return res.status(500).send(utilities.CreateError(e))  
     }     
 })
 
@@ -39,7 +39,7 @@ router.get('/tasks/:id', async (req, res) =>{
     }
     catch(e) {
         console.log(e)
-        return res.status(500).send(CreateError(e))  
+        return res.status(500).send(utilities.CreateError(e))  
     }     
 })
 
@@ -50,7 +50,7 @@ router.delete('/tasks/:id', async (req, res) =>{
     }
     catch(e) {
         console.log(e)
-        return res.status(500).send(CreateError(e))  
+        return res.status(500).send(utilities.CreateError(e))  
     }     
 })
 
@@ -71,16 +71,16 @@ router.patch('/tasks/:id', async (req, res) =>{
     }
     catch(e) {
         console.log(e)
-        return res.status(500).send(CreateError(e))  
+        return res.status(500).send(utilities.CreateError(e))  
     }     
 })
 
-
-function CreateError(e){
-    return {
-        errorMessage: e.message,
-        stack  : e.stack           
-    }
+function taskCheckData(request){
+    result =[]
+    if ( request.description === undefined )
+        result.push('missing description')
+    return result;
 }
+
 
 module.exports = router

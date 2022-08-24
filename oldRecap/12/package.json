@@ -1,5 +1,5 @@
 {
-  "name": "taskrestapi",
+  "name": "12",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -9,8 +9,6 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "bcryptjs": "^2.4.3",
-    "express": "^4.18.1",
-    "mongodb": "^4.8.1"
+    "bcryptjs": "^2.4.3"
   }
 }

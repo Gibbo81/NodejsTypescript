@@ -6,16 +6,15 @@ function isEmpty(obj) {
     return Object.keys(obj).length === 0;
 }
 
-function taskCheckData(request){
-    result =[]
-    if ( request.description === undefined )
-        result.push('missing description')
-    return result;
+function CreateError(e){
+    return {
+        errorMessage: e.message,
+        stack  : e.stack           
+    }
 }
-
 
 module.exports = {
     createBadRequest,
     isEmpty,
-    taskCheckData
+    CreateError    
 }
