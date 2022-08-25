@@ -49,6 +49,14 @@ const deleteUserById = async (id) => {
     return { remeningAdult, remeningMinor}
 }
 
+const userByName = async (userName) => {
+    const client = await connectionFactory()
+    const collection = getCollection(client);
+    var user = await collection.findOne({name : userName})
+    client.close()
+    return user
+}
+
 const updateUserById = async (id, user) => {
     const client = await connectionFactory()
     const collection = getCollection(client);
@@ -68,5 +76,6 @@ module.exports = {
     getAllUsers : readAllUsers,
     readUserById,
     deleteUserById,
-    updateUserById
+    updateUserById,
+    userByName
 }

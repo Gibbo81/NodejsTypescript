@@ -23,6 +23,22 @@ router.post('/users', async (req, res) =>{
     }     
 })
 
+router.post('/users/login', async (req, res) =>{
+    try{
+        var erros = logInCheckData(req.body)
+        if ( erros.length >0 )
+            return utilities.createBadRequest(res, erros)
+        var user = await mongoUsers.userByName(req.body.name) 
+        if (!user || !await bcrypt.compare(req.body.password, user.password))
+            return res.status(401).send()           
+        return res.send(user)
+    }
+    catch(e) {
+        console.log(e)
+        return res.status(500).send(utilities.CreateError(e))  
+    }     
+})
+
 router.get('/users', async (req, res) =>{
     try{
         var users = await mongoUsers.getAllUsers()
@@ -84,13 +100,18 @@ router.delete('/users/:id', async (req, res) =>{
 })
 
 function userCheckData(request){
+    result =logInCheckData(request)    
+    if ( request.personalEmail  === undefined )
+        result.push('missing email')
+    return result;
+}
+
+function logInCheckData(request){
     result =[]
     if ( request.name === undefined  )
         result.push('missing name')
     if ( request.password === undefined  )
         result.push('missing password')
-    if ( request.personalEmail  === undefined )
-        result.push('missing email')
     return result;
 }
 
