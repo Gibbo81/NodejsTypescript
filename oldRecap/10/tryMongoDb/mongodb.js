@@ -2,12 +2,19 @@ const mongodb = require('mongodb')
 const MongoClient =mongodb.MongoClient
 const ObjectID = mongodb.ObjectId
 
-const connectionURL = 'mongodb://localhost:27017'
-//const connectionURL = 'mongodb://127.0.0.1:27017' //same as localhost
+//const connectionURL = 'mongodb://localhost:27017'
+const connectionURL = 'mongodb://127.0.0.1:27017' //same as localhost
 const dbName = "task-manager"
 
 
 const client = new MongoClient(connectionURL);
+
+class simple{
+    constructor(name, age){
+        this.name = name
+        this.age = age
+    }
+}
 
 /*with call back
 MongoClient.connect(connectionURL, { useNewUrlParser: true}, (error, client) =>{
@@ -22,12 +29,14 @@ MongoClient.connect(connectionURL, { useNewUrlParser: true}, (error, client) =>{
 //main()
 //mainTasks()
 //updateTasks()
-deleteTasks()
+//deleteTasks()
 //pippus()
+workingWithArray()
   .then(result => console.log(result))
   .catch(error => console.log(error))
   .finally(() => client.close());
 
+  
 //interract with user collection
 async function main() {
     try{
@@ -191,4 +200,32 @@ async function pippus(){
         console.log(e)
         throw(e)
     } 
+}
+
+async function workingWithArray(){
+    try{
+        await client.connect();
+        console.log('Connected successfully to server');
+
+        const db = client.db(dbName);      
+        const collection = db.collection('ArrayTry');
+        await collection.deleteMany({}); //clean up
+        var result = await collection.insertOne({
+            name: 'try it',
+            elements : [new simple('erich', 22) ,new simple('bob', 65)]
+        })
+        console.log(result)
+        await collection.updateOne({name : 'try it'},
+                             { 
+                                $pull: { elements: {name:'erich'} },//remove all elements of name 'erich' from array element                     
+                             } )
+        await collection.updateOne({name : 'try it'},
+                                   {$push: { elements: new simple('solidar', 77)} } ) //must be separated operations
+        var result=  await collection.find({}).toArray()    
+        return result
+    }
+    catch(e){
+        console.log(e)
+        throw(e)
+    }
 }
