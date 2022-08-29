@@ -1,7 +1,9 @@
 const mongoUsers = require('../db/UserDb')
 const utilities = require('./utilities')
-const express = require('express')
+const userDto = require('../dto/userdto')
 var bcrypt = require('bcryptjs')
+const express = require('express')
+
 const router = new express.Router()
 
 router.post('/users', async (req, res) =>{
@@ -10,10 +12,11 @@ router.post('/users', async (req, res) =>{
         if ( erros.length >0 )
             return utilities.createBadRequest(res, erros)
 
-        var newUser = await mongoUsers.addUser(new mongoUsers.dbUser(req.body.name, 
+        var newUser = await mongoUsers.addUser(new userDto(req.body.name, 
             req.body.age, 
             req.body.personalEmail, 
             await bcrypt.hash(req.body.password, 8))) //saves password hash
+        newUser.token = newUser.generateAuthToken()
         res.statusCode = 201
         return res.send(newUser)
     }
@@ -30,8 +33,8 @@ router.post('/users/login', async (req, res) =>{
             return utilities.createBadRequest(res, erros)
         var user = await mongoUsers.userByName(req.body.name) 
         if (!user || !await bcrypt.compare(req.body.password, user.password))
-            return res.status(401).send()           
-        return res.send(user)
+            return res.status(401).send()    
+        return res.send( { token : user.generateAuthToken()})
     }
     catch(e) {
         console.log(e)

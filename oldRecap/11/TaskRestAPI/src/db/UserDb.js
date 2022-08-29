@@ -1,17 +1,9 @@
+const userDto = require('../dto/userdto')
 const mongodb = require('mongodb')
 const ObjectID = mongodb.ObjectId
 const connectionFactory = require('./dbConnection') 
 const dbName = "task-manager"
 const collectionName = 'users'
-
-class dbUser{
-    constructor(name, age, email, password){
-        this.name = name
-        this.age = age
-        this.email = email
-        this.password = password
-    }
-}
 
 const readAllUsers = async function(){
     const client = await connectionFactory()
@@ -19,7 +11,7 @@ const readAllUsers = async function(){
     var users = await collection.find({}).toArray()
     client.close()
     var result = []
-    users.forEach((user) => result.push(new dbUser(user.name, user.age, user.email, user.password)))
+    users.forEach((user) => result.push(new userDto(user.name, user.age, user.email, user.password)))
     return result
 }
 
@@ -28,7 +20,7 @@ const readUserById = async function(id){
     const collection = getCollection(client);
     var user = await collection.findOne({_id : new ObjectID(id)})
     client.close()
-    return (user) ? new dbUser(user.name, user.age, user.email, user.password) : null
+    return (user) ? new userDto(user.name, user.age, user.email, user.password) : null
 }
 
 const createUser = async function(data){
@@ -36,7 +28,7 @@ const createUser = async function(data){
     const collection = getCollection(client);
     var result = await collection.insertOne(data)
     client.close()
-    return result
+    return await readUserById(result.insertedId)
 }
 
 const deleteUserById = async (id) => {
@@ -54,7 +46,7 @@ const userByName = async (userName) => {
     const collection = getCollection(client);
     var user = await collection.findOne({name : userName})
     client.close()
-    return user
+    return new userDto(user.name, user.age, user.email, user.password)
 }
 
 const updateUserById = async (id, user) => {
@@ -72,7 +64,6 @@ const getCollection = (client) => {
 
 module.exports = {
     addUser : createUser,
-    dbUser : dbUser,
     getAllUsers : readAllUsers,
     readUserById,
     deleteUserById,
