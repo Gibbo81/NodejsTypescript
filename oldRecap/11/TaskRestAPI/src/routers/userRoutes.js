@@ -1,6 +1,7 @@
 const mongoUsers = require('../db/UserDb')
 const utilities = require('./utilities')
 const userDto = require('../dto/userdto')
+const auth = require('../middleware/auth')
 var bcrypt = require('bcryptjs')
 const express = require('express')
 
@@ -42,9 +43,23 @@ router.post('/users/login', async (req, res) =>{
     }     
 })
 
-router.get('/users', async (req, res) =>{
+//from here aithentication is reqired to call the routes
+//auth is the middalware
+router.get('/users', auth, async (req, res) =>{
     try{
         var users = await mongoUsers.getAllUsers()
+        return res.send({ users })
+    }
+    catch(e) {
+        console.log(e)
+        return res.status(500).send(utilities.CreateError(e))  
+    }     
+})
+
+//get the user data from the token
+router.get('/users/me', auth, async (req, res) =>{
+    try{
+        var users = await mongoUsers.userByName(req.userName)
         return res.send({ users })
     }
     catch(e) {

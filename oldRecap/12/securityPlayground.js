@@ -32,7 +32,6 @@ const jsonWebToken = async () => {
     },       // for the moment only the user _id and name
     secret,  //secret: any serious of characters will work
     { expiresIn : '500000 seconds'})     //optional token duration
-    console.log('token:',token)
     try{
         console.log ("valid:",  jwt.verify(token, secret))          //good
         console.log ("valid:",  jwt.verify(token, 'wrong secret'))  //bad -> exception
