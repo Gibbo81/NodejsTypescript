@@ -1,0 +1,327 @@
+{
+	"info": {
+		"_postman_id": "7af30781-89be-4427-a644-719b19852122",
+		"name": "New Collection",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "AddUser",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\": \"iliot\",\r\n    \"personalEmail\": \"iliot@panna.com\",\r\n    \"age\": 87 ,\r\n    \"password\": \"sali???iliot\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3010/users",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3010",
+					"path": [
+						"users"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "AddTask",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiaWxpb3QiLCJlbWFpbCI6ImlsaW90QHBhbm5hLmNvbSIsImlhdCI6MTY2MTg0NzkxNSwiZXhwIjoxNjYyMzQ3OTE1fQ.yL9JcUtR7euXE_BhwDa8xcTuwCVVwvqqSUcj9EDiCeg",
+						"type": "default"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"description\" : \"piriot task\",\r\n    \"completed\" : false\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3010/tasks",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3010",
+					"path": [
+						"tasks"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "ReadAllUsers",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiZ2VvZDMzIiwiZW1haWwiOiJnZGcyMUBwYW5uYS5jb20iLCJpYXQiOjE2NjE3Nzc3MTAsImV4cCI6MTY2MjI3NzcxMH0.AwwigkQGdjZhQP1o3GwuryyoIuPvMwzJ83cB1GvKW2U",
+						"type": "default"
+					}
+				],
+				"url": {
+					"raw": "http://localhost:3010/users",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3010",
+					"path": [
+						"users"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "ReadAllTasks",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3010/tasks",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3010",
+					"path": [
+						"tasks"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "ReadUserById",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3010/users/62fcfd906f45e99b17733fe6",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3010",
+					"path": [
+						"users",
+						"62fcfd906f45e99b17733fe6"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "ReadTaskById",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3010/tasks/62fe09427b086cfa9e58999f",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3010",
+					"path": [
+						"tasks",
+						"62fe09427b086cfa9e58999f"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "DeleteTaskById",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3010/tasks/62f625d2edec661b7e015122",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3010",
+					"path": [
+						"tasks",
+						"62f625d2edec661b7e015122"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "DeleteUser",
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiZ2VvZCIsImVtYWlsIjoiZ2RnQHBhbm5hLmNvbSIsImlhdCI6MTY2MTg0NTg4MywiZXhwIjoxNjYyMzQ1ODgzfQ.nt0ngwnLg3DG3ozjggkbEopnmPpEuoiVhZwqbw8hvYc",
+						"type": "default"
+					}
+				],
+				"url": {
+					"raw": "http://localhost:3010/users/",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3010",
+					"path": [
+						"users",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "UpdateUserById",
+			"request": {
+				"method": "PATCH",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiZ2VvZDIiLCJlbWFpbCI6ImdkZ0BwYW5uYS5jb20iLCJpYXQiOjE2NjE4NDY0MDYsImV4cCI6MTY2MjM0NjQwNn0.0Y_TpYVC-eNvlPuwKe44jaEYNsCgHP8zHdW621Ls0Gs",
+						"type": "default"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"age\" : 19\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3010/users/",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3010",
+					"path": [
+						"users",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "UpdateTaskById",
+			"request": {
+				"method": "PATCH",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"description\" : \"table Pizza\",\r\n    \"completed\" : false\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3010/tasks/62fe04a2c8e99f1cb65367c0",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3010",
+					"path": [
+						"tasks",
+						"62fe04a2c8e99f1cb65367c0"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "UserLogin",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\": \"geod33\",\r\n    \"password\": \"geod33\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3010/users/login",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3010",
+					"path": [
+						"users",
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "ReadLoggedUser",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiZ2VvZDIiLCJlbWFpbCI6ImdkZ0BwYW5uYS5jb20iLCJpYXQiOjE2NjE4NDY0MDYsImV4cCI6MTY2MjM0NjQwNn0.0Y_TpYVC-eNvlPuwKe44jaEYNsCgHP8zHdW621Ls0Gs",
+						"type": "default"
+					}
+				],
+				"url": {
+					"raw": "http://localhost:3010/users/me",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3010",
+					"path": [
+						"users",
+						"me"
+					],
+					"query": [
+						{
+							"key": "",
+							"value": "",
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

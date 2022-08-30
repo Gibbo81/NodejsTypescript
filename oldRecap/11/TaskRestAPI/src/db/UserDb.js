@@ -31,10 +31,10 @@ const createUser = async function(data){
     return await readUserById(result.insertedId)
 }
 
-const deleteUserById = async (id) => {
+const deleteUserByName = async (userName) => {
     const client = await connectionFactory()
     const collection = getCollection(client);
-    await collection.deleteOne({_id : new ObjectID(id)})
+    await collection.deleteOne({name : userName })
     var remeningAdult = await collection.count({age : { $gte : 18 }})
     var remeningMinor = await collection.count({age : { $lt  : 18 }})
     client.close()
@@ -49,10 +49,10 @@ const userByName = async (userName) => {
     return new userDto(user.name, user.age, user.email, user.password)
 }
 
-const updateUserById = async (id, user) => {
+const updateUserByName = async (userName, userChanges) => {
     const client = await connectionFactory()
     const collection = getCollection(client);
-    var result = await collection.updateOne({ _id : new ObjectID(id)  }, { $set: user})
+    var result = await collection.updateOne({ name : userName  }, { $set: userChanges})
     client.close()
     return result
 }
@@ -66,7 +66,7 @@ module.exports = {
     addUser : createUser,
     getAllUsers : readAllUsers,
     readUserById,
-    deleteUserById,
-    updateUserById,
+    deleteUserByName,
+    updateUserByName,
     userByName
 }

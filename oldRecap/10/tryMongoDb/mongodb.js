@@ -221,8 +221,7 @@ async function workingWithArray(){
                              } )
         await collection.updateOne({name : 'try it'},
                                    {$push: { elements: new simple('solidar', 77)} } ) //must be separated operations
-        var result=  await collection.find({}).toArray()    
-        return result
+        return  await collection.find({}).toArray()    
     }
     catch(e){
         console.log(e)

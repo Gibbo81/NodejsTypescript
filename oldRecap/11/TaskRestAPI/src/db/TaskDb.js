@@ -5,29 +5,30 @@ const dbName = "task-manager"
 const collectionName = 'tasks'
 
 class dbTask{
-    constructor(description, completed){
+    constructor(description, completed, owner){
         this.description = description
         this.completed =(completed === undefined) ? false : completed        
+        this.owner = owner
     }
 }
 
-const readAllTasks = async function(data){
+const readAllTasks = async function(taskOwner){
     const client = await connectionFactory()
     const collection = getCollection(client);
-    var tasks = await collection.find({}).toArray()
+    var tasks = await collection.find({owner: taskOwner }).toArray()
     client.close()
     var result = []
-    tasks.forEach((task) => result.push(new dbTask(task.description, task.completed)))
+    tasks.forEach((task) => result.push(new dbTask(task.description, task.completed, task.owner)))
     return result
 }
 
-async function ReadTaskById(id){
+async function ReadTaskById(id, taskOwner){
     const client = await connectionFactory()
     const collection = getCollection(client);
-    var task = await collection.findOne({_id : new ObjectID(id)})
+    var task = await collection.findOne({$and:[ {_id : new ObjectID(id) }, {owner: taskOwner}]})
     client.close()
     if (task)
-        return new dbTask(task.description, task.completed)
+        return new dbTask(task.description, task.completed, task.owner)
     return null
 }
 
@@ -39,20 +40,21 @@ const createTask = async (data) => {
     return result
 }
 
-const deleteTaskById = async (id) => {
+const deleteTaskById = async (id, taskOwner) => {
     const client = await connectionFactory()    
     const collection = getCollection(client);
-    await collection.deleteOne({_id : new ObjectID(id)})
+    await collection.deleteOne({$and:[ {_id : new ObjectID(id) }, {owner: taskOwner}]})
     var completedTasks = await collection.count({completed : true })
     var pendingTasks = await collection.count({completed : false })
     client.close()
     return { pendingTasks, completedTasks}
 }
 
-const updateTaskById = async (id, changes) =>{
+const updateTaskById = async (id, taskOwner, changes) =>{
     const client = await connectionFactory()    
     const collection = getCollection(client);
-    var result = await collection.updateOne({_id : new ObjectID(id)}, { $set: changes})
+    var result = await collection.updateOne({$and:[ {_id : new ObjectID(id) }, {owner: taskOwner}]}, 
+                                            { $set: changes})
     client.close()
     return result
 }

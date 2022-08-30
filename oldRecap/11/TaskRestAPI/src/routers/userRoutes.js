@@ -43,7 +43,18 @@ router.post('/users/login', async (req, res) =>{
     }     
 })
 
-//from here aithentication is reqired to call the routes
+//DEPRECATED after introducing autorization control --> use instead /users/me
+router.get('/users/:id/dep', async (req, res) =>{
+    try{   
+        return res.status(410).send({suggestion : 'use .../users/me instead'})       
+    }
+    catch(e) {
+        console.log(e)
+        return res.status(500).send(utilities.CreateError(e))  
+    }     
+})
+
+//from here authentication is reqired to call the routes
 //auth is the middalware
 router.get('/users', auth, async (req, res) =>{
     try{
@@ -60,7 +71,7 @@ router.get('/users', auth, async (req, res) =>{
 router.get('/users/me', auth, async (req, res) =>{
     try{
         var users = await mongoUsers.userByName(req.userName)
-        return res.send({ users })
+        return res.send( users )
     }
     catch(e) {
         console.log(e)
@@ -68,24 +79,9 @@ router.get('/users/me', auth, async (req, res) =>{
     }     
 })
 
-router.get('/users/:id', async (req, res) =>{
-    try{        
-        var user = await mongoUsers.readUserById(req.params.id)
-        if (user)
-            return res.send({ user })    
-        return res.status(404).send({ id : req.params.id })        
-    }
-    catch(e) {
-        console.log(e)
-        return res.status(500).send(utilities.CreateError(e))  
-    }     
-})
-
-router.patch('/users/:id', async (req, res) =>{
+router.patch('/users', auth, async (req, res) =>{
     try{
         var changes = {};
-        if (req.body.name!== undefined)  
-            changes.name = req.body.name
         if (req.body.age!== undefined)  
             changes.age = req.body.age
         if (req.body.personalEmail!== undefined)  
@@ -95,7 +91,7 @@ router.patch('/users/:id', async (req, res) =>{
         if (utilities.isEmpty(changes))
             return res.status(400).send({ Error : "No changes present"})
 
-        var result = await mongoUsers.updateUserById(req.params.id, changes)
+        var result = await mongoUsers.updateUserByName(req.userName, changes)
         if (result.matchedCount === 0)
             return res.status(404).send()
         return res.send(result)       
@@ -106,9 +102,9 @@ router.patch('/users/:id', async (req, res) =>{
     }     
 })
 
-router.delete('/users/:id', async (req, res) =>{
+router.delete('/users', auth, async (req, res) =>{
     try{        
-        var remainingUser = await mongoUsers.deleteUserById(req.params.id)
+        var remainingUser = await mongoUsers.deleteUserByName(req.userName)
         return res.send(remainingUser)            
     }
     catch(e) {
