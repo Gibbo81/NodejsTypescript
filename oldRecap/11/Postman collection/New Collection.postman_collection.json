@@ -96,9 +96,15 @@
 			"name": "ReadAllTasks",
 			"request": {
 				"method": "GET",
-				"header": [],
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoidWl1aXUiLCJlbWFpbCI6ImlsdWl1aXVpaW90QHBhbm5hLmNvbSIsImlhdCI6MTY2MTkzMzY1NiwiZXhwIjoxNjYyNDMzNjU2fQ.wgftH3TG3T18aWEH4TaGwKg8Xx6MTrgK9_StIN2UntU",
+						"type": "default"
+					}
+				],
 				"url": {
-					"raw": "http://localhost:3010/tasks",
+					"raw": "http://localhost:3010/tasks?completed=false&page=2&pagewidth=20&sortBy=completed",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -106,6 +112,24 @@
 					"port": "3010",
 					"path": [
 						"tasks"
+					],
+					"query": [
+						{
+							"key": "completed",
+							"value": "false"
+						},
+						{
+							"key": "page",
+							"value": "2"
+						},
+						{
+							"key": "pagewidth",
+							"value": "20"
+						},
+						{
+							"key": "sortBy",
+							"value": "completed"
+						}
 					]
 				}
 			},
@@ -135,9 +159,15 @@
 			"name": "ReadTaskById",
 			"request": {
 				"method": "GET",
-				"header": [],
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiaWxpb3QiLCJlbWFpbCI6ImlsaW90QHBhbm5hLmNvbSIsImlhdCI6MTY2MTg0NzkxNSwiZXhwIjoxNjYyMzQ3OTE1fQ.yL9JcUtR7euXE_BhwDa8xcTuwCVVwvqqSUcj9EDiCeg",
+						"type": "default"
+					}
+				],
 				"url": {
-					"raw": "http://localhost:3010/tasks/62fe09427b086cfa9e58999f",
+					"raw": "http://localhost:3010/tasks/630dcd81eca910c65e2bb850",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -145,7 +175,7 @@
 					"port": "3010",
 					"path": [
 						"tasks",
-						"62fe09427b086cfa9e58999f"
+						"630dcd81eca910c65e2bb850"
 					]
 				}
 			},
@@ -155,9 +185,15 @@
 			"name": "DeleteTaskById",
 			"request": {
 				"method": "DELETE",
-				"header": [],
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiaWxpb3QiLCJlbWFpbCI6ImlsaW90QHBhbm5hLmNvbSIsImlhdCI6MTY2MTg0NzkxNSwiZXhwIjoxNjYyMzQ3OTE1fQ.yL9JcUtR7euXE_BhwDa8xcTuwCVVwvqqSUcj9EDiCeg",
+						"type": "default"
+					}
+				],
 				"url": {
-					"raw": "http://localhost:3010/tasks/62f625d2edec661b7e015122",
+					"raw": "http://localhost:3010/tasks/630dcd81eca910c65e2bb850",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -165,7 +201,7 @@
 					"port": "3010",
 					"path": [
 						"tasks",
-						"62f625d2edec661b7e015122"
+						"630dcd81eca910c65e2bb850"
 					]
 				}
 			},
@@ -236,7 +272,13 @@
 			"name": "UpdateTaskById",
 			"request": {
 				"method": "PATCH",
-				"header": [],
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiaWxpb3QiLCJlbWFpbCI6ImlsaW90QHBhbm5hLmNvbSIsImlhdCI6MTY2MTg0NzkxNSwiZXhwIjoxNjYyMzQ3OTE1fQ.yL9JcUtR7euXE_BhwDa8xcTuwCVVwvqqSUcj9EDiCeg",
+						"type": "default"
+					}
+				],
 				"body": {
 					"mode": "raw",
 					"raw": "{\r\n    \"description\" : \"table Pizza\",\r\n    \"completed\" : false\r\n}",
@@ -247,7 +289,7 @@
 					}
 				},
 				"url": {
-					"raw": "http://localhost:3010/tasks/62fe04a2c8e99f1cb65367c0",
+					"raw": "http://localhost:3010/tasks/630dc9aa6aaad364742e3ad3",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -255,7 +297,7 @@
 					"port": "3010",
 					"path": [
 						"tasks",
-						"62fe04a2c8e99f1cb65367c0"
+						"630dc9aa6aaad364742e3ad3"
 					]
 				}
 			},

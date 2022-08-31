@@ -5,20 +5,32 @@ const dbName = "task-manager"
 const collectionName = 'tasks'
 
 class dbTask{
-    constructor(description, completed, owner){
+    constructor(description, completed, owner, createDate, updateDate){
         this.description = description
         this.completed =(completed === undefined) ? false : completed        
         this.owner = owner
+        this.updateDate = updateDate
+        this.createDate = createDate
     }
 }
 
-const readAllTasks = async function(taskOwner){
+const readAllTasks = async function(taskOwner, taskCompleted, page, pagewidth, sortBy){
     const client = await connectionFactory()
     const collection = getCollection(client);
-    var tasks = await collection.find({owner: taskOwner }).toArray()
+    var conditions = [ {owner: taskOwner }]
+    if (taskCompleted !== undefined)
+        conditions.push({completed : (taskCompleted === 'true')})    
+    var limit = 1* pagewidth        //to make a number
+    var sorter={}
+    sorter[sortBy]=1
+    var tasks = await collection.find({$and : conditions })
+                                .sort(sorter)
+                                .skip(pagewidth * (page-1))
+                                .limit(limit)
+                                .toArray()
     client.close()
     var result = []
-    tasks.forEach((task) => result.push(new dbTask(task.description, task.completed, task.owner)))
+    tasks.forEach((task) => result.push(new dbTask(task.description, task.completed, task.owner, task.createDate, task.updateDate)))
     return result
 }
 
@@ -28,7 +40,7 @@ async function ReadTaskById(id, taskOwner){
     var task = await collection.findOne({$and:[ {_id : new ObjectID(id) }, {owner: taskOwner}]})
     client.close()
     if (task)
-        return new dbTask(task.description, task.completed, task.owner)
+        return new dbTask(task.description, task.completed, task.owner, task.createDate, task.updateDate)
     return null
 }
 

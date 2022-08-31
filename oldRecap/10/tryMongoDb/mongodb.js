@@ -111,6 +111,15 @@ async function mainTasks() {
         var onlyOne = await collection.find({ completed : false}).toArray() 
         console.log( onlyOne)
 
+        //https://stackoverflow.com/questions/17039018/how-to-use-a-variable-as-a-field-name-in-mongodb-native-findone
+        //if you need to set the key of the query object dynamically:
+        var field = 'completed'
+        var value = false
+        var filter = {}
+        filter[field]=value
+        var results = await collection.find(filter).toArray()
+        console.log( results)
+
         return 'done - 2';
     }
     catch(e){
