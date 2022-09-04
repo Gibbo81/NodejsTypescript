@@ -31,7 +31,8 @@ MongoClient.connect(connectionURL, { useNewUrlParser: true}, (error, client) =>{
 //updateTasks()
 //deleteTasks()
 //pippus()
-workingWithArray()
+//workingWithArray()
+removeField()
   .then(result => console.log(result))
   .catch(error => console.log(error))
   .finally(() => client.close());
@@ -237,3 +238,18 @@ async function workingWithArray(){
         throw(e)
     }
 }
+
+//remove fields age and data from the document named 'max-many'
+async function removeField(){
+    await client.connect();
+    console.log('Connected successfully to server');
+
+    const db = client.db(dbName); 
+    const collection = db.collection('Pippus');     
+    await collection.updateOne({ name: 'max-many'},{ $unset:{ age: '', data : ''} })
+    
+
+}
+
+//db.getCollection("users").createIndex( { “name” : 1 } , { unique : true } )
+//db.getCollection("tasks").createIndex( { description : 1 } , { unique : true } )
