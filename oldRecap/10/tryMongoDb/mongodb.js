@@ -242,13 +242,9 @@ async function workingWithArray(){
 //remove fields age and data from the document named 'max-many'
 async function removeField(){
     await client.connect();
-    console.log('Connected successfully to server');
-
     const db = client.db(dbName); 
     const collection = db.collection('Pippus');     
-    await collection.updateOne({ name: 'max-many'},{ $unset:{ age: '', data : ''} })
-    
-
+    await collection.updateOne({ name: 'max-many'},{ $unset:{ age: '', data : ''} })  
 }
 
 //db.getCollection("users").createIndex( { “name” : 1 } , { unique : true } )
