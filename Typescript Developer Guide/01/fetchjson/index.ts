@@ -17,7 +17,6 @@ axios.get(url)
         const ID = todo.id
         const title = todo.title
         const finished = todo.completed
-        //backtick (`) characters is alt + 96
         toLog(ID, title, finished)
      })
 
