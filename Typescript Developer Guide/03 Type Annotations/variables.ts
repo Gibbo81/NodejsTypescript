@@ -54,5 +54,45 @@ var age2 = 10
 //for typescript they are exactly the same: both are number only variable
 //type inference works only if declaration and inizialization are made in the same line
 //some type can not be inferred E.g.: number | null  (nullable number)
+//Whene to use annotations (because inference is not enought)
 
+//1) when a function return any type  E.g.:JSON.Parse(x) because can return different data types
+//'any' is a type as string or number but typescript has not idea what that is, always avoid any variables
+//we must avoid that the variable conteining the function result is of type any
+const json = '{ "x": 10, "y":43}'
+const coordinate = JSON.parse(json) as Point
+console.log(coordinate)
+coordinate.y=89
+console.log(coordinate)
+//coordinate.z=98 this would give back an error
+interface Point{
+    x:number,
+    y:number
+}
 
+//other possibility
+const coordinate2 : { x:number; y:number} = JSON.parse(json) as Point
+console.log('coordinate2: ',coordinate)
+
+//2) Delayed initialization
+var pippo = [1,5,6]
+let found : boolean
+for(let x=0; x<pippo.length; x++){
+    if(pippo[x]===5)
+        found=true
+}
+//found is any if not specified with an annotation
+
+//3) variable whose type cannot be inferred E.g: nullabe integer
+
+const findOrNull: (u:number) => number | null  = (u) => {
+    const values = [100,200,300,500]
+    for(let i=0; i<values.length; i++)
+        if (u===values[i])
+            return i
+    return null
+}
+var r1= findOrNull(200)
+var r2= findOrNull(202)
+console.log(r1)
+console.log(r2)
