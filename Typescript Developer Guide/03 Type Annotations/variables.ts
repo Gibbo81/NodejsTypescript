@@ -46,6 +46,9 @@ const logNumber: (i:number, u:number) => void = (i, u) => {
 } 
 const v = logNumber(3, 5)
 console.log(v) //this is undefined
+//important note: we are not annotation the function but the variable logNumber
+//saing that it accet a function of certain type 
+//Function annotation will be in next chapter
 
 
 //the simplest annotation can be omitted because type can inference the correct type
