@@ -1,7 +1,9 @@
 import faker from 'faker'
+import {printable} from './printable'
 
-
-export class Company{
+// implements printable is not necessary because the check is implicit when we use the object
+//but we can explicit the check to help typescript to report the error as soon as possible
+export class Company implements printable{
      name:string
      catchPhrase:string
      location: {

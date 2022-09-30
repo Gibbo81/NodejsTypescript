@@ -25,3 +25,5 @@ var fun = function(x : Company | User):void{
 //interface implementation is implicit (implicit type check) and not explicit (you do not need to declare that you are implementating an interface)
 printMe(xcx)
 printMe(comp)
+
+// explicit implementation inside Company.ts

@@ -1,4 +1,5 @@
-interface printable {
+
+export interface printable {
     name: string,
     location: {
         lat: string,
