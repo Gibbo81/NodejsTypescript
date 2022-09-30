@@ -6,6 +6,10 @@
 //function annotation take 2 number and return a number
 var add = (a: number, b: number) : number =>  a+b
 
+const f1 = (i:number, u:number) : void =>{
+    console.log("first: ",i)
+    console.log("second: ",u)} 
+
 const add2 = (a: number, b: number) =>  a+b
 //add and add2 are equivalent for typescript: both return an integer
 //ts is capeble to inference the value for the return value

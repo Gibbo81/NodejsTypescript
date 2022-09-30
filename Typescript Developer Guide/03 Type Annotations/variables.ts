@@ -47,9 +47,8 @@ const logNumber: (i:number, u:number) => void = (i, u) => {
 const v = logNumber(3, 5)
 console.log(v) //this is undefined
 //important note: we are not annotation the function but the variable logNumber
-//saing that it accet a function of certain type 
+//saing that it accepts a function of certain type 
 //Function annotation will be in next chapter
-
 
 //the simplest annotation can be omitted because type can inference the correct type
 var age : number =10
@@ -61,7 +60,7 @@ var age2 = 10
 
 //1) when a function return any type  E.g.:JSON.Parse(x) because can return different data types
 //'any' is a type as string or number but typescript has not idea what that is, always avoid any variables
-//we must avoid that the variable conteining the function result is of type any
+//we must avoid that the variable containing  the function result is of type any
 const json = '{ "x": 10, "y":43}'
 const coordinate = JSON.parse(json) as Point
 console.log(coordinate)
