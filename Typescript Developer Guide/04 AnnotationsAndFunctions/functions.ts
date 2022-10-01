@@ -10,6 +10,7 @@ const f1 = (i:number, u:number) : void =>{
     console.log("first: ",i)
     console.log("second: ",u)} 
 
+
 const add2 = (a: number, b: number) =>  a+b
 //add and add2 are equivalent for typescript: both return an integer
 //ts is capeble to inference the value for the return value
@@ -22,24 +23,20 @@ const add3 = (a: number, b: number) =>  {
 }
 //always specify the return value, in this way ts is able to check on our code
 
-
 function divide(a:number, b:number): number{
     return a/b
 }
 
-
-
 //a particula returning value is never
-const neverCompleed = (x : string) : never => {
+const neverCompleted = (x : string) : never => {
     throw new Error(x)    
-} //to indicate that we are NEVER going to reach the end of this function (maybe not so usefull)
+} //to indicate that we are NEVER going to reach the end of this function (maybe not so useful)
 
 //Destructuring and annotation on the same function
 var person = {
     age : 56,
-    name:'Plutus'
+    name:'Plutus'    
 }  
-
 const logPerson = ({age, name} : { age: number, name:string}) : void =>{
     console.log('age: ', age)
     console.log('name: ', name)

@@ -16,7 +16,6 @@ const oldCivic = {
     }//backtick (`) characters is alt + 96  
 }
 
-
 const printVehicle = (car: Vehicle): void=>{
     console.log(car.summary())
 }

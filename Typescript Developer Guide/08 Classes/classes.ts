@@ -1,11 +1,21 @@
 
-class Vehicle{
-    color:string                
-    constructor(color:string, public length: number, private width: number){
+class Mouse{
+    color:string
+    private type: string                
+    constructor(color:string, type: string,){
         this.color=color
+        this.type = type
     }
-    //we need to declare the property before initializing it inside the constructur (different from js)
-    //", public length: number" automatically create a publi property length and assign the value 
+}
+
+
+class Vehicle{
+    originalColor:string                
+    constructor(color:string, public length: number, private width: number){
+        this.originalColor=color
+    }
+    //we need to declare the property before initializing it inside the constructor (different from js)
+    //", public length: number" automatically create a public properties length and assign the value 
     //we can use private or protected as well
 
     IsUnder(value: number) : boolean {
@@ -24,7 +34,7 @@ class Vehicle{
 class Car extends Vehicle{
     
     //we add a new property wheels fo the subclass
-    //IMPOORTANT we do not use public for color because we do not want to override the property of the base class
+    //IMPORTANT we do not use public for color because we do not want to override the property of the base class
     //but only ask for a falue to assign
     constructor(public wheels: number, color:string, length: number,  width: number){
         super(color, length, width)

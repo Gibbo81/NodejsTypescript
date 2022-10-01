@@ -12,5 +12,7 @@ console.log(numberRegexp)
 console.log(x)
 
 //Import the entire module
+import {pdfRegexp, person} from "./module2"
 import * as module2 from "./module2"
+var age = module2.person.age
 console.log(module2)

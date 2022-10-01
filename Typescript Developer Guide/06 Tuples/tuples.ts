@@ -24,5 +24,5 @@ const punto: Car= ["punto", 12.000]
 const bravo: Car= ["bravo", 17.000]
 
 //NOT SO USABLE 
-//difficult to read and intepret in the correct way because the name of the field is not explicit inside the object
+//difficult to read and interpret in the correct way because the name of the field is not explicit inside the object
 //better to use object
