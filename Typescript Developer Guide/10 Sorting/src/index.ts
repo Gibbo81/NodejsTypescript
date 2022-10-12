@@ -17,3 +17,5 @@ console.log('hi all');
 const x = [0, 10, -1, 5, 344, -7, 9, 0.5, -0.5];
 const sorter = new Sort();
 console.log(sorter.sort(x));
+
+console.log(sorter.sortBad(x));
