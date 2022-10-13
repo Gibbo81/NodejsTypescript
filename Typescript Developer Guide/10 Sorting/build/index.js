@@ -13,8 +13,14 @@ npm run compileTs
 */
 Object.defineProperty(exports, "__esModule", { value: true });
 const bubbleSort_1 = require("./bubbleSort");
+const NumberCollection_1 = require("./NumberCollection");
+const CharactersCollection_1 = require("./CharactersCollection");
 console.log('hi all');
-const x = [0, 10, -1, 5, 344, -7, 9, 0.5, -0.5];
+const x = new NumberCollection_1.NumberCollection([0, 10, -1, 5, 344, -7, 9, 0.5, -0.5]);
 const sorter = new bubbleSort_1.Sort();
-console.log(sorter.sort(x));
-console.log(sorter.sortBad(x));
+sorter.sort(x);
+console.log(x.data);
+var cc = new CharactersCollection_1.CharactersCollection('La Sui Monti (zzz) Me ne vo');
+sorter.sort(cc);
+console.log(cc.data);
+console.log(sorter.sortBad([0, 10, -1, 5, 344, -7, 9, 0.5, -0.5]));

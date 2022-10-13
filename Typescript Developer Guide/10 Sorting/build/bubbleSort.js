@@ -2,14 +2,13 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Sort = void 0;
 class Sort {
-    sort(array) {
-        for (var i = array.length - 1; i > 0; i--) {
-            for (var x = 0; x <= i; x++) {
-                if (array[x] > array[x + 1])
-                    [array[x], array[x + 1]] = [array[x + 1], array[x]];
+    sort(sortable) {
+        for (var i = sortable.length - 1; i > 0; i--) {
+            for (var x = 0; x < i; x++) {
+                if (sortable.compare(x, x + 1) === 1)
+                    sortable.swamp(x, x + 1);
             }
         }
-        return array;
     }
     //really bad code written with type guards
     sortBad(sortable) {
@@ -24,6 +23,7 @@ class Sort {
                 //string
                 if (typeof sortable === 'string') {
                     //here array ALWAYS is a string
+                    //Add here code to work with string
                 }
             }
         }

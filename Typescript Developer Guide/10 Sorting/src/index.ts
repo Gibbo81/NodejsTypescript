@@ -12,10 +12,18 @@ npm run compileTs
 */
 
 import { Sort } from './bubbleSort';
+import { NumberCollection } from './NumberCollection';
+import { CharactersCollection } from './CharactersCollection';
+
 console.log('hi all');
 
-const x = [0, 10, -1, 5, 344, -7, 9, 0.5, -0.5];
+const x = new NumberCollection([0, 10, -1, 5, 344, -7, 9, 0.5, -0.5]);
 const sorter = new Sort();
-console.log(sorter.sort(x));
+sorter.sort(x);
+console.log(x.data);
 
-console.log(sorter.sortBad(x));
+var cc = new CharactersCollection('La Sui Monti (zzz) Me ne vo');
+sorter.sort(cc);
+console.log(cc.data);
+
+console.log(sorter.sortBad([0, 10, -1, 5, 344, -7, 9, 0.5, -0.5]));

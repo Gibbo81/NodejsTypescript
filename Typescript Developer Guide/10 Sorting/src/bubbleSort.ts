@@ -1,12 +1,12 @@
+import { Sortable } from './sortable';
+
 export class Sort {
-  sort(array: number[]): number[] {
-    for (var i = array.length - 1; i > 0; i--) {
-      for (var x = 0; x <= i; x++) {
-        if (array[x] > array[x + 1])
-          [array[x], array[x + 1]] = [array[x + 1], array[x]];
+  sort(sortable: Sortable) {
+    for (var i = sortable.length - 1; i > 0; i--) {
+      for (var x = 0; x < i; x++) {
+        if (sortable.compare(x, x + 1) === 1) sortable.swamp(x, x + 1);
       }
     }
-    return array;
   }
 
   //really bad code written with type guards
@@ -23,6 +23,7 @@ export class Sort {
         //string
         if (typeof sortable === 'string') {
           //here array ALWAYS is a string
+          //Add here code to work with string
         }
       }
     }
