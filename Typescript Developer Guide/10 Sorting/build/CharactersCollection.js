@@ -1,8 +1,10 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.CharactersCollection = void 0;
-class CharactersCollection {
-    constructor(data) {
+const SortableBaseClass_1 = require("./SortableBaseClass");
+class CharactersCollection extends SortableBaseClass_1.SortableBaseClass {
+    constructor(data, sorter) {
+        super(sorter);
         this.data = data;
     }
     swamp(positionOne, positiontwo) {

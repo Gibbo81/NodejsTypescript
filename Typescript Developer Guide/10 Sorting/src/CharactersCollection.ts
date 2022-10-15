@@ -1,7 +1,10 @@
 import { Sortable } from './sortable';
+import { SortableBaseClass, Isorter } from './SortableBaseClass';
 
-export class CharactersCollection implements Sortable {
-  constructor(public data: string) {}
+export class CharactersCollection extends SortableBaseClass implements Sortable{
+  constructor(public data: string, sorter: Isorter){
+    super (sorter)
+  }
 
   swamp(positionOne: number, positiontwo: number): void {
     var characters = this.data.split('');

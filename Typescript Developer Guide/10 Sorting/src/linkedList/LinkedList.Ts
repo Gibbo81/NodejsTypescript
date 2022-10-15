@@ -1,7 +1,12 @@
 import { Node } from './node';
+import { SortableBaseClass, Isorter } from '../SortableBaseClass';
 
-export class LinkedList {
+export class LinkedList extends SortableBaseClass {
   private head: Node | null = null;
+
+  constructor( sorter: Isorter){
+    super (sorter)
+  }
 
   add(number: number): void {
     if (this.head !== null) this.head.setNext(number);
@@ -36,3 +41,5 @@ export class LinkedList {
       this.add(elements[x]);
   }
 }
+
+

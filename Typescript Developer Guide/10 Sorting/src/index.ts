@@ -19,18 +19,18 @@ import { CharactersCollection } from './CharactersCollection';
 
 console.log('hi all');
 
-const x = new NumberCollection([0, 10, -1, 5, 344, -7, 9, 0.5, -0.5]);
 const sorter = new Sort();
-sorter.sort(x);
+const x = new NumberCollection([0, 10, -1, 5, 344, -7, 9, 0.5, -0.5], sorter);
+x.sortList()//sorter.sort(x) OLD WAY
 console.log(x.data);
 
-var cc = new CharactersCollection('La Sui Monti (zzz) Me ne vo');
-sorter.sort(cc);
+var cc = new CharactersCollection('La Sui Monti (zzz) Me ne vo', sorter);
+cc.sortList()//sorter.sort(cc) OLD WAY
 console.log(cc.data);
 
 console.log(sorter.sortBad([0, 10, -1, 5, 344, -7, 9, 0.5, -0.5]));
 
-var t = new LinkedList();
+var t = new LinkedList(sorter);
 t.add(5);
 t.add(764);
 t.add(-43);
@@ -50,5 +50,5 @@ console.log(" compare 1 - 9: ", t.compare(1,8) )
 
 t.print();
 console.log('------------------------------------------------');
-sorter.sort(t)
+t.sortList()//sorter.sort(t)
 t.print();

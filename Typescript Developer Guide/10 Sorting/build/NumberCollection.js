@@ -1,8 +1,10 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.NumberCollection = void 0;
-class NumberCollection {
-    constructor(data) {
+const SortableBaseClass_1 = require("./SortableBaseClass");
+class NumberCollection extends SortableBaseClass_1.SortableBaseClass {
+    constructor(data, sorter) {
+        super(sorter);
         this.data = data;
     }
     //getter --> to use this method as a property --> sortable.length

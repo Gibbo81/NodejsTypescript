@@ -1,7 +1,7 @@
 import { Sortable } from './sortable';
 
 export class Sort {
-  sort(sortable: Sortable) {
+  sort(sortable: Sortable): void {
     for (var i = sortable.length - 1; i > 0; i--) {
       for (var x = 0; x < i; x++) {
         if (sortable.compare(x, x + 1) === 1) sortable.swamp(x, x + 1);

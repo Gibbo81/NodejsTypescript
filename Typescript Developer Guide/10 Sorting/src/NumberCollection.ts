@@ -1,5 +1,10 @@
-export class NumberCollection {
-  constructor(public data: number[]) {}
+import { SortableBaseClass, Isorter } from './SortableBaseClass';
+
+export class NumberCollection extends SortableBaseClass {
+  
+  constructor(public data: number[], sorter:Isorter) {
+    super(sorter)
+  }
 
   //getter --> to use this method as a property --> sortable.length
   get length(): number {

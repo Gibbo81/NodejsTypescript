@@ -2,8 +2,10 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.LinkedList = void 0;
 const node_1 = require("./node");
-class LinkedList {
-    constructor() {
+const SortableBaseClass_1 = require("../SortableBaseClass");
+class LinkedList extends SortableBaseClass_1.SortableBaseClass {
+    constructor(sorter) {
+        super(sorter);
         this.head = null;
     }
     add(number) {
