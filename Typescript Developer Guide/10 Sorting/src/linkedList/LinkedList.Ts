@@ -23,7 +23,16 @@ export class LinkedList {
   }
 
   swamp(positionOne: number, positiontwo: number): void {
-    safasf
+    if (this.head=== null)
+      throw new Error('Empty Chain')
+    var elements = this.head.getAllChain([]);
+    [elements[positionOne], elements[positiontwo]] = [elements[positiontwo],elements[positionOne]]
+    this.recreateTheChain(elements);     
+  }
 
+  private recreateTheChain(elements: number[]) {
+    this.head = null;
+    for (var x = 0; x < elements.length; x++)
+      this.add(elements[x]);
   }
 }

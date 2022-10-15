@@ -24,5 +24,17 @@ class LinkedList {
             return this.head.compare(leftIndex, rightIndex, null);
         throw new Error('Empty Chain');
     }
+    swamp(positionOne, positiontwo) {
+        if (this.head === null)
+            throw new Error('Empty Chain');
+        var elements = this.head.getAllChain([]);
+        [elements[positionOne], elements[positiontwo]] = [elements[positiontwo], elements[positionOne]];
+        this.recreateTheChain(elements);
+    }
+    recreateTheChain(elements) {
+        this.head = null;
+        for (var x = 0; x < elements.length; x++)
+            this.add(elements[x]);
+    }
 }
 exports.LinkedList = LinkedList;

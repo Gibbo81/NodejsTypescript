@@ -40,10 +40,15 @@ t.add(889);
 t.add(4);
 t.add(758);
 t.add(764);
-t.print();
+
 console.log('length: ', t.length);
 //console.log('length: ', new LinkedList().length);
 console.log(" compare 0 - 2: ", t.compare(0,2) )
 console.log(" compare 0 - 3: ", t.compare(0,3) )
 console.log(" compare 5 - 7: ", t.compare(5,7) )
 console.log(" compare 1 - 9: ", t.compare(1,8) )
+
+t.print();
+console.log('------------------------------------------------');
+sorter.sort(t)
+t.print();

@@ -3,9 +3,9 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.Node = void 0;
 class Node {
     constructor(value, index) {
+        this.nextNode = null;
         this.value = value;
         this.index = index;
-        this.nextNode = null;
     }
     setNext(value) {
         if (this.nextNode === null)
@@ -23,21 +23,24 @@ class Node {
             ? starting
             : this.nextNode.length(starting + 1);
     }
-    compare(leftIndex, rightIndex, firstvalue) {
-        if (firstvalue !== null) {
-            if (this.isThisNodeTheSecondToCompare(rightIndex))
-                return this.compareValue(firstvalue, this.value);
-            else if (this.nextNode !== null)
-                return this.nextNode.compare(leftIndex, rightIndex, firstvalue);
-            else
-                throw new Error('compare index not found inside the chain');
-        }
-        else if (this.nextNode === null)
-            throw new Error('compare index not found inside the chain');
-        else if (this.index === leftIndex)
+    compare(leftIndex, rightIndex, firstComparisongValue) {
+        if (firstComparisongValue !== null)
+            return this.searchForsecondComparisonValue(leftIndex, rightIndex, firstComparisongValue);
+        if (this.nextNode === null)
+            throw new Error('compare indexes not found inside the chain');
+        if (this.isThisNodeTheSecondOne(leftIndex))
             return this.nextNode.compare(leftIndex, rightIndex, this.value);
-        else
-            return this.nextNode.compare(leftIndex, rightIndex, null);
+        return this.nextNode.compare(leftIndex, rightIndex, null);
+    }
+    isThisNodeTheSecondOne(leftIndex) {
+        return this.index === leftIndex;
+    }
+    searchForsecondComparisonValue(leftIndex, rightIndex, firstComparisongValue) {
+        if (this.isThisNodeTheSecondToCompare(rightIndex))
+            return this.compareValue(firstComparisongValue, this.value);
+        if (this.nextNode !== null)
+            return this.nextNode.compare(leftIndex, rightIndex, firstComparisongValue);
+        throw new Error('compare index not found inside the chain');
     }
     isThisNodeTheSecondToCompare(rightIndex) {
         return this.index === rightIndex;
@@ -48,6 +51,12 @@ class Node {
         if (left < right)
             return -1;
         return 0;
+    }
+    getAllChain(allElements) {
+        allElements.push(this.value);
+        if (this.nextNode !== null)
+            allElements = this.nextNode.getAllChain(allElements);
+        return allElements;
     }
 }
 exports.Node = Node;
