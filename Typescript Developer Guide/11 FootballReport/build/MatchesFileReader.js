@@ -3,29 +3,28 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.Reader = void 0;
+exports.MatchesFileReader = void 0;
 //When working with js standard lib (in this case fs) we need to install a type definition file
 //USE: npm install @types/node
 //this gives the type definition file for ANY node module
 const fs_1 = __importDefault(require("fs"));
 const Match_1 = require("./Match");
 const MatchsAnalysis_1 = require("./MatchsAnalysis");
-class Reader {
-    constructor(path) {
-        this.path = path;
+const utils_1 = require("./utility/utils");
+class MatchesFileReader {
+    constructor(reader) {
+        this.sourceReader = reader;
     }
     readMatches() {
-        const matches = fs_1.default.readFileSync(this.path, { encoding: 'utf-8' })
-            .split('\n')
-            .map((row) => {
-            var splitted = row.split(',');
-            return new Match_1.Match(new Date(splitted[0]), splitted[1], splitted[2], parseInt(splitted[3]), parseInt(splitted[4]), splitted[5], splitted[6]);
-        });
+        var matches = this.sourceReader
+            .Read()
+            .map((row) => new Match_1.Match((0, utils_1.dateStringToDate)(row[0]), row[1], row[2], parseInt(row[3]), parseInt(row[4]), row[5], //how to cast to enum 
+        row[6]));
         return new MatchsAnalysis_1.MatchAnalysis(matches);
     }
     //TEST  reading command OLD WAY
     read() {
-        const fileContent = fs_1.default.readFileSync(this.path, {
+        const fileContent = fs_1.default.readFileSync('football.csv', {
             //it find the file in the superior folder (11football)
             encoding: 'utf-8',
         });
@@ -40,4 +39,4 @@ class Reader {
         return result;
     }
 }
-exports.Reader = Reader;
+exports.MatchesFileReader = MatchesFileReader;

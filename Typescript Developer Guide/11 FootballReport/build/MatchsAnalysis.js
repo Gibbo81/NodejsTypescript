@@ -5,10 +5,10 @@ class MatchAnalysis {
     constructor(matches) {
         this.matches = matches;
     }
-    NumberofWin(team) {
+    numberofWin(team) {
         var result = 0;
         this.matches.forEach(m => {
-            if (m.MatchWon(team))
+            if (m.matchWon(team))
                 result = ++result;
         });
         return result;

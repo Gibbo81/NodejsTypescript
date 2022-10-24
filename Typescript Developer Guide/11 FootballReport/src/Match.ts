@@ -1,4 +1,4 @@
-enum MatchResult  {
+export enum MatchResult  { //also loock at MatchesFileReader.ts to see enu,m casting
     homeWin ='H',
     awayWin = 'A',
     draw = 'D'
@@ -11,10 +11,10 @@ export class Match {
         public AwaiTeam: string,
         public Homescore: number,
         public AwaiScore: number,
-        public Winner: string,
+        public Winner: MatchResult,
         public Referee: string) {}
 
-    public MatchWon(team: string): boolean{
+    public matchWon(team: string): boolean{
         return ( this.isHomeWinningForTeam(team)) || ( this.IsAwayWinningForTeam(team))
     }
 

@@ -2,36 +2,37 @@
 //USE: npm install @types/node
 //this gives the type definition file for ANY node module
 import fs from 'fs';
-import { Match } from './Match';
+import { Match, MatchResult } from './Match';
 import {MatchAnalysis} from './MatchsAnalysis'
+import {dateStringToDate} from './utility/utils'
 
+interface IReader {
+  Read(): string[][]
+}
 
-export class Reader {
-  private path: string;
-  constructor(path: string) {
-    this.path = path;
+export class MatchesFileReader {
+  private sourceReader: IReader;
+  constructor(reader: IReader) {
+    this.sourceReader = reader;
   }
 
   public readMatches(): MatchAnalysis {
-    const matches = fs.readFileSync(this.path, {encoding: 'utf-8'})
-      .split('\n')
-      .map((row: string): Match => {
-        var splitted = row.split(',');
-        return new Match(
-            new Date(splitted[0]),
-            splitted[1],
-            splitted[2],
-            parseInt(splitted[3]),
-            parseInt(splitted[4]),
-            splitted[5],
-            splitted[6])
-      })
+    var matches= this.sourceReader
+      .Read()
+      .map((row: string[]): Match => new Match(
+        dateStringToDate(row[0]),
+        row[1],
+        row[2],
+        parseInt(row[3]),
+        parseInt(row[4]),
+        row[5] as MatchResult, //how to cast to enum 
+        row[6]))
     return new MatchAnalysis(matches);
   }
 
   //TEST  reading command OLD WAY
   public read(): string[][] {
-    const fileContent = fs.readFileSync(this.path, {
+    const fileContent = fs.readFileSync('football.csv', {
       //it find the file in the superior folder (11football)
       encoding: 'utf-8',
     });

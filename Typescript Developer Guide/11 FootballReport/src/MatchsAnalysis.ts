@@ -8,10 +8,10 @@ export class MatchAnalysis{
         this.matches = matches
     }
 
-    public NumberofWin(team: string): number{
+    public numberofWin(team: string): number{
         var result=0
         this.matches.forEach(m => {
-            if (m.MatchWon(team)) result = ++result
+            if (m.matchWon(team)) result = ++result
         })
         return result
     }

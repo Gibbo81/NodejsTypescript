@@ -1,12 +1,12 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.Match = void 0;
+exports.Match = exports.MatchResult = void 0;
 var MatchResult;
 (function (MatchResult) {
     MatchResult["homeWin"] = "H";
     MatchResult["awayWin"] = "A";
     MatchResult["draw"] = "D";
-})(MatchResult || (MatchResult = {}));
+})(MatchResult = exports.MatchResult || (exports.MatchResult = {}));
 class Match {
     constructor(Date, HomeTeam, AwaiTeam, Homescore, AwaiScore, Winner, Referee) {
         this.Date = Date;
@@ -17,7 +17,7 @@ class Match {
         this.Winner = Winner;
         this.Referee = Referee;
     }
-    MatchWon(team) {
+    matchWon(team) {
         return (this.isHomeWinningForTeam(team)) || (this.IsAwayWinningForTeam(team));
     }
     IsAwayWinningForTeam(team) {

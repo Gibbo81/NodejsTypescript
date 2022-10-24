@@ -1,6 +1,7 @@
-import {Reader} from './FileReader'
+import {MatchesFileReader} from './MatchesFileReader'
+import {CsvFileReader} from './utility/CsvFileReader'
 
-var r = new Reader('football.csv')
+var r = new MatchesFileReader(new CsvFileReader('football.csv'))
 var analysis = r.readMatches()
 
-console.log('Man United wins', analysis.NumberofWin('Man United'), 'games.')
+console.log('Man United wins', analysis.numberofWin('Man United'), 'games.')
