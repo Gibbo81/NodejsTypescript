@@ -12,15 +12,16 @@ const Match_1 = require("./Match");
 const MatchsAnalysis_1 = require("./MatchsAnalysis");
 const utils_1 = require("./utility/utils");
 class MatchesReader {
-    constructor(reader) {
+    constructor(reader, publisher) {
         this.sourceReader = reader;
+        this.publisher = publisher;
     }
     readMatches() {
         var matches = this.sourceReader
             .Read()
             .map((row) => new Match_1.Match((0, utils_1.dateStringToDate)(row[0]), row[1], row[2], parseInt(row[3]), parseInt(row[4]), row[5], //how to cast to enum 
         row[6]));
-        return new MatchsAnalysis_1.MatchAnalysis(matches);
+        return new MatchsAnalysis_1.MatchAnalysis(matches, this.publisher); //ConsolePublisher())
     }
     //TEST  reading command OLD WAY
     read() {

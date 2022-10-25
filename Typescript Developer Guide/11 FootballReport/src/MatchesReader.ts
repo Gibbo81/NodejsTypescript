@@ -5,6 +5,7 @@ import fs from 'fs';
 import { Match, MatchResult } from './Match';
 import {MatchAnalysis} from './MatchsAnalysis'
 import {dateStringToDate} from './utility/utils'
+import {Ipublisher} from './MatchsAnalysis'
 
 interface IReader {
   Read(): string[][]
@@ -12,8 +13,10 @@ interface IReader {
 
 export class MatchesReader {
   private sourceReader: IReader;
-  constructor(reader: IReader) {
+  private publisher :Ipublisher //or we can have a factory if more logic is needed
+  constructor(reader: IReader, publisher :Ipublisher) {
     this.sourceReader = reader;
+    this.publisher = publisher
   }
 
   public readMatches(): MatchAnalysis {
@@ -27,7 +30,7 @@ export class MatchesReader {
         parseInt(row[4]),
         row[5] as MatchResult, //how to cast to enum 
         row[6]))
-    return new MatchAnalysis(matches);
+    return new MatchAnalysis(matches, this.publisher)//ConsolePublisher())
   }
 
   //TEST  reading command OLD WAY

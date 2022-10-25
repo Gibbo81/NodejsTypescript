@@ -1,11 +1,20 @@
 import {MatchesReader} from './MatchesReader'
 import {CsvFileReader} from './utility/CsvFileReader'
 import {Holder} from './generic/generic'
+import {ConsolePublisher} from './reports/ConsolePublisher'
+import {HtmlPublisher} from './reports/HtmlReport'
 
-var r = new MatchesReader(new CsvFileReader('football.csv'))
-var analysis = r.readMatches()
 
-console.log('Man United wins', analysis.numberofWin('Man United'), 'games.')
+const console= new ConsolePublisher()
+const html = new HtmlPublisher()
+
+var r1 = new MatchesReader(new CsvFileReader('football.csv'), console)
+var analysis1 = r1.readMatches()
+analysis1.numberofWin('Man United')
+
+var r2 = new MatchesReader(new CsvFileReader('football.csv'), html)
+var analysis2 = r2.readMatches()
+analysis2.numberofWin('Man United')
 
 //generic classes
 var n = new Holder<number>()
