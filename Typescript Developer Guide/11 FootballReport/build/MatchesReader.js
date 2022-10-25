@@ -3,7 +3,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.MatchesFileReader = void 0;
+exports.MatchesReader = void 0;
 //When working with js standard lib (in this case fs) we need to install a type definition file
 //USE: npm install @types/node
 //this gives the type definition file for ANY node module
@@ -11,7 +11,7 @@ const fs_1 = __importDefault(require("fs"));
 const Match_1 = require("./Match");
 const MatchsAnalysis_1 = require("./MatchsAnalysis");
 const utils_1 = require("./utility/utils");
-class MatchesFileReader {
+class MatchesReader {
     constructor(reader) {
         this.sourceReader = reader;
     }
@@ -39,4 +39,4 @@ class MatchesFileReader {
         return result;
     }
 }
-exports.MatchesFileReader = MatchesFileReader;
+exports.MatchesReader = MatchesReader;

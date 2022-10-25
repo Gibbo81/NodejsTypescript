@@ -10,7 +10,7 @@ interface IReader {
   Read(): string[][]
 }
 
-export class MatchesFileReader {
+export class MatchesReader {
   private sourceReader: IReader;
   constructor(reader: IReader) {
     this.sourceReader = reader;

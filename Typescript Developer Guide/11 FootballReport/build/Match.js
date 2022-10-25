@@ -17,7 +17,7 @@ class Match {
         this.Winner = Winner;
         this.Referee = Referee;
     }
-    matchWon(team) {
+    isThisAMatchWonForRequestedTeam(team) {
         return (this.isHomeWinningForTeam(team)) || (this.IsAwayWinningForTeam(team));
     }
     IsAwayWinningForTeam(team) {

@@ -14,7 +14,7 @@ export class Match {
         public Winner: MatchResult,
         public Referee: string) {}
 
-    public matchWon(team: string): boolean{
+    public isThisAMatchWonForRequestedTeam(team: string): boolean{
         return ( this.isHomeWinningForTeam(team)) || ( this.IsAwayWinningForTeam(team))
     }
 
