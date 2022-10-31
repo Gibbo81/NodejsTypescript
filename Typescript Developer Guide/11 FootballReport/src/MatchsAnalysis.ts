@@ -20,7 +20,7 @@ export class MatchAnalysis{
         }
         //two possible ways to do it
         // this.matches.forEach(m => {
-        //     if (m.matchWon(team)) result = ++result
+        //     if (m.isThisAMatchWonForRequestedTeam(team)) result = ++result
         // })
         this.publisher.print(`${team} wins ${result} games.`)
     }

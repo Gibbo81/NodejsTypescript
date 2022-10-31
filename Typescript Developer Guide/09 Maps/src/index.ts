@@ -4,7 +4,7 @@ import faker from 'faker'
 import { User } from './User'
 import { Company } from './Company'
 import { printMe } from './printable'
-import City from './defaultBAD'   ////default export is possible but is contrary do Typescript convention
+import City from './defaultBAD'   //default export is possible but is contrary do Typescript convention
 
 console.log('hi there!!!!')
 const xcx = new User()

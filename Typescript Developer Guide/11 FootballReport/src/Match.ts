@@ -1,4 +1,4 @@
-export enum MatchResult  { //also loock at MatchesFileReader.ts to see enu,m casting
+export enum MatchResult  { //also loock at MatchesReader.ts to see enum casting
     homeWin ='H',
     awayWin = 'A',
     draw = 'D'

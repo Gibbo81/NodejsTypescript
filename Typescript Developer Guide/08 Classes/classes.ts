@@ -46,7 +46,7 @@ class Car extends Vehicle{
         this.honk()
     }
 
-    //default is public to change it we cn use private and protected
+    //default is public to change it we can use private and protected
     private startEngene() : void{
         console.log('starting the engine')
     }
