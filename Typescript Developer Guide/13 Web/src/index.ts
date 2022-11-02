@@ -14,3 +14,7 @@ console.log(u.get('age'))
 u.set({ name: 'Francesca'})
 console.log(`name:  ${u.get('name')} - age:  ${u.get('age')}`)
 
+u.on('Pippus', ()=>  console.log("tttt"))
+u.on('Pippus', ()=>  console.log("9999"))
+u.on('plutus', ()=>  console.log("000000"))
+console.log(u)
