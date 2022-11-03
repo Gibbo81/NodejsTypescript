@@ -1,0 +1,24 @@
+{
+  "users": [
+    {
+      "name": "pippus",
+      "age": 45,
+      "id": 1
+    },
+    {
+      "name": "pippus2",
+      "age": 5,
+      "id": 2
+    },
+    {
+      "name": "plutus",
+      "age": 56,
+      "id": 3
+    },
+    {
+      "name": "Candida",
+      "age": 27,
+      "id": 4
+    }
+  ]
+}
