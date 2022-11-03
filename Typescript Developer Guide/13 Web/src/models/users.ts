@@ -1,4 +1,5 @@
 import axios, {AxiosPromise, AxiosResponse} from 'axios'
+import {Eventing, Callback} from './Eventing'
 
 //Optional properties fighissime!!!!!!
 interface UserProp{
@@ -7,15 +8,18 @@ interface UserProp{
     id?: number
 }
 
-//type alias for empty function 
-type Callback = () => void    //alias for a function that doesn't take argument and  return undefined
-
-export class User{
-    //definisco questo oggetto ma non so ancora cosa avrà, quindi dico che avrà delle 
-    //proprietà caratterizzate da una stringa che puntano ad un array di Callback
-    private callBacksEvents : { [key:string] :Callback[]} ={} // it's initialized as empty object
+export class User{  
+    private events : Eventing = new Eventing()
 
     constructor(private data: UserProp){ }
+
+    on(eventName: string, callback: Callback) : void{
+        this.events.on(eventName, callback)
+    }
+
+    trigger(eventName:string) : void {
+        this.events.trigger(eventName)
+    }
 
     get(propertyName:string): number|string{
         return this.data[propertyName] // yes in js we can access the obect by the property name
@@ -23,18 +27,6 @@ export class User{
     
     set (update : UserProp): void{//TO ADD
         Object.assign(this.data, update) //assign all the property of update to data
-    }
-
-    //used in our framework to register an event
-    on(eventName: string, callback: Callback) : void{
-        const events = this.callBacksEvents[eventName] || [] // if the first is undefined retrurn empty array
-        events.push(callback)
-        this.callBacksEvents[eventName]=events        
-    }
-
-    trigger(eventName:string) : void {
-        var cb = this.callBacksEvents[eventName]||[]
-        cb.forEach(x => x())
     }
 
     fetch(): void {
@@ -60,6 +52,4 @@ export class User{
     setProperty(propertyName:string, value : number|string): void{
         this.data[propertyName]= value
     }
-
-
 }
