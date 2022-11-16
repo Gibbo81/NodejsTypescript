@@ -1,6 +1,7 @@
 
 import axios, {AxiosPromise, AxiosResponse} from 'axios'
 import {Eventing, Callback} from './Eventing'
+import {Sync} from './Sync'
 
 //Optional properties fighissime!!!!!!
 export interface UserProp{
@@ -11,6 +12,7 @@ export interface UserProp{
 
 export class User{  
     private events : Eventing = new Eventing()
+    private sync : Sync<UserProp> = new Sync<UserProp>('http://localhost:3000/users')
 
     constructor(private data: UserProp){ }
 
@@ -30,14 +32,27 @@ export class User{
         Object.assign(this.data, update) //assign all the properties present inside update object to data object
     }
 
-    fetch(): void {
+    async fetch(): Promise<void> {
+        if (this.data.id){
+            var x = await this.sync.fetch(this.data.id)
+            this.set(x)
+        }
+        else
+            throw new Error("Missing Id")
+    }
+
+    async save(): Promise<void> {
+        await this.sync.save(this.data)        
+    }
+
+    fetchOLD(): void {
         axios.get(`http://localhost:3000/users/${this.get('id')}`)
             .then((response : AxiosResponse):void => {
                  this.set(response.data)
             })
     }
 
-    save(): void {
+    saveOLD(): void {
         const id = this.get('id')
         if (id)
             axios.put(`http://localhost:3000/users/${id}`, this.data)                

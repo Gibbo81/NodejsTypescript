@@ -11,9 +11,21 @@ import {User} from './models/users'
 import {testing} from './try/try-out'
 
 const u = new User({
-    name: 'Candida',
-    age:55
+    name: 'vigorson2',
+    age: 57
 })
+u.on('Pippus', () =>  console.log("Pippu2 1: tttt"))
+u.on('Pippus', () =>  console.log("Pippu2 2: 9999"))
+u.on('plutus', () =>  console.log("000000"))
+console.log(u)
+u.trigger('Pippus')
+u.trigger('Missing')
+
+
+u.save()
+.then(result => console.log(u))
+
+/* OLD TESTS
 u.setProperty('age', 66)
 console.log(u.get('name'))
 console.log(u.get('age'))
@@ -31,16 +43,15 @@ const newUser = new User({
     name: 'Candida',
     age : 26 
 })
-newUser.save()
+newUser.saveOLD()
 delay(4000).then(() => {
     newUser.set({ name: 'Candida', age : 27})
-    newUser.save()    
+    newUser.saveOLD()    
 });
-
-
+*/
 /*
 const newUserFromDB = new User({id:1})  //previosly added user 1 to DB by postman
-newUserFromDB.fetch()
+newUserFromDB.fetchOLD()
 */
 
 
