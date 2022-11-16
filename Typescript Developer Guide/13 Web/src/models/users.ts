@@ -3,7 +3,7 @@ import axios, {AxiosPromise, AxiosResponse} from 'axios'
 import {Eventing, Callback} from './Eventing'
 
 //Optional properties fighissime!!!!!!
-interface UserProp{
+export interface UserProp{
     name?: string,
     age?: number,
     id?: number
@@ -23,11 +23,11 @@ export class User{
     }
 
     get(propertyName:string): number|string{
-        return this.data[propertyName] // yes in js we can access the obect by the property name
+        return this.data[propertyName] // yes, as in js we can access the obect by the property name
     }
     
     set (update : UserProp): void{//TO ADD
-        Object.assign(this.data, update) //assign all the property of update to data
+        Object.assign(this.data, update) //assign all the properties present inside update object to data object
     }
 
     fetch(): void {

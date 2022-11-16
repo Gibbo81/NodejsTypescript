@@ -4,7 +4,7 @@
 
 //to install globally json server
 //npm install -g json-server
-//simple fale server to save and retrive json
+//simple fake server to save and retrive json
 //to start it --> json-server -w db.json
 
 import {User} from './models/users'
