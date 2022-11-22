@@ -2,6 +2,7 @@
 import axios, {AxiosPromise, AxiosResponse} from 'axios'
 import {Eventing, Callback} from './Eventing'
 import {Sync} from './Sync'
+import {Attributes} from './Attributes'
 
 //Optional properties fighissime!!!!!!
 export interface UserProp{
@@ -13,23 +14,24 @@ export interface UserProp{
 export class User{  
     private events : Eventing = new Eventing()
     private sync : Sync<UserProp> = new Sync<UserProp>('http://localhost:3000/users')
+    private attribute :Attributes<UserProp> 
 
-    constructor(private data: UserProp){ }
+    constructor(private data: UserProp){ 
+        this.attribute = new Attributes(data) //type is automatically inferred
+    }
+
+    get(propertyName:keyof UserProp): number|string{
+        return this.attribute.get(propertyName)
+    }    
+    set (update : UserProp): void{//TO ADD
+        this.attribute.set(update)
+    }
 
     on(eventName: string, callback: Callback) : void{
         this.events.on(eventName, callback)
     }
-
     trigger(eventName:string) : void {
         this.events.trigger(eventName)
-    }
-
-    get(propertyName:string): number|string{
-        return this.data[propertyName] // yes, as in js we can access the obect by the property name
-    }
-    
-    set (update : UserProp): void{//TO ADD
-        Object.assign(this.data, update) //assign all the properties present inside update object to data object
     }
 
     async fetch(): Promise<void> {
@@ -40,9 +42,9 @@ export class User{
         else
             throw new Error("Missing Id")
     }
-
     async save(): Promise<void> {
-        await this.sync.save(this.data)        
+        var data = await this.sync.save(this.data)    
+        this.set(data)    
     }
 
     fetchOLD(): void {
@@ -52,6 +54,7 @@ export class User{
             })
     }
 
+    //legacy code
     saveOLD(): void {
         const id = this.get('id')
         if (id)
@@ -63,9 +66,5 @@ export class User{
                         this.set(response.data)
                 })    
         }
-    }
-
-    setProperty(propertyName:string, value : number|string): void{
-        this.data[propertyName]= value
     }
 }

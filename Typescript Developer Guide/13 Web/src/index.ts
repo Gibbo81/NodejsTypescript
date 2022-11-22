@@ -11,8 +11,8 @@ import {User} from './models/users'
 import {testing} from './try/try-out'
 
 const u = new User({
-    name: 'vigorson2',
-    age: 57
+    name: 'gelatina',
+    age: 178
 })
 u.on('Pippus', () =>  console.log("Pippu2 1: tttt"))
 u.on('Pippus', () =>  console.log("Pippu2 2: 9999"))
@@ -24,6 +24,7 @@ u.trigger('Missing')
 
 u.save()
 .then(result => console.log(u))
+.then(r => console.log(u.get('id')))
 
 /* OLD TESTS
 u.setProperty('age', 66)
