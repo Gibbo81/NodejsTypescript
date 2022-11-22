@@ -7,13 +7,14 @@ export class Eventing{
     private callBacksEvents : { [key:string] :Callback[]} ={} // it's initialized as empty object
 
     //used in our framework to register an event
-    on(eventName: string, callback: Callback) : void{
+    //trasformed into an array function to avoid problem with this
+    on = (eventName: string, callback: Callback) : void =>{
         const events = this.callBacksEvents[eventName] || [] // if the first is undefined retrurn empty array
         events.push(callback)
         this.callBacksEvents[eventName]=events        
     }
 
-    trigger(eventName:string) : void {
+    trigger = (eventName:string) : void =>  {
         var cb = this.callBacksEvents[eventName]||[]
         cb.forEach(x => x())
     }

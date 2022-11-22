@@ -3,7 +3,7 @@ export class Attributes<T extends {}>{
     constructor(private data: T){ }
 
     //video 13.29 extreme use of generic 
-    get<K extends keyof T>(key : K): T[K]{
+    get = <K extends keyof T>(key : K): T[K] =>{
         return this.data[key]                   //as in js we can access the obect by the property name
     }
 /*
@@ -12,7 +12,7 @@ export class Attributes<T extends {}>{
 
 */
 
-set (update : T): void{//TO ADD
+    set (update : T): void{//TO ADD
         Object.assign(this.data, update) //assign all the properties present inside update object to data object
     }
 }

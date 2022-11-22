@@ -11,15 +11,15 @@ import {User} from './models/users'
 import {testing} from './try/try-out'
 
 const u = new User({
-    name: 'gelatina',
-    age: 178
+    name: 'caffè cold',
+    age: 2158
 })
 u.on('Pippus', () =>  console.log("Pippu2 1: tttt"))
 u.on('Pippus', () =>  console.log("Pippu2 2: 9999"))
 u.on('plutus', () =>  console.log("000000"))
 console.log(u)
 u.trigger('Pippus')
-u.trigger('Missing')
+u.trigger('')
 
 
 u.save()

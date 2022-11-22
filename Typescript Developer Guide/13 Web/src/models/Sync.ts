@@ -10,13 +10,13 @@ export class Sync<T extends hasId>{
     constructor(private routeUrl:string){}
 
     //my solution, the course doesn't like it
-    async fetch(id: number): Promise<T> {
+    fetch = async (id: number): Promise<T> =>{
         var x = await axios.get(`${this.routeUrl}/${id}`)
         var d =  x.data as T; 
         return d;
     }
 
-    async save(data: T): Promise<T> {
+    save = async (data: T): Promise<T> => {
         const {id} = data
         if (id){
             var response= await axios.put(`${this.routeUrl}/${id}`, data)                
@@ -29,6 +29,7 @@ export class Sync<T extends hasId>{
         }
     }   
 
+    // legacy code
     // fetch(): void {
     //     axios.get(`http://localhost:3000/users/${this.get('id')}`)
     //         .then((response : AxiosResponse):void => {

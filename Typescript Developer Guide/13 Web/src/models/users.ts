@@ -16,44 +16,54 @@ export class User{
     private sync : Sync<UserProp> = new Sync<UserProp>('http://localhost:3000/users')
     private attribute :Attributes<UserProp> 
 
-    constructor(private data: UserProp){ 
+    constructor(data: UserProp){ 
         this.attribute = new Attributes(data) //type is automatically inferred
     }
 
     get(propertyName:keyof UserProp): number|string{
         return this.attribute.get(propertyName)
     }    
-    set (update : UserProp): void{//TO ADD
+    set (update : UserProp): void{
         this.attribute.set(update)
     }
 
-    on(eventName: string, callback: Callback) : void{
+
+    //this works
+    onold(eventName: string, callback: Callback) : void{
         this.events.on(eventName, callback)
     }
+    get on(){ //but because is a SIMPLE PAPERPUSHER we can return back directly the function from the private object
+        return this.events.on
+    } //but we can have problem with this for this reason we trasform ecents.on into arrow function
     trigger(eventName:string) : void {
         this.events.trigger(eventName)
     }
 
+
     async fetch(): Promise<void> {
-        if (this.data.id){
-            var x = await this.sync.fetch(this.data.id)
+        if (this.attribute.get("id")){
+            var x = await this.sync.fetch(this.attribute.get("id"))
             this.set(x)
         }
         else
             throw new Error("Missing Id")
     }
     async save(): Promise<void> {
-        var data = await this.sync.save(this.data)    
+        var data = await this.sync.save({
+            id : this.attribute.get("id"),
+            name :this.attribute.get("name"),
+            age : this.attribute.get("age")
+        })     
         this.set(data)    
     }
 
+    /*
     fetchOLD(): void {
         axios.get(`http://localhost:3000/users/${this.get('id')}`)
             .then((response : AxiosResponse):void => {
                  this.set(response.data)
             })
     }
-
     //legacy code
     saveOLD(): void {
         const id = this.get('id')
@@ -66,5 +76,5 @@ export class User{
                         this.set(response.data)
                 })    
         }
-    }
+    }*/
 }
