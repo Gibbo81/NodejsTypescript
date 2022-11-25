@@ -15,6 +15,10 @@ export class Attributes<T extends {}>{
     set (update : T): void{//TO ADD
         Object.assign(this.data, update) //assign all the properties present inside update object to data object
     }
+
+    getAll = () : T => {
+        return this.data
+    }
 }
 
 

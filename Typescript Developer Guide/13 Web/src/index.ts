@@ -16,15 +16,20 @@ const u = new User({
 })
 u.on('Pippus', () =>  console.log("Pippu2 1: tttt"))
 u.on('Pippus', () =>  console.log("Pippu2 2: 9999"))
-u.on('plutus', () =>  console.log("000000"))
+u.on('change', () =>  console.log("User was changed"))
 console.log(u)
 u.trigger('Pippus')
 u.trigger('')
 
+u.set({ age:77}) //this should trigger change
 
 u.save()
 .then(result => console.log(u))
 .then(r => console.log(u.get('id')))
+
+const u2 = new User({ id :2})
+u2.fetch()
+console.log(u2)
 
 /* OLD TESTS
 u.setProperty('age', 66)

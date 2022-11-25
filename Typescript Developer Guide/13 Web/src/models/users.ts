@@ -25,6 +25,7 @@ export class User{
     }    
     set (update : UserProp): void{
         this.attribute.set(update)
+        this.events.trigger('change') //to comunicate that the state changed
     }
 
 
@@ -41,20 +42,16 @@ export class User{
 
 
     async fetch(): Promise<void> {
-        if (this.attribute.get("id")){
+        if (this.attribute.get('id')){
             var x = await this.sync.fetch(this.attribute.get("id"))
             this.set(x)
         }
         else
-            throw new Error("Missing Id")
+            throw new Error("Missing Id - cannot fetch")
     }
     async save(): Promise<void> {
-        var data = await this.sync.save({
-            id : this.attribute.get("id"),
-            name :this.attribute.get("name"),
-            age : this.attribute.get("age")
-        })     
-        this.set(data)    
+        var data = await this.sync.save(this.attribute.getAll())
+        this.trigger('save')   
     }
 
     /*
