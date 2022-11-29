@@ -1,11 +1,11 @@
 import axios, {AxiosResponse} from 'axios'
 //import {UserProp} from './users'
 
-interface hasId {
+export interface hasId {
     id?: number;
 }
 
-export class Sync<T extends hasId>{
+export class ApiSync<T extends hasId>{
     //http://localhost:3000/users --> address
     constructor(private routeUrl:string){}
 

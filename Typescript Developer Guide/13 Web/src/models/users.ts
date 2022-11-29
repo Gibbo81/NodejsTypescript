@@ -1,8 +1,7 @@
-
-import axios, {AxiosPromise, AxiosResponse} from 'axios'
-import {Eventing, Callback} from './Eventing'
-import {Sync} from './Sync'
+import {Eventing} from './Eventing'
+import {ApiSync} from './ApiSync'
 import {Attributes} from './Attributes'
+import {Model} from './Model'
 
 //Optional properties fighissime!!!!!!
 export interface UserProp{
@@ -11,49 +10,14 @@ export interface UserProp{
     id?: number
 }
 
-export class User{  
-    private events : Eventing = new Eventing()
-    private sync : Sync<UserProp> = new Sync<UserProp>('http://localhost:3000/users')
-    private attribute :Attributes<UserProp> 
-
+export class User extends Model<UserProp>{  
     constructor(data: UserProp){ 
-        this.attribute = new Attributes(data) //type is automatically inferred
+        super(new Attributes<UserProp>(data), 
+              new ApiSync<UserProp>('http://localhost:3000/users'),
+              new Eventing())
     }
 
-    get(propertyName:keyof UserProp): number|string{
-        return this.attribute.get(propertyName)
-    }    
-    set (update : UserProp): void{
-        this.attribute.set(update)
-        this.events.trigger('change') //to comunicate that the state changed
-    }
-
-
-    //this works
-    onold(eventName: string, callback: Callback) : void{
-        this.events.on(eventName, callback)
-    }
-    get on(){ //but because is a SIMPLE PAPERPUSHER we can return back directly the function from the private object
-        return this.events.on
-    } //but we can have problem with this for this reason we trasform ecents.on into arrow function
-    trigger(eventName:string) : void {
-        this.events.trigger(eventName)
-    }
-
-
-    async fetch(): Promise<void> {
-        if (this.attribute.get('id')){
-            var x = await this.sync.fetch(this.attribute.get("id"))
-            this.set(x)
-        }
-        else
-            throw new Error("Missing Id - cannot fetch")
-    }
-    async save(): Promise<void> {
-        var data = await this.sync.save(this.attribute.getAll())
-        this.trigger('save')   
-    }
-
+ 
     /*
     fetchOLD(): void {
         axios.get(`http://localhost:3000/users/${this.get('id')}`)
@@ -61,7 +25,10 @@ export class User{
                  this.set(response.data)
             })
     }
-    //legacy code
+
+    /////////////////////////////////////////////////////////////////////
+    //legacy code deleted before movingg to model.ts
+    /////////////////////////////////////////////////////////////////////
     saveOLD(): void {
         const id = this.get('id')
         if (id)
