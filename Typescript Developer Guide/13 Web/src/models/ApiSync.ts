@@ -16,6 +16,12 @@ export class ApiSync<T extends hasId>{
         return d;
     }
 
+    fetchAll =async (): Promise<T[]> => {
+        var x = await axios.get(this.routeUrl)
+        var d = x.data as T[]
+        return d
+    }
+
     save = async (data: T): Promise<T> => {
         const {id} = data
         if (id){

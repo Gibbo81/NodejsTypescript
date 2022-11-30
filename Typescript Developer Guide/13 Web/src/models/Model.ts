@@ -2,18 +2,18 @@
 import { ApiSync, hasId } from "./ApiSync"
 
 
-interface IModelAttribute<T extends {}>{
+export interface IModelAttribute<T extends {}>{
     get<K extends keyof T>(key : K): T[K],
     set(update : T): void,
     getAll() : T
 }
 
-interface ISync<T extends {id?: number }>{
+export interface ISync<T extends {id?: number }>{
     fetch(id: number): Promise<T>,
     save(data: T): Promise<T>
 }
 
-interface IEvents{
+export interface IEvents{
     //on(eventName: string, callback: Callback) : void,
     on(eventName: string, callback: () => void) : void, //quack rule to avoid importing interface Callback
     trigger(eventName:string) : void
