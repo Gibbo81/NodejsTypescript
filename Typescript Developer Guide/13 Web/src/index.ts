@@ -8,6 +8,7 @@
 //to start it --> json-server -w db.json
 
 import {User} from './models/users'
+import { UserForm } from './views/UserForm'
 
 const u = new User({
     name: 'caffè cold',
@@ -36,6 +37,10 @@ c.on('changes', () => console.log(`changes trigger date: ${JSON.stringify(c.mode
 
 c.fetch()
 //.then(() => console.log(`date: ${JSON.stringify(c.models)}`))
+
+
+const form = new UserForm(document.getElementById('root'))
+form.render()
 
 //OLD tests
 //testing()
