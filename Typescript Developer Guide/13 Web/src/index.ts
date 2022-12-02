@@ -38,8 +38,11 @@ c.on('changes', () => console.log(`changes trigger date: ${JSON.stringify(c.mode
 c.fetch()
 //.then(() => console.log(`date: ${JSON.stringify(c.models)}`))
 
-
-const form = new UserForm(document.getElementById('root'))
+const toShow = new User({
+    name: 'Mirian Leprin',
+    age: 52
+})
+const form = new UserForm(document.getElementById('root'), toShow)
 form.render()
 
 //OLD tests
