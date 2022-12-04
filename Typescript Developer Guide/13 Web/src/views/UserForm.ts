@@ -12,8 +12,15 @@
     private eventsMap(): {[key: string] : () => void} {
         return {
             'click:.set-age': this.onSetAgeClick,    //event handler: click event on the button
+            'click:.set-name' : this.onChangeNameClick,
             'mouseenter:h1' : this.onH1Hover
         }
+    }
+
+    private onChangeNameClick = ():void=>{
+         const e = this.parent.querySelector('input')
+         const name = e.value
+         this.model.set({name}) //same as {'name': name}
     }
 
     private onSetAgeClick = ():void => {
@@ -45,7 +52,7 @@
             <div>User name: ${this.model.get('name')} </div>
             <div>User age: ${this.model.get('age')} </div>
             <input />
-            <button>Click Me!</button>
+            <button class="set-name">Change name!</button>
             <button class="set-age">Set Random age</button>
         </div>`
     }
