@@ -3,17 +3,23 @@
  export class UserForm{
     //Element is an HTML document
     //private parent: Element  //where to append my html part
-    constructor(private parent:Element, private model:User){} 
+    constructor(private parent:Element, private model:User){
+        this.model.on('change', () =>{
+            this.render()
+        })
+    } 
 
     private eventsMap(): {[key: string] : () => void} {
         return {
-            'click:button': this.onButtonClick,        //event handler: click event on the button
+            'click:.set-age': this.onSetAgeClick,    //event handler: click event on the button
             'mouseenter:h1' : this.onH1Hover
         }
     }
 
-    private onButtonClick() : void{
-        console.log('Hi there')
+    private onSetAgeClick = ():void => {
+        this.model.setRandomAge()
+        console.log('Age Button was clicked')
+        console.log(this.model)
     }
 
     private onH1Hover() : void{
@@ -40,10 +46,12 @@
             <div>User age: ${this.model.get('age')} </div>
             <input />
             <button>Click Me!</button>
+            <button class="set-age">Set Random age</button>
         </div>`
     }
 
     render():void{
+        this.parent.innerHTML='' //clear before rendering
         const element =document.createElement("template");
         element.innerHTML=this.template()
         this.bindEvents(element.content)

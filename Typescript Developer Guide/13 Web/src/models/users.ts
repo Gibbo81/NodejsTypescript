@@ -24,8 +24,13 @@ export class User extends Model<UserProp>{
         return new Collection(new ApiSync<UserProp>(User.url), 
                               x => new User(x))
     }
-    /*
 
+    setRandomAge(): void{
+        const age = Math.round(Math.random()*100)
+        this.set({ 'age' : age})
+    }
+
+    /*
     /////////////////////////////////////////////////////////////////////
     //legacy code deleted before movingg to model.ts
     /////////////////////////////////////////////////////////////////////
