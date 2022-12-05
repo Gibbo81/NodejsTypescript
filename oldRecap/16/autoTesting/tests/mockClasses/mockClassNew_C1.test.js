@@ -17,3 +17,10 @@ test('fine with 10 and 43', async () => {
     expect(result.f2).toBe(-33)
     expect(result.f3).toBe(430)
 })
+
+describe("test non existing function", () => {
+    it("should be 5", () => {
+      expect(5).toBe(5);
+    });
+
+  });
