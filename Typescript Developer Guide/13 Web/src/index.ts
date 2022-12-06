@@ -7,6 +7,8 @@
 //simple fake server to save and retrive json
 //to start it --> json-server -w db.json
 
+//tsconfig.json --> "strict": false, || Disable some hard integrity check - e.g. null check
+
 import {User} from './models/users'
 import { UserForm } from './views/UserForm'
 
