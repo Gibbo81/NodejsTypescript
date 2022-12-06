@@ -1,8 +1,17 @@
 import { Model } from "../models/Model";
 
 export abstract class View<T extends Model<K>, K>{
+    protected regions :{[key: string]: Element} = {}
+
     protected abstract template(): string;
-    protected abstract eventsMap(): {[key: string] : () => void} ;  
+
+    protected eventsMap(): { [key: string]: () => void } {
+       return {}
+    }
+
+    protected regiosnMap():{[key: string]: string}{
+        return {}
+    }
 
     //Element is an HTML document
     //private parent: Element  //where to append my html part
@@ -17,7 +26,23 @@ export abstract class View<T extends Model<K>, K>{
         const element =document.createElement("template");
         element.innerHTML=this.template()
         this.bindEvents(element.content)
+        this.mapRegions(element.content)
+
+        this.onRender()
+
         this.parent.append(element.content)
+    }
+
+    protected onRender(): void {}
+
+    private mapRegions(fragment: DocumentFragment) :void {
+        const regionMap= this.regiosnMap()
+        for (let key in regionMap){
+            const selector= regionMap[key]
+            const element =fragment.querySelector(selector)
+            if (element)
+                this.regions[key]= element
+        }
     }
 
     private bindEvents(fragment : DocumentFragment): void {

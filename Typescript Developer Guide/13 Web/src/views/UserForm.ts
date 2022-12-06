@@ -16,16 +16,6 @@
         this.model.save()
     }
 
-    protected template(): string{
-        return `
-        <div>
-            <input placeholder="${this.model.get('name')}" />
-            <button class="set-name">Change name!</button>
-            <button class="set-age">Set Random age</button>
-            <button class="save-model">Save User</button>
-        </div>`
-    }
-
     private onChangeNameClick = ():void=>{
          const e = this.parent.querySelector('input')
          if (e){ //checks if the element exists
@@ -42,5 +32,15 @@
 
     private onH1Hover() : void{
         console.log('Overing over H1')
+    }
+
+    protected template(): string{
+        return `
+        <div>
+            <input placeholder="${this.model.get('name')}" />
+            <button class="set-name">Change name!</button>
+            <button class="set-age">Set Random age</button>
+            <button class="save-model">Save User</button>
+        </div>`
     }
  }

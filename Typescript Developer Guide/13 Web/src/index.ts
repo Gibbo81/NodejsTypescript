@@ -11,6 +11,7 @@
 
 import {User} from './models/users'
 import { UserForm } from './views/UserForm'
+import { UserEdit } from './views/UserEdit'
 
 const u = new User({
     name: 'caffè cold',
@@ -44,9 +45,15 @@ const toShow = new User({
     name: 'Mirian Leprin',
     age: 52
 })
+/*
+partial Form Tests removed after UserEdit
 const form = new UserForm(document.getElementById('root'), toShow)
 form.render()
+*/
 
+const ue = new UserEdit(document.getElementById('root'), toShow)
+ue.render()
+console.log(ue)
 //OLD tests
 //testing()
 
