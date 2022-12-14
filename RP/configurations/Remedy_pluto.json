@@ -1,0 +1,31 @@
+{
+	"Name" : "Remedy_pluto",
+	"Triggers":[
+		{
+			"name": "API_POST_input1"
+			}
+	],
+	"Unplanned_checks":[
+		{
+			"name": "AlreadyPresent"
+		}	
+	],
+	"Conditions":[
+		{
+			"Name": "CreateRemedyPlan"
+		},
+		{
+			"Name": "CreateIP",
+			"Type": "Possession"
+		},
+		{
+			"Name": "CreateTaskChain",
+			"Type": "RemedyBase"
+		},
+		{
+			"Name": "CreateTaskChain",
+			"Type": "RemedyConditionUnknowDuration"
+		}
+	],
+	"ClosingAction"	:[]
+}
