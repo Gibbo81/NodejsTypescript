@@ -5,7 +5,6 @@ import { ConfigurationReader } from "./service/ConfigurationReader";
 
 console.log('Hello!!!!!')
 
-//var reader = new ConfigurationReader('C:/Repo/NodejsTypescript/RP/configurations/')
 var reader = new ConfigurationReader('./configurations/')
 reader.load().then(x =>console.log(x))
 

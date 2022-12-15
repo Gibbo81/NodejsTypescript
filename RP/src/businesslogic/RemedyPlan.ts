@@ -2,6 +2,6 @@
 
 export class RemedyPlan{
 
-    constructor(private name: string, private triggers:string[]){}
+    constructor(public name: string, private triggers:string[]){}
 
 }

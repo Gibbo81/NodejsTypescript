@@ -1,5 +1,5 @@
 import { RemedyPlan } from "../businesslogic/RemedyPlan";
-import { promises as fs } from 'fs';
+import fs from "fs/promises";
 import { ConfigurationDTO } from "./ConfigurationDTO";
 
 export class ConfigurationReader{
@@ -14,7 +14,9 @@ export class ConfigurationReader{
             for(var x =0; x< files.length; x++){
                 var y = await fs.readFile(files[x], 'utf8')
                 result.push(this.convertToRemedyPlan(y,files[x]))  
-            }           
+            }      
+            if(result.length===0)
+                throw new Error(`Load configuration from ${this.folderPath} 0 Remedy plan found`)     
             return result
         }
         catch(e){
