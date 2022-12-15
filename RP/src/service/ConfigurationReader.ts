@@ -1,4 +1,5 @@
 import { RemedyPlan } from "../businesslogic/RemedyPlan";
+import { Icondition } from "../businesslogic/conditions/Icondition";
 import fs from "fs/promises";
 import { ConfigurationDTO } from "./ConfigurationDTO";
 
@@ -11,12 +12,9 @@ export class ConfigurationReader{
         try{
             var result: RemedyPlan[] =[]
             var files = await this.searchFiles(); 
-            for(var x =0; x< files.length; x++){
-                var y = await fs.readFile(files[x], 'utf8')
-                result.push(this.convertToRemedyPlan(y,files[x]))  
-            }      
-            if(result.length===0)
-                throw new Error(`Load configuration from ${this.folderPath} 0 Remedy plan found`)     
+            for(var x = 0; x< files.length; x++)
+                await this.readSingleConfiguration(files, x, result);       
+            this.checkResult(result);     
             return result
         }
         catch(e){
@@ -25,12 +23,22 @@ export class ConfigurationReader{
         }        
     }
 
+    private async readSingleConfiguration(files: string[], x: number, result: RemedyPlan[]) {
+        var y = await fs.readFile(files[x], 'utf8');
+        result.push(this.convertToRemedyPlan(y, files[x]));
+    }
+
+    private checkResult(result: RemedyPlan[]) {
+        if (result.length === 0)
+            throw new Error(`Load configuration from ${this.folderPath} 0 Remedy plan found`);
+    }
+
     private convertToRemedyPlan(json: string, source : string): RemedyPlan{
         var dto = JSON.parse(json) as ConfigurationDTO;                
         this.checkConfigurationErrors(dto, source);
         if (!dto.ClosingAction)
             dto.ClosingAction =[]
-        return new RemedyPlan(dto.Name, dto.Triggers.map(x => x.name))
+        return new RemedyPlan(dto.Name, dto.Triggers.map(x => x.name), []) //TODO: add real remedy plan
     }
 
     private isFileJson = (filename: string): boolean =>
