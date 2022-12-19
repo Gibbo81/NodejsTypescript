@@ -1,3 +1,3 @@
 export interface Icondition{
-    execute():void
+    execute(data : { [key:string] : string}):void
 }

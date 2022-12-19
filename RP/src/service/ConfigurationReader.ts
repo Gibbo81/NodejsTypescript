@@ -1,5 +1,4 @@
 import { RemedyPlanConfigurations } from "../businesslogic/RemedyPlan";
-import { Icondition } from "../businesslogic/conditions/Icondition";
 import fs from "fs/promises";
 import { ConfigurationDTO } from "./ConfigurationDTO";
 

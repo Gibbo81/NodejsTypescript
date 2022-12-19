@@ -1,10 +1,11 @@
+import { ISaveNewRemedy } from '../businesslogic/plugIn/ISaveNewRemedy'
 import { MongoDbConnectionFactory} from './MongoDbConnectionFactory'
 import {RemedyPlanDTO} from '../businesslogic/dto/RemedyPlanDTO'
 const mongodb = require('mongodb')
 const ObjectID = mongodb.ObjectId
 
 
-export class CreateRemedyPlanDB extends MongoDbConnectionFactory{
+export class CreateRemedyPlanDB extends MongoDbConnectionFactory implements ISaveNewRemedy{
     private readonly dbName : string = "Remedy_Plan"
     private readonly collectionName : string = 'RemedyPlans'
 

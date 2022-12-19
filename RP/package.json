@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "jest",
+    "run_TS": "ts-node ./src/index.ts",
     "build": "tsc --project tsconfig.prod.json",
     "dev": "node ./build/index.js"
   },
