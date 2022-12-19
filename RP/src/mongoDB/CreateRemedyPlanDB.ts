@@ -16,7 +16,7 @@ export class CreateRemedyPlanDB extends MongoDbConnectionFactory{
         var connection= await this.createConnection()
         const db = connection.db(this.dbName); 
         const collection = db.collection(this.collectionName)
-        var result = await collection.insertOne(rp)
+        var result = await collection.insertOne(new RemedyPlanForMongoInsert(rp.owner, rp.status, rp.priority))
         await connection.close()
         return result.insertedId as unknown as string
     }
@@ -40,3 +40,19 @@ export class CreateRemedyPlanDB extends MongoDbConnectionFactory{
         }})
     }
 }
+
+class RemedyPlanForMongoInsert{    
+    owner : string
+    status: string
+    priority: number
+    rootCouses: []
+    conditions : []
+    disservice : []
+    alternativeRemedyPlans : []
+    constructor(owner:string, status:string, priority:number){
+        this.owner=owner
+        this.status=status
+        this.priority=priority
+    }
+}
+

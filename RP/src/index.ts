@@ -8,8 +8,8 @@ const connectionURL = 'mongodb://localhost:27017'
 console.log('Hello!!!!!')
 
 //loadConfiguratio();
-//tryInsertUser()
-readAllRemedyPlanFromMongo()
+tryInsertUser()
+//readAllRemedyPlanFromMongo()
 
 function loadConfiguratio() {
     var reader = new ConfigurationReader('./configurations/');
