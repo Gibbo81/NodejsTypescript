@@ -7,18 +7,18 @@ export class ConfigurationDTO{
 }
 
 class UnplannedChecks {
-    public name: string 
+    public Name: string 
 }
 
 class TriggerDTO {
-    public name: string 
+    public Name: string 
 }
 
-class Condition {
-    public name: string 
+export class Condition {
+    public Name: string 
     public Type: string 
 }
 
 class ClosingAction {
-    public name: string 
+    public Name: string 
 }

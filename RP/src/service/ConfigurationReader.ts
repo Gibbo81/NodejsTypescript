@@ -1,18 +1,21 @@
 import { RemedyPlanConfigurations } from "../businesslogic/RemedyPlan";
 import fs from "fs/promises";
 import { ConfigurationDTO } from "./ConfigurationDTO";
+import { ConditionFactory } from "./ConditionFactory";
+import { ILogger } from "../businesslogic/plugIn/Ilogger";
 
 export class ConfigurationReader{
 
-    constructor(private folderPath: string){      
-    }
+    constructor(private folderPath: string, 
+                private conditionFactory: ConditionFactory,
+                private logger : ILogger){}
 
     async load() : Promise<RemedyPlanConfigurations[]>{
         try{
             var result: RemedyPlanConfigurations[] =[]
             var files = await this.searchFiles(); 
             for(var x = 0; x< files.length; x++)
-                await this.readSingleConfiguration(files, x, result);       
+                result.push( await this.readSingleConfiguration(files[x]));       
             this.checkResult(result);     
             return result
         }
@@ -22,9 +25,10 @@ export class ConfigurationReader{
         }        
     }
 
-    private async readSingleConfiguration(files: string[], x: number, result: RemedyPlanConfigurations[]) {
-        var y = await fs.readFile(files[x], 'utf8');
-        result.push(this.convertToRemedyPlan(y, files[x]));
+    private async readSingleConfiguration(file: string): Promise<RemedyPlanConfigurations> {
+        this.logger.logDebug(`Read configuration file: ${file}`)
+        var y = await fs.readFile(file, 'utf8');
+        return this.convertToRemedyPlan(y, file);
     }
 
     private checkResult(result: RemedyPlanConfigurations[]) {
@@ -37,7 +41,8 @@ export class ConfigurationReader{
         this.checkConfigurationErrors(dto, source);
         if (!dto.ClosingAction)
             dto.ClosingAction =[]
-        return new RemedyPlanConfigurations(dto.Name, dto.Triggers.map(x => x.name), []) //TODO: add real remedy plan
+        var conditions = this.conditionFactory.create(dto)
+        return new RemedyPlanConfigurations(dto.Name, dto.Triggers.map(x => x.Name), conditions) //TODO: add real remedy plan
     }
 
     private isFileJson = (filename: string): boolean =>
@@ -62,3 +67,4 @@ export class ConfigurationReader{
         return files.filter(this.isFileJson).map(fileName => this.folderPath + fileName)
     }
 }
+

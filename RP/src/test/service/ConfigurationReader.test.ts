@@ -1,5 +1,7 @@
 import fs from "fs/promises";
+import { ConditionFactory } from "../../service/ConditionFactory";
 import { ConfigurationReader } from "../../service/ConfigurationReader";
+import { LoggerMock } from "../utility/LoggerMock";
 
 
 test('Two Json files present -> two remedy plan loaded', async () => {    
@@ -10,7 +12,7 @@ test('Two Json files present -> two remedy plan loaded', async () => {
     readFileMock.mockResolvedValueOnce(GetRemedyPlan2())
     fs.readFile =readFileMock
     var folder ="pippusFolder/"
-    var reader = new ConfigurationReader(folder)
+    var reader = new ConfigurationReader(folder, new ConditionFactory(''), new LoggerMock())
 
     var result = await reader.load()
 
@@ -31,7 +33,7 @@ test('One invalid JsonFile -> ThrowException', async () => {
     readFileMock.mockResolvedValueOnce(GetBrokenRemedy())
     fs.readFile =readFileMock
     var folder ="pippusFolder/"
-    var reader = new ConfigurationReader(folder)
+    var reader = new ConfigurationReader(folder, new ConditionFactory(''), new LoggerMock())
 
     try{
         await reader.load()
@@ -50,7 +52,7 @@ test('No JsonFile inside the folder -> ThrowException', async () => {
     readFileMock.mockResolvedValueOnce(GetBrokenRemedy())
     fs.readFile =readFileMock
     var folder ="pippusFolder/"
-    var reader = new ConfigurationReader(folder)
+    var reader = new ConfigurationReader(folder, new ConditionFactory(''), new LoggerMock())
 
     try{
         await reader.load()
@@ -95,18 +97,6 @@ function GetRemedyPlan1():string{
         "Conditions":[
             {
                 "Name": "CreateRemedyPlan"
-            },
-            {
-                "Name": "CreateIP",
-                "Type": "Possession"
-            },
-            {
-                "Name": "CreateTaskChain",
-                "Type": "RemedyBase"
-            },
-            {
-                "Name": "CreateTaskChain",
-                "Type": "RemedyConditionUnknowDuration"
             }
         ],
         "ClosingAction"	:[]

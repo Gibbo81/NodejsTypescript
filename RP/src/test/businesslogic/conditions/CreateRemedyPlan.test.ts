@@ -16,7 +16,7 @@ test('Create new ramedy plan', async () => {
         'priority' : '100'
     })
 
-    expect(result).toBe(returnedId)
+    expect(result.id).toBe(returnedId)
     expect(saver.count).toBe(1)
 })
 

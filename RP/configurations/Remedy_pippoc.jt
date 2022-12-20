@@ -1,13 +1,13 @@
 {
-	"Name" : "Remedy_pluto",
+	"Name" : "Remedy_pippo",
 	"Triggers":[
 		{
-			"name": "API_POST_input1"
-			}
+			"Name": "API_POST_input1"
+		}
 	],
 	"Unplanned_checks":[
 		{
-			"name": "AlreadyPresent"
+			"Name": "AlreadyPresent"
 		}	
 	],
 	"Conditions":[

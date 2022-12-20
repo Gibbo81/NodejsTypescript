@@ -7,12 +7,12 @@ export class CreateRemediPlan implements Icondition{
     
     constructor(private saver: ISaveNewRemedy, private logger: ILogger){}
 
-    async execute(data : {[key:string] : string}): Promise<string> {
+    async execute(data : {[key:string] : string}): Promise<{[key:string] : string}> {
         this.checkData(data)
         var rp = this.createremedyDto(data);
         var id = await this.saver.insert(rp)
         this.logger.logDebug(`Created remedy plan with id: ${id}`)
-        return id;
+        return {id};
     }
 
     private createremedyDto(data: { [key: string]: string; }) {
