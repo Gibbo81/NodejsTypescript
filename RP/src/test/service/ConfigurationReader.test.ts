@@ -26,11 +26,11 @@ test('Two Json files present -> two remedy plan loaded', async () => {
     expect(fs.readFile).toHaveBeenCalledWith(folder+'c.json', 'utf8');
 })
 
-test('One invalid JsonFile -> ThrowException', async () => {    
+test('One invalid JsonFile "missing trigger" -> ThrowException', async () => {    
     jest.mock("fs/promises");
     fs.readdir =jest.fn().mockResolvedValueOnce(['a.json','b.txt','c.json','d.7zip']) 
     var readFileMock = jest.fn()
-    readFileMock.mockResolvedValueOnce(GetBrokenRemedy())
+    readFileMock.mockResolvedValueOnce(GetBrokenRemedyMisingTriggers())
     fs.readFile =readFileMock
     var folder ="pippusFolder/"
     var reader = new ConfigurationReader(folder, new ConditionFactory(''), new LoggerMock())
@@ -45,11 +45,30 @@ test('One invalid JsonFile -> ThrowException', async () => {
     }
 })
 
+test('One invalid JsonFile "broken condition" -> ThrowException', async () => {    
+    jest.mock("fs/promises");
+    fs.readdir =jest.fn().mockResolvedValueOnce(['a.json','b.txt','c.json','d.7zip']) 
+    var readFileMock = jest.fn()
+    readFileMock.mockResolvedValueOnce(GetRemedyPlanWithBrokenCreateRemedyPlanCondiution())
+    fs.readFile =readFileMock
+    var folder ="pippusFolder/"
+    var reader = new ConfigurationReader(folder, new ConditionFactory(''), new LoggerMock())
+
+    try{
+        await reader.load()
+        expect(1).toBe(2)
+    }
+    catch(e){
+        expect(e.message).toBe('Status is null for condition CreateRemedyPlan')
+        expect(e).toBeInstanceOf(Error)
+    }
+})
+
 test('No JsonFile inside the folder -> ThrowException', async () => {    
     jest.mock("fs/promises");
     fs.readdir =jest.fn().mockResolvedValueOnce(['b.txt','d.7zip']) 
     var readFileMock = jest.fn()
-    readFileMock.mockResolvedValueOnce(GetBrokenRemedy())
+    readFileMock.mockResolvedValueOnce(GetBrokenRemedyMisingTriggers())
     fs.readFile =readFileMock
     var folder ="pippusFolder/"
     var reader = new ConfigurationReader(folder, new ConditionFactory(''), new LoggerMock())
@@ -64,7 +83,7 @@ test('No JsonFile inside the folder -> ThrowException', async () => {
     }
 })
 
-function GetBrokenRemedy():string{
+function GetBrokenRemedyMisingTriggers():string{
     return `{
         "Name" : "Remedy_pluto",
         "Unplanned_checks":[
@@ -74,7 +93,8 @@ function GetBrokenRemedy():string{
         ],
         "Conditions":[
             {
-                "Name": "CreateRemedyPlan"
+                "Name": "CreateRemedyPlan",
+                "Status": "Just-Created"
             }
         ],
         "ClosingAction"	:[]
@@ -96,7 +116,8 @@ function GetRemedyPlan1():string{
         ],
         "Conditions":[
             {
-                "Name": "CreateRemedyPlan"
+                "Name": "CreateRemedyPlan",
+                "Status": "Just-Created"
             }
         ],
         "ClosingAction"	:[]
@@ -104,6 +125,29 @@ function GetRemedyPlan1():string{
 }
 
 function GetRemedyPlan2():string{
+    return `{
+        "Name" : "Remedy_pluto",
+        "Triggers":[
+            {
+                "name": "API_POST_input1"
+            }
+        ],
+        "Unplanned_checks":[
+            {
+                "name": "AlreadyPresent"
+            }	
+        ],
+        "Conditions":[
+            {
+                "Name": "CreateRemedyPlan",
+                "Status": "Just-Created"
+            }
+        ],
+        "ClosingAction"	:[]
+    }`
+}
+
+function GetRemedyPlanWithBrokenCreateRemedyPlanCondiution():string{
     return `{
         "Name" : "Remedy_pluto",
         "Triggers":[

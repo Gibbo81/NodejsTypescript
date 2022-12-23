@@ -1,4 +1,4 @@
-import { RemedyPlanConfigurations } from "../businesslogic/RemedyPlan";
+import { RemedyPlan } from "../businesslogic/RemedyPlan";
 import fs from "fs/promises";
 import { ConfigurationDTO } from "./ConfigurationDTO";
 import { ConditionFactory } from "./ConditionFactory";
@@ -10,9 +10,9 @@ export class ConfigurationReader{
                 private conditionFactory: ConditionFactory,
                 private logger : ILogger){}
 
-    async load() : Promise<RemedyPlanConfigurations[]>{
+    async load() : Promise<RemedyPlan[]>{
         try{
-            var result: RemedyPlanConfigurations[] =[]
+            var result: RemedyPlan[] =[]
             var files = await this.searchFiles(); 
             for(var x = 0; x< files.length; x++)
                 result.push( await this.readSingleConfiguration(files[x]));       
@@ -25,24 +25,24 @@ export class ConfigurationReader{
         }        
     }
 
-    private async readSingleConfiguration(file: string): Promise<RemedyPlanConfigurations> {
+    private async readSingleConfiguration(file: string): Promise<RemedyPlan> {
         this.logger.logDebug(`Read configuration file: ${file}`)
         var y = await fs.readFile(file, 'utf8');
         return this.convertToRemedyPlan(y, file);
     }
 
-    private checkResult(result: RemedyPlanConfigurations[]) {
+    private checkResult(result: RemedyPlan[]) {
         if (result.length === 0)
             throw new Error(`Load configuration from ${this.folderPath} 0 Remedy plan found`);
     }
 
-    private convertToRemedyPlan(json: string, source : string): RemedyPlanConfigurations{
+    private convertToRemedyPlan(json: string, source : string): RemedyPlan{
         var dto = JSON.parse(json) as ConfigurationDTO;                
         this.checkConfigurationErrors(dto, source);
         if (!dto.ClosingAction)
             dto.ClosingAction =[]
         var conditions = this.conditionFactory.create(dto)
-        return new RemedyPlanConfigurations(dto.Name, dto.Triggers.map(x => x.Name), conditions) //TODO: add real remedy plan
+        return new RemedyPlan(dto.Name, dto.Triggers.map(x => x.Name), conditions) //TODO: add real remedy plan
     }
 
     private isFileJson = (filename: string): boolean =>

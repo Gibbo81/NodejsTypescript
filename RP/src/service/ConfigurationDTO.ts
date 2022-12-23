@@ -17,6 +17,7 @@ class TriggerDTO {
 export class Condition {
     public Name: string 
     public Type: string 
+    public Status: string
 }
 
 class ClosingAction {

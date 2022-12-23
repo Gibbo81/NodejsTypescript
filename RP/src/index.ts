@@ -26,7 +26,7 @@ function readAllRemedyPlanFromMongo(){
 function tryInsertRP() {
     var writer = new CreateRemedyPlanDB(connectionURL);
     var logger = new Logger()
-    var creator = new CreateRemediPlan(writer, logger)
+    var creator = new CreateRemediPlan('created', writer, logger)
 
     creator.execute({
         'owner': 'pippus',

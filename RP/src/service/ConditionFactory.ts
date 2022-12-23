@@ -20,7 +20,9 @@ export class ConditionFactory {
     private mapCondition(data: Condition): Icondition {
         switch (data.Name) {
             case ConditionTypes.CreateRemedyPlan.toString(): {
-                return new CreateRemediPlan(new CreateRemedyPlanDB(this.dbConnectionString), new Logger());
+                if(!data.Status)
+                    throw new Error('Status is null for condition CreateRemedyPlan')
+                return new CreateRemediPlan(data.Status, new CreateRemedyPlanDB(this.dbConnectionString), new Logger());
             }
             case ConditionTypes.fake1.toString():{
                 throw new Error('invalid')

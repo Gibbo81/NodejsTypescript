@@ -5,7 +5,7 @@ import { ILogger } from "../plugIn/Ilogger";
 
 export class CreateRemediPlan implements Icondition{    
     
-    constructor(private saver: ISaveNewRemedy, private logger: ILogger){}
+    constructor(private creationStatus: string, private saver: ISaveNewRemedy, private logger: ILogger){}
 
     async execute(data : {[key:string] : string}): Promise<{[key:string] : string}> {
         this.checkData(data)
@@ -17,7 +17,7 @@ export class CreateRemediPlan implements Icondition{
 
     private createremedyDto(data: { [key: string]: string; }) {
         var rp = new RemedyPlanDTO();
-        rp.status = data.status;
+        rp.status = this.creationStatus;
         rp.owner = data.owner;
         rp.priority = parseInt(data.priority);
         return rp;
@@ -27,10 +27,8 @@ export class CreateRemediPlan implements Icondition{
         var errors : string[] = []
         if(!data.owner)
             errors.push(`Missing owner: ${JSON.stringify(data)}`)
-        if(!data.status)
-            errors.push(`Missing owner: ${JSON.stringify(data)}`)
         if(!data.priority)
-            errors.push(`Missing owner: ${JSON.stringify(data)}`)
+            errors.push(`Missing priority: ${JSON.stringify(data)}`)
         if(errors.length>0){
             this.logger.logError(`Error creating remedy plan ${JSON.stringify(errors)}`)
             throw new Error(`Create remedy plan condition invalid data ${JSON.stringify(errors)}`)

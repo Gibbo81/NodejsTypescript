@@ -12,7 +12,8 @@
 	],
 	"Conditions":[
 		{
-			"Name": "CreateRemedyPlan"
+			"Name": "CreateRemedyPlan",
+			"Status": "Just-Created"
 		}
 	],
 	"ClosingAction"	:[]

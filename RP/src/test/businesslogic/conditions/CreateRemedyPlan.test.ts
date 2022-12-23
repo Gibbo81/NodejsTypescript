@@ -8,7 +8,7 @@ test('Create new ramedy plan', async () => {
     const returnedId : string = 'ooooopooooooo'    
     var saver = new ISaveNewRemedyMock(returnedId, false)
     var logger = new LoggerMock()
-    var rpc = new CreateRemediPlan(saver, logger)
+    var rpc = new CreateRemediPlan('', saver, logger)
 
     var result = await rpc.execute({
         'owner': 'pippus',
@@ -23,7 +23,7 @@ test('Create new ramedy plan', async () => {
 test('Try to create new ramedy plan but there is an error', async () => {      
     var saver = new ISaveNewRemedyMock("", false)
     var logger = new LoggerMock()
-    var rpc = new CreateRemediPlan(saver, logger)
+    var rpc = new CreateRemediPlan('', saver, logger)
 
 
     try{
