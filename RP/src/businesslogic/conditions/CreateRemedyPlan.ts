@@ -15,7 +15,7 @@ export class CreateRemediPlan implements Icondition{
         return {id};
     }
 
-    private createremedyDto(data: { [key: string]: string; }) {
+    private createremedyDto(data: { [key: string]: string; }): RemedyPlanDTO {
         var rp = new RemedyPlanDTO();
         rp.status = this.creationStatus;
         rp.owner = data.owner;
