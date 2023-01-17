@@ -1,9 +1,9 @@
-import { Icondition } from "./Icondition";
+import { Iaction } from "./Iaction";
 import { ISaveNewRemedy } from "../plugIn/ISaveNewRemedy";
 import { RemedyPlanDTO } from "../dto/RemedyPlanDTO";
 import { ILogger } from "../plugIn/Ilogger";
 
-export class CreateRemediPlan implements Icondition{    
+export class CreateRemediPlan implements Iaction{    
     
     constructor(private creationStatus: string, private saver: ISaveNewRemedy, private logger: ILogger){}
 

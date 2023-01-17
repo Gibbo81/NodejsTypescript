@@ -1,5 +1,5 @@
 import { ConfigurationDTO, Condition } from "./ConfigurationDTO";
-import { Icondition } from "../businesslogic/conditions/Icondition";
+import { Iaction } from "../businesslogic/conditions/Iaction";
 import { CreateRemediPlan } from "../businesslogic/conditions/CreateRemedyPlan";
 import { CreateRemedyPlanDB } from "../mongoDB/CreateRemedyPlanDB";
 import { Logger } from "../utility/Logger";
@@ -13,11 +13,11 @@ enum ConditionTypes {
 export class ConditionFactory {
     constructor(private dbConnectionString: string) { }
 
-    create(remedy: ConfigurationDTO): Icondition[] {
+    create(remedy: ConfigurationDTO): Iaction[] {
         return remedy.Conditions.map(c => this.mapCondition(c));
     }
 
-    private mapCondition(data: Condition): Icondition {
+    private mapCondition(data: Condition): Iaction {
         switch (data.Name) {
             case ConditionTypes.CreateRemedyPlan.toString(): {
                 if(!data.Status)

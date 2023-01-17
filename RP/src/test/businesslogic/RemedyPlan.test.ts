@@ -1,6 +1,6 @@
 import { RemedyPlan } from "../../businesslogic/RemedyPlan";
 import { LoggerMock } from "../utility/LoggerMock";
-import { Icondition } from "../../businesslogic/conditions/Icondition";
+import { Iaction } from "../../businesslogic/conditions/Iaction";
 import exp from "constants";
 
 
@@ -52,7 +52,7 @@ test('A condiont fails, RP returns an exception', async () => {
     }
 })
 
-class conditionMock implements Icondition{
+class conditionMock implements Iaction{
     executed : boolean = false
     
     constructor(private errorDuringExecution: boolean, private result: { [key: string]: string; }){}

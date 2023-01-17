@@ -1,16 +1,16 @@
-import { Icondition } from "./conditions/Icondition";
+import { Iaction } from "./conditions/Iaction";
 import { ILogger } from "./plugIn/Ilogger";
 
-interface invocationResult{
+export interface invocationResult{
     name: string;
     conditions :{[key:string] : string}[] ;
  }
 
-export class RemedyPlan{//missing UT
+export class RemedyPlan{
 
     constructor(public name: string, 
                 private triggers: string[], 
-                private conditions : Icondition[],
+                private conditions : Iaction[],
                 private logger : ILogger ){}
 
     async invoke(input: string): Promise<invocationResult>{
