@@ -4,11 +4,13 @@ import { RemedyPlanDTO, rootcause } from "../dto/RemedyPlanDTO";
 import { ILogger } from "../plugIn/Ilogger";
 import { executeParameters } from "../RemedyPlan"
 import { Guid } from "guid-typescript";
+import { ICreateArea } from "../plugIn/ICreateArea";
 
 export class CreateRemediPlan implements Iaction{    
     
     constructor(private creationStatus: string, 
-                private saver: ISaveNewRemedy, 
+                private saver: ISaveNewRemedy,
+                private area : ICreateArea, 
                 private logger: ILogger){}
 
     async execute(data : executeParameters): Promise<{[key:string] : string}> {
@@ -32,7 +34,7 @@ export class CreateRemediPlan implements Iaction{
         r.id = Guid.raw()
         r.detectionTime = new Date().toUTCString();
         r.status = 'detected'
-        
+        r.areaId = this.area.createArea(data.trigger)
         return r
     }
 
