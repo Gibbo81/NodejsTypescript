@@ -11,9 +11,13 @@ test('Create new ramedy plan', async () => {
     var rpc = new CreateRemediPlan('', saver, logger)
 
     var result = await rpc.execute({
-        'owner': 'pippus',
-        'status': 'totally fine',
-        'priority' : '100'
+        trigger: 'qui-quo-qua',
+        divergenceType : "ooooooooiiiii",
+        parameters:{
+            'owner': 'pippus',
+            'status': 'totally fine',
+            'priority' : '100'
+        }        
     })
 
     expect(result.id).toBe(returnedId)
@@ -28,9 +32,13 @@ test('Try to create new ramedy plan but there is an error', async () => {
 
     try{
         var result = await rpc.execute({
-            'owner': 'pippus',
-            'status': 'totally fine',
-            'priority' : '100'
+            trigger: 'qui-quo-qua',
+            divergenceType : "ooooooooiiiii",
+            parameters:{
+                'owner': 'pippus',
+                'status': 'totally fine',
+                'priority' : '100'
+            }        
         })
         expect(1).toBe(2)
     }

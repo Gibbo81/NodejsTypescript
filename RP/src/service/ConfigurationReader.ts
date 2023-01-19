@@ -42,7 +42,7 @@ export class ConfigurationReader{
         if (!dto.ClosingAction)
             dto.ClosingAction =[]
         var conditions = this.conditionFactory.create(dto)
-        return new RemedyPlan(dto.Name, dto.Triggers.map(x => x.Name), conditions, this.logger) 
+        return new RemedyPlan(dto.Name, dto.Triggers.map(x => x.Name), [], conditions, this.logger) //TODO: add real checks
     }
 
     private isFileJson = (filename: string): boolean =>

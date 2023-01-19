@@ -3,17 +3,21 @@ export class RemedyPlanDTO{
     owner : string
     status: string
     priority: number
-    rootCouses: rootcause[]
+    divergences: rootcause[]
     conditions : condition[]
     disservice : disservice[]
     alternativeRemedyPlans : string[]
 }
 
 
-class rootcause{
+export class rootcause{
     type: string
     id : string
     correlation: string
+    detectionTime: string
+    status: string
+    areaId : number
+    hidden: boolean
 }
 
 class condition{

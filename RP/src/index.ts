@@ -29,8 +29,12 @@ function tryInsertRP() {
     var creator = new CreateRemediPlan('created', writer, logger)
 
     creator.execute({
-        'owner': 'pippus',
-        'status': 'totally fine',
-        'priority' : '100'
+        trigger: 'qui-quo-qua',  
+        divergenceType : "ooooooooiiiii",      
+        parameters:{
+            'owner': 'pippus',
+            'status': 'totally fine',
+            'priority' : '100'
+        }        
     }).then(c => console.log('SAVED!!! ' + c))
 }

@@ -1,3 +1,5 @@
+import { executeParameters } from "../RemedyPlan"
+
 export interface Iaction{
-    execute(data : { [key:string] : string}) : Promise<{[key:string] : string}>
+    execute(data : executeParameters) : Promise<{[key:string] : string}>
 }

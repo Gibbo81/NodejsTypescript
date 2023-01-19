@@ -33,11 +33,10 @@ export class CreateRemedyPlanDB extends MongoDbConnectionFactory implements ISav
             owner : rp.owner,
             status : rp.status,
             priority : rp.priority,
-            rootCouses : rp.rootCouses,
+            divergences : rp.rootCouses,
             conditions : rp.conditions,
             disservice : rp.disservice,
             alternativeRemedyPlans : rp.alternativeRemedyPlans
-
         }})
     }
 }
