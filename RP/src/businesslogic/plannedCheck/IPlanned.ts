@@ -1,3 +1,3 @@
 export interface IPlanned{
-    isAlreadyPlanned(data : {[key:string] : string}): boolean;
+    isAlreadyPlanned(data : {[key:string] : string}): Promise<boolean>;
 }

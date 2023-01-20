@@ -33,7 +33,7 @@ export class RemedyPlan{
 
     async tryInvoke(input: executeParameters): Promise<invocationResult>{
         this.logger.logDebug(`Start invokation of Remedy plan ${this.name} with trigger: ${input.trigger}`)
-        if (this.isTriggered(input.trigger) && this.isNotAlreadyPlanned(input.parameters))
+        if (this.isTriggered(input.trigger) && await this.isNotAlreadyPlanned(input.parameters))
             return await this.execute(input)
         return this.createEmptyResult()  
     }
@@ -58,9 +58,9 @@ export class RemedyPlan{
         return false
     }
 
-    private isNotAlreadyPlanned(parameters :{[key:string] : string}): boolean{
+    private async isNotAlreadyPlanned(parameters :{[key:string] : string}): Promise<boolean>{
         for (var x =0; x< this.unplannedChecks.length; x++)
-            if (this.unplannedChecks[x].isAlreadyPlanned(parameters)){
+            if (await this.unplannedChecks[x].isAlreadyPlanned(parameters)){
                 this.logger.logDebug(`Remedy plan ${this.name} is already planned. Its configured actions are not executed`)    
                 return false
             }                

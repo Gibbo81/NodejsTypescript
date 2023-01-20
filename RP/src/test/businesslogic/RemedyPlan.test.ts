@@ -115,7 +115,7 @@ class isPlannedMock implements IPlanned{
 
     constructor(private isAlreadyPlannedResult: boolean){}
     
-    isAlreadyPlanned(data: { [key: string]: string; }): boolean {
+    async isAlreadyPlanned(data: { [key: string]: string; }): Promise<boolean> {
         this.called = true
         return this.isAlreadyPlannedResult
     }
