@@ -3,6 +3,7 @@ import { Iaction } from "../businesslogic/conditions/Iaction";
 import { CreateRemediPlan } from "../businesslogic/conditions/CreateRemedyPlan";
 import { CreateRemedyPlanDB } from "../mongoDB/CreateRemedyPlanDB";
 import { Logger } from "../utility/Logger";
+import { CreateAreaWithIFMO } from "../api/CreateArea";
 
 enum ConditionTypes {
     CreateRemedyPlan = 'CreateRemedyPlan',
@@ -22,7 +23,10 @@ export class ConditionFactory {
             case ConditionTypes.CreateRemedyPlan.toString(): {
                 if(!data.Status)
                     throw new Error('Status is null for condition CreateRemedyPlan')
-                return new CreateRemediPlan(data.Status, new CreateRemedyPlanDB(this.dbConnectionString), new Logger());
+                return new CreateRemediPlan(data.Status, 
+                                            new CreateRemedyPlanDB(this.dbConnectionString), 
+                                            new CreateAreaWithIFMO(),
+                                            new Logger());
             }
             case ConditionTypes.fake1.toString():{
                 throw new Error('invalid')

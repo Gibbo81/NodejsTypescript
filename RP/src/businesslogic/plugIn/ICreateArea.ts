@@ -1,3 +1,3 @@
 export interface ICreateArea{
-    createArea(trigger: string):number;
+    createArea(trigger: string): Promise<number>;
 }

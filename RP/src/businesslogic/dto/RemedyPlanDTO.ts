@@ -13,11 +13,11 @@ export class RemedyPlanDTO{
 export class rootcause{
     type: string
     id : string
-    correlation: string
     detectionTime: string
     status: string
     areaId : number
     hidden: boolean
+    primary : boolean
 }
 
 class condition{

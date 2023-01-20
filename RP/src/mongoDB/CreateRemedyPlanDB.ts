@@ -1,6 +1,6 @@
 import { ISaveNewRemedy } from '../businesslogic/plugIn/ISaveNewRemedy'
 import { MongoDbConnectionFactory} from './MongoDbConnectionFactory'
-import {RemedyPlanDTO} from '../businesslogic/dto/RemedyPlanDTO'
+import {RemedyPlanDTO, rootcause} from '../businesslogic/dto/RemedyPlanDTO'
 const mongodb = require('mongodb')
 const ObjectID = mongodb.ObjectId
 
@@ -17,7 +17,7 @@ export class CreateRemedyPlanDB extends MongoDbConnectionFactory implements ISav
         var connection= await this.createConnection()
         const db = connection.db(this.dbName); 
         const collection = db.collection(this.collectionName)
-        var result = await collection.insertOne(new RemedyPlanForMongoInsert(rp.owner, rp.status, rp.priority))
+        var result = await collection.insertOne(new RemedyPlanForMongoInsert(rp.owner, rp.status, rp.priority, rp.divergences))
         await connection.close()
         return result.insertedId as unknown as string
     }
@@ -45,14 +45,34 @@ class RemedyPlanForMongoInsert{
     owner : string
     status: string
     priority: number
-    rootCouses: []
+    rootCouses: rootcauseForMongoInsert[]
     conditions : []
     disservice : []
     alternativeRemedyPlans : []
-    constructor(owner:string, status:string, priority:number){
+    constructor(owner:string, status:string, priority:number, divergences: rootcause[]){
         this.owner=owner
         this.status=status
         this.priority=priority
+        this.rootCouses = divergences.map(d => new rootcauseForMongoInsert(d))
     }
 }
 
+class rootcauseForMongoInsert{
+    type: string
+    id : string
+    detectionTime: string
+    status: string
+    areaId : number
+    hidden: boolean
+    primary : boolean
+
+    constructor(divergence: rootcause){
+        this.type = divergence.type
+        this.id = divergence.id
+        this.detectionTime = divergence.detectionTime
+        this.status = divergence.status
+        this.areaId = divergence.areaId
+        this.hidden = divergence.hidden
+        this.primary = divergence.primary
+    }
+}

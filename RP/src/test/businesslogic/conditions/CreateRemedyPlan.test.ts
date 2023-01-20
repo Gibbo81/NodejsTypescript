@@ -2,13 +2,13 @@ import { CreateRemediPlan } from "../../../businesslogic/conditions/CreateRemedy
 import { ISaveNewRemedy } from "../../../businesslogic/plugIn/ISaveNewRemedy";
 import { LoggerMock } from "../../utility/LoggerMock";
 import { RemedyPlanDTO } from "../../../businesslogic/dto/RemedyPlanDTO";
-
+import { CreateAreaWithIFMO } from "../../../api/CreateArea";
 
 test('Create new ramedy plan', async () => {    
     const returnedId : string = 'ooooopooooooo'    
     var saver = new ISaveNewRemedyMock(returnedId, false)
     var logger = new LoggerMock()
-    var rpc = new CreateRemediPlan('', saver, logger)
+    var rpc = new CreateRemediPlan('', saver, new CreateAreaWithIFMO(), logger)
 
     var result = await rpc.execute({
         trigger: 'qui-quo-qua',
@@ -27,7 +27,7 @@ test('Create new ramedy plan', async () => {
 test('Try to create new ramedy plan but there is an error', async () => {      
     var saver = new ISaveNewRemedyMock("", false)
     var logger = new LoggerMock()
-    var rpc = new CreateRemediPlan('', saver, logger)
+    var rpc = new CreateRemediPlan('', saver, new CreateAreaWithIFMO(), logger)
 
 
     try{
