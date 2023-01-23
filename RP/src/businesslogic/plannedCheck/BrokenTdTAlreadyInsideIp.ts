@@ -1,16 +1,28 @@
 import { IPlanned } from "./IPlanned";
 import {IReadInfrastructionProvision} from "../plugIn/IReadInfrastructionProvision"
+import { ILogger } from "../plugIn/Ilogger";
 
 export class BrokenTdTAlreadyInsideIp implements IPlanned{
-    constructor(private ipInfo:IReadInfrastructionProvision ){}
+    constructor(private ipInfo:IReadInfrastructionProvision,
+                private logger:ILogger){}
 
     async isAlreadyPlanned(data: { [key: string]: string; }): Promise<boolean> {
-        this.checkData(data)
-        var IPs = await this.ipInfo.readAllActivePossessionAndTsa()
-        return await this.IsTdTInsideAnIp(IPs, data.TdT);
+        try{
+            return await this.isAlreadyPlannedTryCheck(data)
+        }
+        catch(e){
+            this.logger.logException(`Error running check BrokenTdTAlreadyInsideIp`, e);
+            throw (e);
+        }
     }
 
-    private async IsTdTInsideAnIp(IPs: number[], TdT: string) {
+    private async isAlreadyPlannedTryCheck(data: { [key: string]: string; }): Promise<boolean> {
+        this.checkData(data)
+        var IPs = await this.ipInfo.readAllActivePossessionAndTsa()
+        return await this.IsTdTInsideAnyIp(IPs, data.TdT);
+    }
+
+    private async IsTdTInsideAnyIp(IPs: number[], TdT: string) {
         for (var x = 0; x < IPs.length; x++)
             if ((await this.ipInfo.readTdTByIp(IPs[x])).find(x => TdT === x))
                 return true;

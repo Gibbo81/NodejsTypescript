@@ -1,9 +1,10 @@
 import { BrokenTdTAlreadyInsideIp } from "../../businesslogic/plannedCheck/BrokenTdTAlreadyInsideIp";
 import { IReadInfrastructionProvision } from "../../businesslogic/plugIn/IReadInfrastructionProvision";
+import { LoggerMock } from "../utility/LoggerMock";
 
 test('TdT is not in an active Ip, the check return false', async () => {    
     var reader = new IReadInfrastructionProvisionMock([10, 66], [['a','b'],['c','d', 'e']])
-    var check = new BrokenTdTAlreadyInsideIp(reader)
+    var check = new BrokenTdTAlreadyInsideIp(reader, new LoggerMock())
 
     var result = await check.isAlreadyPlanned({TdT: 'z'})
 
@@ -17,7 +18,7 @@ test('TdT is not in an active Ip, the check return false', async () => {
 test('TdT is inside the first IP, the check return true', async () => {    
     var TdT = 'z'
     var reader = new IReadInfrastructionProvisionMock([10, 66], [['a',TdT],['c','d', 'e']])
-    var check = new BrokenTdTAlreadyInsideIp(reader)
+    var check = new BrokenTdTAlreadyInsideIp(reader, new LoggerMock())
 
     var result = await check.isAlreadyPlanned({TdT})
 
@@ -25,6 +26,23 @@ test('TdT is inside the first IP, the check return true', async () => {
     expect(reader.readIP).toBe(true)
     expect(reader.readTdTCount).toBe(1)    
     expect(reader.readTdTParameters[0]).toBe(10)
+})
+
+test('TdT information is missing, the check throws an exception', async () => {    
+    var TdT = 'z'
+    var reader = new IReadInfrastructionProvisionMock([10, 66], [['a',TdT],['c','d', 'e']])
+    var check = new BrokenTdTAlreadyInsideIp(reader, new LoggerMock())
+
+    try{
+        await check.isAlreadyPlanned({})
+        expect(2).toBe(1)
+    }
+    catch(e){
+        expect(e.message).toBe('BrokenTdTAlreadyInsideIp check: missing TdT value')
+        expect(e).toBeInstanceOf(Error)
+        expect(reader.readIP).toBe(false)
+        expect(reader.readTdTCount).toBe(0)    
+    }
 })
 
 class  IReadInfrastructionProvisionMock implements IReadInfrastructionProvision{
