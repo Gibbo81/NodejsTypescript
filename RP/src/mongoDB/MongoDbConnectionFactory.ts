@@ -1,10 +1,5 @@
 import { MongoClient } from 'mongodb'
 
-//import fs from "mongodb";
-//const MongoClient = mongodb.MongoClient
-
-const connectionURL = 'mongodb://localhost:27017'
-
 export abstract class MongoDbConnectionFactory{
     constructor(private url:string){}
 
@@ -13,6 +8,12 @@ export abstract class MongoDbConnectionFactory{
         await client.connect();
         return client
     }    
+
+    protected getCollections(connection, dbName: string, collectionName: string) {
+        const db = connection.db(dbName);
+        const collection = db.collection(collectionName);
+        return collection;
+    }
 
     protected  closeConnection = async (con:MongoClient): Promise<void>=> {
         await con.close()

@@ -4,13 +4,21 @@ import { CreateRemediPlan } from "./businesslogic/conditions/CreateRemedyPlan";
 import { Logger } from "./utility/Logger";
 import { ConditionFactory } from "./service/ConditionFactory";
 import { CreateAreaWithIFMO } from "./api/CreateArea";
+import { ReadRPInformationFromMongo } from "./mongoDB/ReadRPInformationFromMongo";
 
 //Fast debug: ts-node ./src/index.ts from javascript debug terminal
 const connectionURL = 'mongodb://localhost:27017'
 
 //loadConfigurations();
-tryInsertRP()
+//tryInsertRP()
 //readAllRemedyPlanFromMongo()
+ReadRPAreas()
+
+function ReadRPAreas(){
+    var r = new ReadRPInformationFromMongo(connectionURL, new Logger())
+    r.readRPsAreaByStates(['created','completed'])
+     .then(x=>console.log(`Areas : ${JSON.stringify(x)}`) )
+}
 
 function loadConfigurations() {
     var reader = new ConfigurationReader('./configurations/', new ConditionFactory(connectionURL), new Logger());

@@ -15,8 +15,7 @@ export class CreateRemedyPlanDB extends MongoDbConnectionFactory implements ISav
 
     async insert(rp:RemedyPlanDTO) : Promise<string> {
         var connection= await this.createConnection()
-        const db = connection.db(this.dbName); 
-        const collection = db.collection(this.collectionName)
+        const collection = this.getCollections(connection, this.dbName, this.collectionName);        
         var result = await collection.insertOne(new RemedyPlanForMongoInsert(rp.owner, rp.status, rp.priority, rp.divergences))
         await connection.close()
         return result.insertedId as unknown as string
@@ -24,8 +23,7 @@ export class CreateRemedyPlanDB extends MongoDbConnectionFactory implements ISav
 
     async readAll() : Promise<RemedyPlanDTO[]> {
         var connection= await this.createConnection()
-        const db = connection.db(this.dbName); 
-        const collection = db.collection(this.collectionName)
+        const collection = this.getCollections(connection, this.dbName, this.collectionName);        
         var result = await collection.find({}).toArray()
         await connection.close()
         return result.map(rp => {return {
