@@ -1,7 +1,7 @@
 import { IPlanned } from "./IPlanned";
 import { ILogger } from "../plugIn/Ilogger";
 import { IReadRemedyPlan } from "../plugIn/IReadRemedy";
-import { ITdT } from "../plugIn/ITdT"; //Missing implementations
+import { ITdT } from "../plugIn/ITdT"; 
 
 export class BrokenTdTAlreadyInsideARemedyPlan implements IPlanned{
     private readonly valideStates : string[] = ['Operational','Assigned', 'Milestone Missed']

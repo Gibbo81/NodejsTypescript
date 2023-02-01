@@ -6,7 +6,7 @@ export class ConfigurationDTO{
     public ClosingAction:ClosingAction[]
 }
 
-class UnplannedChecks {
+export class UnplannedChecks {
     public Name: string 
 }
 

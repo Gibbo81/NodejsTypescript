@@ -7,8 +7,11 @@
 	],
 	"Unplanned_checks":[
 		{
-			"Name": "AlreadyPresent"
-		}	
+			"Name": "BrokenTdTAlreadyInsideARemedyPlan"
+		},
+		{
+			"Name": "BrokenTdTAlreadyInsideIp"
+		}
 	],
 	"Conditions":[
 		{
