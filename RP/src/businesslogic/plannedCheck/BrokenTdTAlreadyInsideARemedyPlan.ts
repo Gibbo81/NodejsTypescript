@@ -30,10 +30,9 @@ export class BrokenTdTAlreadyInsideARemedyPlan implements IPlanned{
         return this.returnAndLog(false, data.TdT)
     }
 
-
     private returnAndLog(result: boolean, TdT: string) {
-        this.logger.logDebug(`BrokenTdTAlreadyInsideARemedyPlan check with parameters: ${TdT} return ${TdT}`);
-        return true;
+        this.logger.logDebug(`BrokenTdTAlreadyInsideARemedyPlan check with parameters: ${TdT} return ${result}`);
+        return result;
     }
 
     private async isTdTinsideArea(area: number, TdT: string):Promise<boolean> {
@@ -41,7 +40,7 @@ export class BrokenTdTAlreadyInsideARemedyPlan implements IPlanned{
     }
 
     private checkParameters(data: { [key: string]: string; }) {
-        if (data.TdT)
+        if (!data.TdT)
             throw new Error(`BrokenTdTAlreadyInsideARemedyPlan missing TdT informations: ${JSON.stringify(data)} `);
     }
 }
