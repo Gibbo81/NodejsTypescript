@@ -30,7 +30,7 @@ export class PlannedCheckFactory {
                 return new BrokenTdTAlreadyInsideIp(new IFMOinteractions_FAKE(logger), logger)
             }
             default:{
-                throw new Error('invalid')
+                throw new Error(`invalid UnplannedChecks: ${data.Name}`)
             }
         }
     }
