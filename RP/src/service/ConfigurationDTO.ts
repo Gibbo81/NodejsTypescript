@@ -11,7 +11,8 @@ export class UnplannedChecks {
 }
 
 class TriggerDTO {
-    public Name: string 
+    public Name: string
+    public Priority: number 
 }
 
 export class Condition {

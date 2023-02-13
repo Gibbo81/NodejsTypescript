@@ -4,6 +4,7 @@ import { CreateRemediPlan } from "../businesslogic/conditions/CreateRemedyPlan";
 import { CreateRemedyPlanDB } from "../mongoDB/CreateRemedyPlanDB";
 import { Logger } from "../utility/Logger";
 import { CreateAreaWithIFMO } from "../api/CreateArea";
+import { OwnerFromGlf_FAKE } from "../api/OwnerFromGlf_FAKE";
 
 enum ConditionTypes {
     CreateRemedyPlan = 'CreateRemedyPlan',
@@ -26,7 +27,8 @@ export class ConditionFactory {
                 return new CreateRemediPlan(data.Status, 
                                             new CreateRemedyPlanDB(this.dbConnectionString), 
                                             new CreateAreaWithIFMO(),
-                                            new Logger());
+                                            new Logger(),
+                                            new OwnerFromGlf_FAKE());
             }
             case ConditionTypes.fake1.toString():{
                 throw new Error('invalid')

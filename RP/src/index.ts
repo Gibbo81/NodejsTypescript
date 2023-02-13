@@ -5,14 +5,16 @@ import { Logger } from "./utility/Logger";
 import { ConditionFactory } from "./service/ConditionFactory";
 import { CreateAreaWithIFMO } from "./api/CreateArea";
 import { ReadRPInformationFromMongo } from "./mongoDB/ReadRPInformationFromMongo";
+import { PlannedCheckFactory } from "./service/PlannedCheckFactory";
+import { OwnerFromGlf_FAKE } from "./api/OwnerFromGlf_FAKE";
 
 //Fast debug: ts-node ./src/index.ts from javascript debug terminal
 const connectionURL = 'mongodb://localhost:27017'
 
-//loadConfigurations();
+loadConfigurations();
 //tryInsertRP()
 //readAllRemedyPlanFromMongo()
-ReadRPAreas()
+//ReadRPAreas()
 
 function ReadRPAreas(){
     var r = new ReadRPInformationFromMongo(connectionURL, new Logger())
@@ -21,22 +23,28 @@ function ReadRPAreas(){
 }
 
 function loadConfigurations() {
-    var reader = new ConfigurationReader('./configurations/', new ConditionFactory(connectionURL), new Logger());
+    var reader = new ConfigurationReader('./configurations/', 
+                                         new ConditionFactory(connectionURL), 
+                                         new PlannedCheckFactory(connectionURL),
+                                         new Logger());
     reader.load()
-          .then(x => console.log(x));
+          .then(x => 
+            console.log(x));
 }
 
 function readAllRemedyPlanFromMongo(){
     var writer = new CreateRemedyPlanDB(connectionURL);
     writer.readAll()
-    .then(x => console.log(x))
+    .then(x => 
+        console.log(x))
 }
 
 function tryInsertRP() {
     var writer = new CreateRemedyPlanDB(connectionURL);
     var logger = new Logger()
     var areaCreator = new CreateAreaWithIFMO();
-    var creator = new CreateRemediPlan('created', writer, areaCreator, logger)
+    var owner = new OwnerFromGlf_FAKE()
+    var creator = new CreateRemediPlan('created', writer, areaCreator, logger, owner)
 
     creator.execute({
         trigger: 'qui-quo-qua',  

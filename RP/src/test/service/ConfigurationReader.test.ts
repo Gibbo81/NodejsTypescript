@@ -2,7 +2,7 @@ import fs from "fs/promises";
 import { ConditionFactory } from "../../service/ConditionFactory";
 import { ConfigurationReader } from "../../service/ConfigurationReader";
 import { LoggerMock } from "../utility/LoggerMock";
-
+import { PlannedCheckFactory } from "../../service/PlannedCheckFactory";
 
 test('Two Json files present -> two remedy plan loaded', async () => {    
     jest.mock("fs/promises");
@@ -12,7 +12,7 @@ test('Two Json files present -> two remedy plan loaded', async () => {
     readFileMock.mockResolvedValueOnce(GetRemedyPlan2())
     fs.readFile =readFileMock
     var folder ="pippusFolder/"
-    var reader = new ConfigurationReader(folder, new ConditionFactory(''), new LoggerMock())
+    var reader = new ConfigurationReader(folder, new ConditionFactory(''), new PlannedCheckFactory(''), new LoggerMock())
 
     var result = await reader.load()
 
@@ -33,7 +33,7 @@ test('One invalid JsonFile "missing trigger" -> ThrowException', async () => {
     readFileMock.mockResolvedValueOnce(GetBrokenRemedyMisingTriggers())
     fs.readFile =readFileMock
     var folder ="pippusFolder/"
-    var reader = new ConfigurationReader(folder, new ConditionFactory(''), new LoggerMock())
+    var reader = new ConfigurationReader(folder, new ConditionFactory(''), new PlannedCheckFactory(''), new LoggerMock())
 
     try{
         await reader.load()
@@ -52,7 +52,7 @@ test('One invalid JsonFile "broken condition" -> ThrowException', async () => {
     readFileMock.mockResolvedValueOnce(GetRemedyPlanWithBrokenCreateRemedyPlanCondiution())
     fs.readFile =readFileMock
     var folder ="pippusFolder/"
-    var reader = new ConfigurationReader(folder, new ConditionFactory(''), new LoggerMock())
+    var reader = new ConfigurationReader(folder, new ConditionFactory(''), new PlannedCheckFactory(''), new LoggerMock())
 
     try{
         await reader.load()
@@ -71,7 +71,7 @@ test('No JsonFile inside the folder -> ThrowException', async () => {
     readFileMock.mockResolvedValueOnce(GetBrokenRemedyMisingTriggers())
     fs.readFile =readFileMock
     var folder ="pippusFolder/"
-    var reader = new ConfigurationReader(folder, new ConditionFactory(''), new LoggerMock())
+    var reader = new ConfigurationReader(folder, new ConditionFactory(''), new PlannedCheckFactory(''), new LoggerMock())
 
     try{
         await reader.load()
@@ -88,7 +88,7 @@ function GetBrokenRemedyMisingTriggers():string{
         "Name" : "Remedy_pluto",
         "Unplanned_checks":[
             {
-                "name": "AlreadyPresent"
+                "Name": "BrokenTdTAlreadyInsideARemedyPlan"
             }	
         ],
         "Conditions":[
@@ -106,12 +106,13 @@ function GetRemedyPlan1():string{
         "Name" : "Remedy_pippo",
         "Triggers":[
             {
-                "name": "API_POST_input1"
+                "name": "API_POST_input1",
+                "Priority" : 10
             }
         ],
         "Unplanned_checks":[
             {
-                "name": "AlreadyPresent"
+                "Name": "BrokenTdTAlreadyInsideARemedyPlan"
             }	
         ],
         "Conditions":[
@@ -129,12 +130,17 @@ function GetRemedyPlan2():string{
         "Name" : "Remedy_pluto",
         "Triggers":[
             {
-                "name": "API_POST_input1"
+                "name": "API_POST_input1",
+                "Priority" : 23
+            },
+            {
+                "name": "API_POST_input2",
+                "Priority" : 239
             }
         ],
         "Unplanned_checks":[
             {
-                "name": "AlreadyPresent"
+                "Name": "BrokenTdTAlreadyInsideARemedyPlan"
             }	
         ],
         "Conditions":[
@@ -157,7 +163,7 @@ function GetRemedyPlanWithBrokenCreateRemedyPlanCondiution():string{
         ],
         "Unplanned_checks":[
             {
-                "name": "AlreadyPresent"
+                "Name": "BrokenTdTAlreadyInsideARemedyPlan"
             }	
         ],
         "Conditions":[

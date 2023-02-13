@@ -57,6 +57,7 @@ class RemedyPlanForMongoInsert{
 
 class rootcauseForMongoInsert{
     type: string
+    triggerName : string
     id : string
     detectionTime: string
     status: string
@@ -66,6 +67,7 @@ class rootcauseForMongoInsert{
 
     constructor(divergence: rootcause){
         this.type = divergence.type
+        this.triggerName = divergence.triggerName
         this.id = divergence.id
         this.detectionTime = divergence.detectionTime
         this.status = divergence.status

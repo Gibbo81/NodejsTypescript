@@ -12,6 +12,7 @@ export class RemedyPlanDTO{
 
 export class rootcause{
     type: string
+    triggerName : string
     id : string
     detectionTime: string
     status: string

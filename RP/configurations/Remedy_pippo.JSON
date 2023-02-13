@@ -2,7 +2,12 @@
 	"Name" : "Remedy_pippo",
 	"Triggers":[
 		{
-			"Name": "API_POST_input1"
+			"Name": "API_POST_input1",
+			"Priority" : 10
+		},
+		{
+			"Name": "API_POST_input2",
+			"Priority" : 2
 		}
 	],
 	"Unplanned_checks":[

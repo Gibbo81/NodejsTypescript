@@ -3,11 +3,14 @@ import fs from "fs/promises";
 import { ConfigurationDTO } from "./ConfigurationDTO";
 import { ConditionFactory } from "./ConditionFactory";
 import { ILogger } from "../businesslogic/plugIn/Ilogger";
+import { PlannedCheckFactory } from "./PlannedCheckFactory";
+import { trigger } from "../businesslogic/RemedyPlan";
 
 export class ConfigurationReader{
 
     constructor(private folderPath: string, 
                 private conditionFactory: ConditionFactory,
+                private plannedCheckFactory : PlannedCheckFactory,
                 private logger : ILogger){}
 
     async load() : Promise<RemedyPlan[]>{
@@ -42,7 +45,12 @@ export class ConfigurationReader{
         if (!dto.ClosingAction)
             dto.ClosingAction =[]
         var conditions = this.conditionFactory.create(dto)
-        return new RemedyPlan(dto.Name, dto.Triggers.map(x => x.Name), [], conditions, this.logger) //TODO: add real checks
+        var plannedCheck = this.plannedCheckFactory.create(dto)
+        return new RemedyPlan(dto.Name, 
+                             dto.Triggers.map(x => new trigger(x.Name, x.Priority)), 
+                             plannedCheck, 
+                             conditions, 
+                             this.logger) 
     }
 
     private isFileJson = (filename: string): boolean =>

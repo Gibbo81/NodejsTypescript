@@ -13,10 +13,14 @@ export interface invocationResult{
     parameters :{[key:string] : string} ;
  }
 
+export class trigger {
+    constructor(public name:string, public priority:number){}    
+}
+
 export class RemedyPlan{
 
     constructor(public name: string, 
-                private triggers: string[],
+                private triggers: trigger[],
                 private unplannedChecks : IPlanned[], 
                 private conditions : Iaction[],
                 private logger : ILogger ){}
@@ -33,7 +37,7 @@ export class RemedyPlan{
 
     async tryInvoke(input: executeParameters): Promise<invocationResult>{
         this.logger.logDebug(`Start invokation of Remedy plan ${this.name} with trigger: ${input.trigger}`)
-        if (this.isTriggered(input.trigger) && await this.isNotAlreadyPlanned(input.parameters))
+        if (this.isTriggered(input) && await this.isNotAlreadyPlanned(input.parameters))
             return await this.execute(input)
         return this.createEmptyResult()  
     }
@@ -52,9 +56,12 @@ export class RemedyPlan{
         return result;
     }
 
-    private isTriggered(input: string):boolean{
-        if(this.triggers.find(t => t===input))
+    private isTriggered(input: executeParameters):boolean{
+        var t =this.triggers.find(t => t.name===input.trigger)
+        if (t){
+            input.parameters.priority = t.priority.toString()
             return true
+        }
         return false
     }
 

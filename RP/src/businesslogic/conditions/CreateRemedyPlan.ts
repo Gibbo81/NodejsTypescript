@@ -5,16 +5,18 @@ import { ILogger } from "../plugIn/Ilogger";
 import { executeParameters } from "../RemedyPlan"
 import { Guid } from "guid-typescript";
 import { ICreateArea } from "../plugIn/ICreateArea";
+import { IOwners } from "../plugIn/IOwners";
 
 export class CreateRemediPlan implements Iaction{    
     
     constructor(private creationStatus: string, 
                 private saver: ISaveNewRemedy,
                 private area : ICreateArea, 
-                private logger: ILogger){}
+                private logger: ILogger,
+                private owner : IOwners){}
 
     async execute(data : executeParameters): Promise<{[key:string] : string}> {
-        this.checkData(data)
+        await this.checkData(data)
         var areaId = await this.area.createArea(data.trigger)
         var rp = await this.createremedyDto(data, areaId);
         var id = await this.saver.insert(rp)
@@ -38,15 +40,16 @@ export class CreateRemediPlan implements Iaction{
         rc.status = 'detected'
         rc.areaId = areaId
         rc.type = data.divergenceType
+        rc.triggerName = data.trigger
         rc.hidden = false
         rc.primary = true
         return rc
     }
 
-    private checkData(data : executeParameters){
+    private async checkData(data : executeParameters){
         var errors : string[] = [] //toDO: I'm not sure this information are inside data and note read from external source
         if(!data.parameters.owner)
-            errors.push(`Missing owner: ${JSON.stringify(data)}`)
+            data.parameters.owner = await this.owner.getOwner(data.trigger)
         if(!data.parameters.priority)
             errors.push(`Missing priority: ${JSON.stringify(data)}`)
         if(errors.length>0){

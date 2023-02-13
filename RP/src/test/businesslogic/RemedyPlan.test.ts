@@ -2,6 +2,7 @@ import { RemedyPlan, executeParameters } from "../../businesslogic/RemedyPlan";
 import { LoggerMock } from "../utility/LoggerMock";
 import { Iaction } from "../../businesslogic/conditions/Iaction";
 import { IPlanned } from "../../businesslogic/plannedCheck/IPlanned";
+import { trigger } from "../../businesslogic/RemedyPlan";
 
 test('Remedy plan does not respond to the trigger and returns an empty result', async () => {    
     var trigger ='trigger'
@@ -21,16 +22,16 @@ test('Remedy plan does not respond to the trigger and returns an empty result', 
 })
 
 test('Remedy plan responds to the trigger and returns the executed conditions', async () => {    
-    var trigger ='trigger'
+    var triggerPar ='trigger'
     var name = 'rp_name'
     var data : executeParameters = {
-        trigger : trigger,
+        trigger : triggerPar,
         divergenceType : "ooooooooiiiii",
         parameters :{}
     }
     var condition1 = new conditionMock(false, {'cond1':'done1'})
     var condition2 = new conditionMock(false, {'cond2':'done2'})
-    var rpUseTheTrigger= ['a', 'b', trigger, 'c']
+    var rpUseTheTrigger= [new trigger('a',10), new trigger('b',5), new trigger(triggerPar, 6), new trigger('c',44)]
     var rp = new RemedyPlan(name, rpUseTheTrigger, [], [condition1, condition2], new LoggerMock())
     
     var result = await rp.invoke(data)
@@ -47,16 +48,16 @@ test('Remedy plan responds to the trigger but it is already planned: actions ski
     var isplanned_1 = new isPlannedMock(false)
     var isplanned_2 = new isPlannedMock(true)
     var isplanned_3 = new isPlannedMock(false)
-    var trigger ='trigger'
+    var triggerPar ='trigger'
     var name = 'rp_name'
     var data : executeParameters = { 
-        trigger : trigger,
+        trigger : triggerPar,
         divergenceType : "ooooooooiiiii",
         parameters :{}
     }
     var condition1 = new conditionMock(false, {'cond1':'done1'})
     var condition2 = new conditionMock(false, {'cond2':'done2'})
-    var rpUseTheTrigger= ['a', 'b', trigger, 'c']
+    var rpUseTheTrigger= [new trigger('a',10), new trigger('b',5), new trigger(triggerPar, 6), new trigger('c',44)]
     var rp = new RemedyPlan(name, 
                             rpUseTheTrigger, 
                             [isplanned_1, isplanned_2, isplanned_3],
@@ -75,16 +76,16 @@ test('Remedy plan responds to the trigger but it is already planned: actions ski
 })
 
 test('A condiont fails, RP returns an exception', async () => {    
-    var trigger ='trigger'
+    var triggerPar ='trigger'
     var name = 'rp_name'
     var data : executeParameters = {
-        trigger : trigger,
+        trigger : triggerPar,
         divergenceType : "ooooooooiiiii",
         parameters :{}
     }
     var condition1 = new conditionMock(true, {'cond1':'done1'})
     var condition2 = new conditionMock(false, {'cond2':'done2'})
-    var rpUseTheTrigger= ['a', 'b', trigger, 'c']
+    var rpUseTheTrigger= [new trigger('a',10), new trigger('b',5), new trigger(triggerPar, 6), new trigger('c',44)]
     var rp = new RemedyPlan(name, rpUseTheTrigger, [], [condition1, condition2], new LoggerMock())
     
     try{
