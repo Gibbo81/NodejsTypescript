@@ -52,7 +52,7 @@ export class RemedyPlan{
     private async executeConditions(input: executeParameters) : Promise<invocationResult>{
         var result: invocationResult = this.createEmptyResult();
         for (var x = 0; x < this.conditions.length; x++)
-            result.conditions.push(await this.conditions[x].execute(input));
+            result.conditions.push(await this.conditions[x].execute(input, result));
         return result;
     }
 

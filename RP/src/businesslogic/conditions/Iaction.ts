@@ -1,5 +1,5 @@
-import { executeParameters } from "../RemedyPlan"
+import { executeParameters, invocationResult } from "../RemedyPlan"
 
 export interface Iaction{
-    execute(data : executeParameters) : Promise<{[key:string] : string}>
+    execute(data : executeParameters, previousActionsResults :invocationResult) : Promise<{[key:string] : string}>
 }

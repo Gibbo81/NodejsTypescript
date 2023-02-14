@@ -19,7 +19,7 @@ test('Create new ramedy plan', async () => {
             'status': 'totally fine',
             'priority' : '100'
         }        
-    })
+    }, getEmptyPreviousActionsResults())
 
     expect(result.id).toBe(returnedId)
     expect(saver.count).toBe(1)
@@ -41,7 +41,7 @@ test('Try to create new ramedy plan but there is an error', async () => {
                 'status': 'totally fine',
                 'priority' : '100'
             }        
-        })
+        }, getEmptyPreviousActionsResults())
         expect(1).toBe(2)
     }
     catch(e){
@@ -50,6 +50,12 @@ test('Try to create new ramedy plan but there is an error', async () => {
     }
 })
 
+function getEmptyPreviousActionsResults() {
+    return {
+        name: 'RemedyPlan_Pippo',
+        conditions: []
+    };
+}
 
 class ISaveNewRemedyMock implements ISaveNewRemedy{
     public count : number = 0
@@ -75,5 +81,4 @@ class OwnerMock implements IOwners{
         this.trigger=trigger
         return ''
     }
-
 }

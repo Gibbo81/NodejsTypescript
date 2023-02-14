@@ -15,7 +15,6 @@ const connectionURL = 'mongodb://localhost:27017'
 
 insertNewRemedyPlanInsideDB('API_POST_input1', 'Broken_TDT')
 //loadConfigurations();
-//tryInsertRP()
 //readAllRemedyPlanFromMongo()
 //ReadRPAreas()
 
@@ -54,19 +53,3 @@ function readAllRemedyPlanFromMongo(){
         console.log(x))
 }
 
-function tryInsertRP() {
-    var writer = new CreateRemedyPlanDB(connectionURL);
-    var logger = new Logger()
-    var areaCreator = new CreateAreaWithIFMO();
-    var owner = new OwnerFromGlf_FAKE()
-    var creator = new CreateRemediPlan('created', writer, areaCreator, logger, owner)
-
-    creator.execute({
-        trigger: 'qui-quo-qua',  
-        divergenceType : "ooooooooiiiii",      
-        parameters:{
-            'owner': 'pippus',
-            'priority' : '100'
-        }        
-    }).then(c => console.log(`SAVED!!! ${JSON.stringify(c)}`))
-}

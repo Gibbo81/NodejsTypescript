@@ -2,7 +2,7 @@ import { Iaction } from "./Iaction";
 import { ISaveNewRemedy } from "../plugIn/ISaveNewRemedy";
 import { RemedyPlanDTO, rootcause } from "../dto/RemedyPlanDTO";
 import { ILogger } from "../plugIn/Ilogger";
-import { executeParameters } from "../RemedyPlan"
+import { executeParameters, invocationResult } from "../RemedyPlan"
 import { Guid } from "guid-typescript";
 import { ICreateArea } from "../plugIn/ICreateArea";
 import { IOwners } from "../plugIn/IOwners";
@@ -15,13 +15,13 @@ export class CreateRemediPlan implements Iaction{
                 private logger: ILogger,
                 private owner : IOwners){}
 
-    async execute(data : executeParameters): Promise<{[key:string] : string}> {
+    async execute(data : executeParameters, previousActions :invocationResult): Promise<{[key:string] : string}> {
         await this.checkData(data)
         var areaId = await this.area.createArea(data.trigger)
         var rp = await this.createremedyDto(data, areaId);
         var id = await this.saver.insert(rp)
         this.logger.logDebug(`Created remedy plan with id: ${id}`)
-        return {id};
+        return {id, 'areaId' : areaId.toString(), 'actionName': 'CreateRemediPlan'};
     }
 
     private async createremedyDto(data: executeParameters, areaId : number): Promise<RemedyPlanDTO> {
