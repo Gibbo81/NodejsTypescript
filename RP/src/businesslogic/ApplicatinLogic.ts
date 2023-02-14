@@ -1,5 +1,9 @@
 import { RemedyPlan, invocationResult, executeParameters } from "./RemedyPlan";
 
+enum divergenceTypes {
+    Broken_TDT = 'Broken_TDT'
+}
+
 export class ApplicatinLogic{
     constructor(private remedyplans: RemedyPlan[]){}
 
@@ -10,9 +14,15 @@ export class ApplicatinLogic{
             divergenceType: divergenceType,
             parameters :{}
         }
+        this.enrichParameters(divergenceType, data, triggerName);
         this.remedyplans.forEach(async rp => result.push(await rp.invoke(data)))
     }
 
 
 
+
+    private enrichParameters(divergenceType: string, data: executeParameters, triggerName: string) {
+        if (divergenceType === divergenceTypes.Broken_TDT.toString())
+            data.parameters.TdT = triggerName;
+    }
 }

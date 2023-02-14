@@ -7,11 +7,14 @@ import { CreateAreaWithIFMO } from "./api/CreateArea";
 import { ReadRPInformationFromMongo } from "./mongoDB/ReadRPInformationFromMongo";
 import { PlannedCheckFactory } from "./service/PlannedCheckFactory";
 import { OwnerFromGlf_FAKE } from "./api/OwnerFromGlf_FAKE";
+import { ApplicatinLogic } from "./businesslogic/ApplicatinLogic";
+
 
 //Fast debug: ts-node ./src/index.ts from javascript debug terminal
 const connectionURL = 'mongodb://localhost:27017'
 
-loadConfigurations();
+insertNewRemedyPlanInsideDB('API_POST_input1', 'Broken_TDT')
+//loadConfigurations();
 //tryInsertRP()
 //readAllRemedyPlanFromMongo()
 //ReadRPAreas()
@@ -30,6 +33,18 @@ function loadConfigurations() {
     reader.load()
           .then(x => 
             console.log(x));
+}
+
+function insertNewRemedyPlanInsideDB(triggerName: string, divergenceType: string) {
+    var reader = new ConfigurationReader('./configurations/', 
+                                         new ConditionFactory(connectionURL), 
+                                         new PlannedCheckFactory(connectionURL),
+                                         new Logger());
+    reader.load()
+          .then(x => {
+                var app = new ApplicatinLogic(x)
+                app.externalTrigger(triggerName, divergenceType)
+          });
 }
 
 function readAllRemedyPlanFromMongo(){
