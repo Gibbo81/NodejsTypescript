@@ -3,5 +3,5 @@ export interface IInfrastructureProvision{
              topologyId:number, 
              areaId: number,
              startTime : Date,
-             endTime: Date): number
+             endTime: Date): Promise<number>
 }

@@ -22,6 +22,12 @@
 		{
 			"Name": "CreateRemedyPlan",
 			"Status": "Just-Created"
+		},
+		{
+			"Name": "CreateInfrastructureProvision",
+			"KindId": 7,
+			"TopologyId": 1,
+			"Duration": 7
 		}
 	],
 	"ClosingAction"	:[]

@@ -74,7 +74,7 @@ class IInfrastructureProvisionMock implements IInfrastructureProvision{
     public kindId:number
     public topologyId:number
 
-    createIP(kindId: number, topologyId: number, areaId: number, startTime: Date, endTime: Date): number {
+    async createIP(kindId: number, topologyId: number, areaId: number, startTime: Date, endTime: Date): Promise<number> {
         this.topologyId=topologyId
         this.kindId=kindId
         return this.IPId
