@@ -1,6 +1,6 @@
 import { ConditionFactory } from "../../service/ConditionFactory";
 import { Condition, ConfigurationDTO } from "../../service/ConfigurationDTO";
-import { CreateCondition_IP } from "../../businesslogic/conditions/CreateCondition_IP";
+import { CreateCondition_IP_FixedDuretion } from "../../businesslogic/conditions/CreateCondition_IP_FixedDuretion";
 import { CreateRemediPlan } from "../../businesslogic/conditions/CreateRemedyPlan";
 
 
@@ -18,7 +18,7 @@ test('Single condition of type CreateCondition_IP', async () => {
     var result = factory.create(configuration)
 
     expect(result.length).toBe(1)
-    expect(result[0]).toBeInstanceOf(CreateCondition_IP)
+    expect(result[0]).toBeInstanceOf(CreateCondition_IP_FixedDuretion)
 })
 
 test('Single condition of type CreateRemediPlan', async () => {    
@@ -54,7 +54,7 @@ test('Two conditions one of type CreateRemediPlan and one of type CreateInfrastr
 
     expect(result.length).toBe(2)
     expect(result[0]).toBeInstanceOf(CreateRemediPlan)
-    expect(result[1]).toBeInstanceOf(CreateCondition_IP)
+    expect(result[1]).toBeInstanceOf(CreateCondition_IP_FixedDuretion)
 })
 
 test('Two conditions one of type CreateRemediPlan and one of type CreateRemediPlan', async () => {    
@@ -76,7 +76,7 @@ test('Two conditions one of type CreateRemediPlan and one of type CreateRemediPl
 
     expect(result.length).toBe(2)
     expect(result[0]).toBeInstanceOf(CreateRemediPlan)
-    expect(result[1]).toBeInstanceOf(CreateCondition_IP)
+    expect(result[1]).toBeInstanceOf(CreateCondition_IP_FixedDuretion)
 })
 
 test('Single condition of type CreateCondition_IP but duration and KindId are missing, factory throws exception', async () => {    

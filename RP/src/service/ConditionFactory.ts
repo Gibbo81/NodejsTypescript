@@ -5,7 +5,7 @@ import { CreateRemedyPlanDB } from "../mongoDB/CreateRemedyPlanDB";
 import { Logger } from "../utility/Logger";
 import { CreateAreaWithIFMO } from "../api/CreateArea";
 import { OwnerFromGlf_FAKE } from "../api/OwnerFromGlf_FAKE";
-import { CreateCondition_IP } from "../businesslogic/conditions/CreateCondition_IP";
+import { CreateCondition_IP_FixedDuretion } from "../businesslogic/conditions/CreateCondition_IP_FixedDuretion";
 import { IFMOinteractions_FAKE } from "../api/IFMOinteractions_FAKE";
 import { UpdateRemediPlanOnMongo } from "../mongoDB/UpdateRemediPlanOnMongo";
 
@@ -35,7 +35,7 @@ export class ConditionFactory {
             case ConditionTypes.CreateInfrastructureProvision.toString():{
                 this.checkDataForCreateInfrastructureProvision(data)
                 if (data.DeterminedDuration === true)
-                    return new CreateCondition_IP(data.KindId, 
+                    return new CreateCondition_IP_FixedDuretion(data.KindId, 
                                                   data.TopologyId, 
                                                   data.Duration, 
                                                   new Logger(), 

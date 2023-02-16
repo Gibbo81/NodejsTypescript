@@ -1,4 +1,4 @@
-import { remedyPlanConditionDTO } from "../businesslogic/conditions/CreateCondition_IP";
+import { remedyPlanConditionDTO } from "../businesslogic/conditions/CreateCondition_IPBase";
 import { IUpdateRemedyPlanCondition } from "../businesslogic/plugIn/IUpdateRemedyPlanCondition";
 import { MongoDbConnectionFactory } from "./MongoDbConnectionFactory";
 const mongodb = require('mongodb')

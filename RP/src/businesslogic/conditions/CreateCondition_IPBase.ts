@@ -4,10 +4,10 @@ import { IInfrastructureProvision } from "../plugIn/IInfrastructureProvision";
 import { ILogger } from "../plugIn/Ilogger";
 import { IUpdateRemedyPlanCondition } from "../plugIn/IUpdateRemedyPlanCondition";
 
-export class CreateCondition_IP implements Iaction{
+export abstract class CreateCondition_IPBase implements Iaction{
+    protected abstract get conditionUndetermined() : boolean;
+    protected abstract PostCreationOperations(ipId: number) : Promise<void>;
     private readonly previousActionRequired ='CreateRemediPlan'
-
-    //TODO:  specialized class for undetermined ip duration
 
     constructor(private kindId: number, 
                 private topologyId: number,
@@ -19,8 +19,8 @@ export class CreateCondition_IP implements Iaction{
     private readonly determinedConditionDuration: true                
     private get durationInMillisecond(): number {
         return this.duration * 1000;
-      }
-    
+    }
+
     async execute(data : executeParameters, previousActions :invocationResult): Promise<{[key:string] : string}> {
         this.logger.logDebug(`Start infrastructure provision creation with data: ${JSON.stringify(data)} and previous actions ${JSON.stringify(previousActions)}`)
         var remedyplanInfo = this.checkData(previousActions);
@@ -38,11 +38,12 @@ export class CreateCondition_IP implements Iaction{
             startingTime : startingTime,
             endTime : endTime,
             duration : this.duration,
-            conditionUndetermined: false,
+            conditionUndetermined: this.conditionUndetermined,
             areaId : remedyplanInfo.areaId,
             remedyplanKey : remedyplanInfo.id
         })
         this.logger.logDebug(`Update RemedyPlan ${remedyplanInfo.id} with new infrastructure provision id: ${IPId}`)
+        await this.PostCreationOperations(IPId)
         return {'actionName': 'CreateCondition_IP', 'id' : IPId.toString()};
     }
 
