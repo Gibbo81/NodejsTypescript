@@ -43,7 +43,7 @@ export class ConditionFactory {
 
     private checkDataForCreateRemedyPlan(data: Condition) {
         if (!data.Status)
-            throw new Error('Status is null for condition CreateRemedyPlan');
+            throw new Error(`Status is null for condition CreateRemedyPlan - configuration data: ${JSON.stringify(data)}`);
     }
 
     private checkDataForCreateInfrastructureProvision(data: Condition) {
@@ -55,6 +55,6 @@ export class ConditionFactory {
         if (!data.TopologyId)
             errors.push(`KindId is null for condition CreateInfrastructureProvision`)
         if(errors.length>0)
-            throw new Error(`CConditionFactory invalid data ${JSON.stringify(errors)} - configuration data ${JSON.stringify(errors)}` )
+            throw new Error(`ConditionFactory invalid data ${JSON.stringify(errors)} - configuration data: ${JSON.stringify(data)}` )
     }
 }

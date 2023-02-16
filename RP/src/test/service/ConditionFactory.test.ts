@@ -4,7 +4,7 @@ import { CreateCondition_IP } from "../../businesslogic/conditions/CreateConditi
 import { CreateRemediPlan } from "../../businesslogic/conditions/CreateRemedyPlan";
 
 
-test('single condition of type CreateCondition_IP', async () => {    
+test('Single condition of type CreateCondition_IP', async () => {    
     var configuration = getEmptyConfiguration()
     var condition = new Condition()
     condition.Name = 'CreateInfrastructureProvision'
@@ -20,7 +20,7 @@ test('single condition of type CreateCondition_IP', async () => {
     expect(result[0]).toBeInstanceOf(CreateCondition_IP)
 })
 
-test('single condition of type CreateRemediPlan', async () => {    
+test('Single condition of type CreateRemediPlan', async () => {    
     var configuration = getEmptyConfiguration()
     var condition = new Condition()
     condition.Name = 'CreateRemedyPlan'
@@ -34,7 +34,7 @@ test('single condition of type CreateRemediPlan', async () => {
     expect(result[0]).toBeInstanceOf(CreateRemediPlan)
 })
 
-test('two conditions one of type CreateRemediPlan and one of type CreateRemediPlan', async () => {    
+test('Two conditions one of type CreateRemediPlan and one of type CreateRemediPlan', async () => {    
     var configuration = getEmptyConfiguration()
     var condition1 = new Condition()
     condition1.Name = 'CreateRemedyPlan'
@@ -55,7 +55,7 @@ test('two conditions one of type CreateRemediPlan and one of type CreateRemediPl
     expect(result[1]).toBeInstanceOf(CreateCondition_IP)
 })
 
-test('two conditions one of type CreateRemediPlan and one of type CreateRemediPlan', async () => {    
+test('Two conditions one of type CreateRemediPlan and one of type CreateRemediPlan', async () => {    
     var configuration = getEmptyConfiguration()
     var condition1 = new Condition()
     condition1.Name = 'CreateRemedyPlan'
@@ -76,9 +76,39 @@ test('two conditions one of type CreateRemediPlan and one of type CreateRemediPl
     expect(result[1]).toBeInstanceOf(CreateCondition_IP)
 })
 
-test('single condition of type CreateCondition_IP but duration is missing, factory throws exception', async () => {    
+test('Single condition of type CreateCondition_IP but duration and KindId are missing, factory throws exception', async () => {    
+    var configuration = getEmptyConfiguration()
+    var condition = new Condition()
+    condition.Name = 'CreateInfrastructureProvision'
+    condition.TopologyId = 9
+    configuration.Conditions.push(condition)
+    var factory = new ConditionFactory('')
 
-    expect(1).toBe(2)
+    try{
+        factory.create(configuration)
+        expect(1).toBe(2)
+    }
+    catch(e){
+        expect(e.message).toBe('ConditionFactory invalid data ["Duration is null for condition CreateInfrastructureProvision","KindId is null for condition CreateInfrastructureProvision"] - configuration data: {"Name":"CreateInfrastructureProvision","TopologyId":9}')
+        expect(e).toBeInstanceOf(Error)
+    }
+})
+
+test('Single condition of type CreateRemedyPlan but status is missing, factory throws exception', async () => {    
+    var configuration = getEmptyConfiguration()
+    var condition = new Condition()
+    condition.Name = 'CreateRemedyPlan'
+    configuration.Conditions.push(condition)
+    var factory = new ConditionFactory('')
+
+    try{
+        factory.create(configuration)
+        expect(1).toBe(2)
+    }
+    catch(e){
+        expect(e.message).toBe('Status is null for condition CreateRemedyPlan - configuration data: {"Name":"CreateRemedyPlan"}')
+        expect(e).toBeInstanceOf(Error)
+    }
 })
 
 

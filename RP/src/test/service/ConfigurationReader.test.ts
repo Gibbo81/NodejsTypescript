@@ -59,7 +59,7 @@ test('One invalid JsonFile "broken condition" -> ThrowException', async () => {
         expect(1).toBe(2)
     }
     catch(e){
-        expect(e.message).toBe('Status is null for condition CreateRemedyPlan')
+        expect(e.message).toBe('Status is null for condition CreateRemedyPlan - configuration data: {\"Name\":\"CreateRemedyPlan\"}')
         expect(e).toBeInstanceOf(Error)
     }
 })
@@ -119,6 +119,12 @@ function GetRemedyPlan1():string{
             {
                 "Name": "CreateRemedyPlan",
                 "Status": "Just-Created"
+            },
+            {
+                "Name": "CreateInfrastructureProvision",
+                "KindId": 7,
+                "TopologyId": 1,
+                "Duration": 7
             }
         ],
         "ClosingAction"	:[]
