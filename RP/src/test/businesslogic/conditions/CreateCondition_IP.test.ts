@@ -1,11 +1,13 @@
-import { CreateCondition_IP } from "../../../businesslogic/conditions/CreateCondition_IP";
+import { CreateCondition_IP, remedyPlanConditionDTO } from "../../../businesslogic/conditions/CreateCondition_IP";
 import { IInfrastructureProvision } from "../../../businesslogic/plugIn/IInfrastructureProvision";
 import { LoggerMock } from "../../utility/LoggerMock";
+import { IUpdateRemedyPlanCondition } from "../../../businesslogic/plugIn/IUpdateRemedyPlanCondition";
 
 test('Create new infrastructure provision', async () => {    
     var logger = new LoggerMock()
     var ipCreator = new IInfrastructureProvisionMock(100)
-    var cc = new CreateCondition_IP(7,1,600,logger, ipCreator)
+    var conditionMock = new IUpdateRemedyPlanConditionMock()
+    var cc = new CreateCondition_IP(7,1,600,logger, ipCreator, conditionMock)
 
     var result = await cc.execute({
         trigger: 'qui-quo-qua',
@@ -13,18 +15,22 @@ test('Create new infrastructure provision', async () => {
         parameters:{ }        
     },{
         name: 'RemedyPlan_Pippo',
-        conditions: [{'actionName': 'CreateRemediPlan', 'areaId':'88'}]
+        conditions: [{'actionName': 'CreateRemediPlan', 'areaId':'88', 'id':'63eb512debc264655d578acc'}]
     })
 
     expect(result.id).toBe('100')
     expect(ipCreator.kindId).toBe(7)
     expect(ipCreator.topologyId).toBe(1)
+    expect(conditionMock.parameter.duration).toBe(600)
+    expect(conditionMock.parameter.conditionUndetermined).toBeFalsy()
+    expect(conditionMock.parameter.remedyplanKey).toBe('63eb512debc264655d578acc')
 })
 
 test('Create new infrastructure provision but missing a previous create remedy Plan throws an exception', async () => {    
     var logger = new LoggerMock()
     var ipCreator = new IInfrastructureProvisionMock(100)
-    var cc = new CreateCondition_IP(7,1,600,logger, ipCreator)
+    var conditionMock = new IUpdateRemedyPlanConditionMock()
+    var cc = new CreateCondition_IP(7,1,600,logger, ipCreator, conditionMock)
 
     try{
         var result = await cc.execute({
@@ -48,7 +54,8 @@ test('Create new infrastructure provision but missing a previous create remedy P
 test('Create new infrastructure provision but missing a previous create areaID, throws exception', async () => {    
     var logger = new LoggerMock()
     var ipCreator = new IInfrastructureProvisionMock(100)
-    var cc = new CreateCondition_IP(7,1,600,logger, ipCreator)
+    var conditionMock = new IUpdateRemedyPlanConditionMock()
+    var cc = new CreateCondition_IP(7,1,600,logger, ipCreator, conditionMock)
 
     try{
         var result = await cc.execute({
@@ -82,5 +89,10 @@ class IInfrastructureProvisionMock implements IInfrastructureProvision{
 
 }
 
+class IUpdateRemedyPlanConditionMock implements IUpdateRemedyPlanCondition{
+    parameter :remedyPlanConditionDTO = undefined
 
-
+    async insert(condition: remedyPlanConditionDTO): Promise<void> {
+        this.parameter = condition
+    }
+}

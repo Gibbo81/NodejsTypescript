@@ -22,6 +22,7 @@ export class Condition {
     public KindId: number | undefined
     public TopologyId: number | undefined
     public Duration: number | undefined
+    public DeterminedDuration: boolean | undefined
 }
 
 class ClosingAction {

@@ -7,6 +7,7 @@ import { CreateAreaWithIFMO } from "../api/CreateArea";
 import { OwnerFromGlf_FAKE } from "../api/OwnerFromGlf_FAKE";
 import { CreateCondition_IP } from "../businesslogic/conditions/CreateCondition_IP";
 import { IFMOinteractions_FAKE } from "../api/IFMOinteractions_FAKE";
+import { UpdateRemediPlanOnMongo } from "../mongoDB/UpdateRemediPlanOnMongo";
 
 enum ConditionTypes {
     CreateRemedyPlan = 'CreateRemedyPlan',
@@ -33,7 +34,15 @@ export class ConditionFactory {
             }
             case ConditionTypes.CreateInfrastructureProvision.toString():{
                 this.checkDataForCreateInfrastructureProvision(data)
-                return new CreateCondition_IP(data.KindId, data.TopologyId, data.Duration, new Logger(), new IFMOinteractions_FAKE(new Logger()))
+                if (data.DeterminedDuration === true)
+                    return new CreateCondition_IP(data.KindId, 
+                                                  data.TopologyId, 
+                                                  data.Duration, 
+                                                  new Logger(), 
+                                                  new IFMOinteractions_FAKE(new Logger()),
+                                                  new UpdateRemediPlanOnMongo(this.dbConnectionString))
+                else
+                    throw new Error('TODO') //TODO: missing implementation of this class
             }
             default:{
                 throw new Error('invalid')
@@ -53,7 +62,9 @@ export class ConditionFactory {
         if (!data.KindId)
             errors.push(`KindId is null for condition CreateInfrastructureProvision`)
         if (!data.TopologyId)
-            errors.push(`KindId is null for condition CreateInfrastructureProvision`)
+            errors.push(`TopologyId is null for condition CreateInfrastructureProvision`)
+        if (data.DeterminedDuration === undefined)
+            errors.push(`DeterminedDuration is null for condition CreateInfrastructureProvision`)            
         if(errors.length>0)
             throw new Error(`ConditionFactory invalid data ${JSON.stringify(errors)} - configuration data: ${JSON.stringify(data)}` )
     }

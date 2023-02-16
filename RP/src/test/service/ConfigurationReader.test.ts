@@ -124,7 +124,8 @@ function GetRemedyPlan1():string{
                 "Name": "CreateInfrastructureProvision",
                 "KindId": 7,
                 "TopologyId": 1,
-                "Duration": 7
+                "Duration": 7,
+                "DeterminedDuration" : true
             }
         ],
         "ClosingAction"	:[]

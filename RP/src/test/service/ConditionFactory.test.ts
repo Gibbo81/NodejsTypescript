@@ -11,6 +11,7 @@ test('Single condition of type CreateCondition_IP', async () => {
     condition.Duration = 98
     condition.KindId =2
     condition.TopologyId = 9
+    condition.DeterminedDuration = true
     configuration.Conditions.push(condition)
     var factory = new ConditionFactory('')
 
@@ -34,7 +35,7 @@ test('Single condition of type CreateRemediPlan', async () => {
     expect(result[0]).toBeInstanceOf(CreateRemediPlan)
 })
 
-test('Two conditions one of type CreateRemediPlan and one of type CreateRemediPlan', async () => {    
+test('Two conditions one of type CreateRemediPlan and one of type CreateInfrastructureProvision', async () => {    
     var configuration = getEmptyConfiguration()
     var condition1 = new Condition()
     condition1.Name = 'CreateRemedyPlan'
@@ -45,6 +46,7 @@ test('Two conditions one of type CreateRemediPlan and one of type CreateRemediPl
     condition2.Duration = 98
     condition2.KindId =2
     condition2.TopologyId = 9
+    condition2.DeterminedDuration = true
     configuration.Conditions.push(condition2)
     var factory = new ConditionFactory('')
 
@@ -66,6 +68,7 @@ test('Two conditions one of type CreateRemediPlan and one of type CreateRemediPl
     condition2.Duration = 98
     condition2.KindId =2
     condition2.TopologyId = 9
+    condition2.DeterminedDuration = true
     configuration.Conditions.push(condition2)
     var factory = new ConditionFactory('')
 
@@ -81,6 +84,7 @@ test('Single condition of type CreateCondition_IP but duration and KindId are mi
     var condition = new Condition()
     condition.Name = 'CreateInfrastructureProvision'
     condition.TopologyId = 9
+    condition.DeterminedDuration = true
     configuration.Conditions.push(condition)
     var factory = new ConditionFactory('')
 
@@ -89,7 +93,7 @@ test('Single condition of type CreateCondition_IP but duration and KindId are mi
         expect(1).toBe(2)
     }
     catch(e){
-        expect(e.message).toBe('ConditionFactory invalid data ["Duration is null for condition CreateInfrastructureProvision","KindId is null for condition CreateInfrastructureProvision"] - configuration data: {"Name":"CreateInfrastructureProvision","TopologyId":9}')
+        expect(e.message).toBe('ConditionFactory invalid data ["Duration is null for condition CreateInfrastructureProvision","KindId is null for condition CreateInfrastructureProvision"] - configuration data: {"Name":"CreateInfrastructureProvision","TopologyId":9,"DeterminedDuration":true}')
         expect(e).toBeInstanceOf(Error)
     }
 })
