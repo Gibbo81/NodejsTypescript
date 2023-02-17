@@ -13,7 +13,7 @@ import { ApplicatinLogic } from "./businesslogic/ApplicatinLogic";
 //Fast debug: ts-node ./src/index.ts from javascript debug terminal
 const connectionURL = 'mongodb://localhost:27017'
 
-insertNewRemedyPlanInsideDB('API_POST_input1', 'Broken_TDT')
+insertNewRemedyPlanInsideDB(['Pluto_input2', 'API_POST_input1'], ['Broken_TDT','Broken_TDT'])
 //loadConfigurations();
 //readAllRemedyPlanFromMongo()
 //ReadRPAreas()
@@ -34,7 +34,7 @@ function loadConfigurations() {
             console.log(x));
 }
 
-function insertNewRemedyPlanInsideDB(triggerName: string, divergenceType: string) {
+function insertNewRemedyPlanInsideDB(triggerName: string[], divergenceType: string[]) {
     var reader = new ConfigurationReader('./configurations/', 
                                          new ConditionFactory(connectionURL), 
                                          new PlannedCheckFactory(connectionURL),
@@ -42,7 +42,8 @@ function insertNewRemedyPlanInsideDB(triggerName: string, divergenceType: string
     reader.load()
           .then(x => {
                 var app = new ApplicatinLogic(x)
-                app.externalTrigger(triggerName, divergenceType)
+                for (var c =0; c<triggerName.length; c++)
+                    app.externalTrigger(triggerName[c], divergenceType[c])
           });
 }
 

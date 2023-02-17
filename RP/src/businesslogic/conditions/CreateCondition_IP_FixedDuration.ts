@@ -3,7 +3,7 @@ import { ILogger } from "../plugIn/Ilogger";
 import { IUpdateRemedyPlanCondition } from "../plugIn/IUpdateRemedyPlanCondition";
 import { CreateCondition_IPBase } from "./CreateCondition_IPBase";
 
-export class CreateCondition_IP_FixedDuretion extends CreateCondition_IPBase{    
+export class CreateCondition_IP_FixedDuration extends CreateCondition_IPBase{    
     constructor(kindId: number, 
                 topologyId: number,
                 duration : number,                

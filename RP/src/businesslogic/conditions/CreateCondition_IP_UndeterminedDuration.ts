@@ -4,7 +4,7 @@ import { IUpdateRemedyPlanCondition } from "../plugIn/IUpdateRemedyPlanCondition
 import { CreateCondition_IPBase } from "./CreateCondition_IPBase";
 import { ICreateTasksChain } from "../plugIn/ICreateTasksChain";
 
-export class CreateCondition_IP_UndeterminedDuretion extends CreateCondition_IPBase{
+export class CreateCondition_IP_UndeterminedDuration extends CreateCondition_IPBase{
     private readonly undeterminConditionChainType= "undetermined"
 
     constructor(kindId: number, 
@@ -24,4 +24,4 @@ export class CreateCondition_IP_UndeterminedDuretion extends CreateCondition_IPB
     protected async PostCreationOperations(ipId: number): Promise<void> {        
         await this.createTasks.createTasksChain(this.undeterminConditionChainType, ipId)
     }  
-}   //TODO:missing factory and missing ICreateTasksChain concrete implementation
+}   

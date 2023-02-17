@@ -1,0 +1,35 @@
+{
+	"Name" : "Remedy_pluto",
+	"Triggers":[
+		{
+			"Name": "Pluto_input1",
+			"Priority" : 10
+		},
+		{
+			"Name": "Pluto_input2",
+			"Priority" : 2
+		}
+	],
+	"Unplanned_checks":[
+		{
+			"Name": "BrokenTdTAlreadyInsideARemedyPlan"
+		},
+		{
+			"Name": "BrokenTdTAlreadyInsideIp"
+		}
+	],
+	"Conditions":[
+		{
+			"Name": "CreateRemedyPlan",
+			"Status": "Just-Created"
+		},
+		{
+			"Name": "CreateInfrastructureProvision",
+			"KindId": 7,
+			"TopologyId": 1,
+			"Duration": 650,
+			"DeterminedDuration": false
+		}
+	],
+	"ClosingAction"	:[]
+}

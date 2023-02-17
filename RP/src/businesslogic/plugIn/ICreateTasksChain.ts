@@ -1,3 +1,3 @@
 export interface ICreateTasksChain{
-    createTasksChain(chainType: string, ipId : number) : Promise<void>
+    createTasksChain(chainType: string, ipId : number) : Promise<string>
 }

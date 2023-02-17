@@ -5,9 +5,11 @@ import { CreateRemedyPlanDB } from "../mongoDB/CreateRemedyPlanDB";
 import { Logger } from "../utility/Logger";
 import { CreateAreaWithIFMO } from "../api/CreateArea";
 import { OwnerFromGlf_FAKE } from "../api/OwnerFromGlf_FAKE";
-import { CreateCondition_IP_FixedDuretion } from "../businesslogic/conditions/CreateCondition_IP_FixedDuretion";
+import { CreateCondition_IP_FixedDuration } from "../businesslogic/conditions/CreateCondition_IP_FixedDuration";
+import { CreateCondition_IP_UndeterminedDuration } from "../businesslogic/conditions/CreateCondition_IP_UndeterminedDuration";
 import { IFMOinteractions_FAKE } from "../api/IFMOinteractions_FAKE";
 import { UpdateRemediPlanOnMongo } from "../mongoDB/UpdateRemediPlanOnMongo";
+import { TaskManagerMock } from "../api/TaskManager";
 
 enum ConditionTypes {
     CreateRemedyPlan = 'CreateRemedyPlan',
@@ -23,26 +25,33 @@ export class ConditionFactory {
     }
 
     private mapCondition(data: Condition): Iaction {
+        var logger = new Logger()
         switch (data.Name) {
             case ConditionTypes.CreateRemedyPlan.toString(): {
                 this.checkDataForCreateRemedyPlan(data);
                 return new CreateRemediPlan(data.Status, 
                                             new CreateRemedyPlanDB(this.dbConnectionString), 
                                             new CreateAreaWithIFMO(),
-                                            new Logger(),
+                                            logger,
                                             new OwnerFromGlf_FAKE());
             }
             case ConditionTypes.CreateInfrastructureProvision.toString():{
                 this.checkDataForCreateInfrastructureProvision(data)
                 if (data.DeterminedDuration === true)
-                    return new CreateCondition_IP_FixedDuretion(data.KindId, 
-                                                  data.TopologyId, 
-                                                  data.Duration, 
-                                                  new Logger(), 
-                                                  new IFMOinteractions_FAKE(new Logger()),
-                                                  new UpdateRemediPlanOnMongo(this.dbConnectionString))
+                    return new CreateCondition_IP_FixedDuration(data.KindId, 
+                                                                data.TopologyId, 
+                                                                data.Duration, 
+                                                                logger, 
+                                                                new IFMOinteractions_FAKE(logger),
+                                                                new UpdateRemediPlanOnMongo(this.dbConnectionString))
                 else
-                    throw new Error('TODO') //TODO: missing implementation of this class
+                    return new CreateCondition_IP_UndeterminedDuration(data.KindId, 
+                                                                       data.TopologyId, 
+                                                                       data.Duration, 
+                                                                       logger, 
+                                                                       new IFMOinteractions_FAKE(logger),
+                                                                       new UpdateRemediPlanOnMongo(this.dbConnectionString),
+                                                                       new TaskManagerMock(logger))
             }
             default:{
                 throw new Error('invalid')
