@@ -83,7 +83,7 @@ test('Create new infrastructure provision but missing a previous create areaID, 
     }
 })
 
-class ICreateTasksChainMock implements ICreateTasksChain{
+export class ICreateTasksChainMock implements ICreateTasksChain{
     chainType: string 
     ipId: number
     

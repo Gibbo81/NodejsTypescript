@@ -4,6 +4,7 @@ enum divergenceTypes {
     Broken_TDT = 'Broken_TDT'
 }
 
+//todo: error management {e.g.: db acess error}
 export class ApplicatinLogic{
     constructor(private remedyplans: RemedyPlan[]){}
 

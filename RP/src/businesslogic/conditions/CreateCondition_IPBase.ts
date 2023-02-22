@@ -15,15 +15,14 @@ export abstract class CreateCondition_IPBase implements Iaction{
                 private logger: ILogger,                
                 private iP: IInfrastructureProvision,
                 private conditions: IUpdateRemedyPlanCondition){}
-    
-    private readonly determinedConditionDuration: true                
+        
     private get durationInMillisecond(): number {
         return this.duration * 1000;
     }
 
-    async execute(data : executeParameters, previousActions :invocationResult): Promise<{[key:string] : string}> {
-        this.logger.logDebug(`Start infrastructure provision creation with data: ${JSON.stringify(data)} and previous actions ${JSON.stringify(previousActions)}`)
-        var remedyplanInfo = this.checkData(previousActions);
+    async execute(data : executeParameters, previousActionsResults :invocationResult): Promise<{[key:string] : string}> {
+        this.logger.logDebug(`Start infrastructure provision creation with data: ${JSON.stringify(data)} and previous actions ${JSON.stringify(previousActionsResults)}`)
+        var remedyplanInfo = this.checkData(previousActionsResults);
         var startingTime = new Date()
         var endTime = new Date(startingTime.getTime() + this.durationInMillisecond)
         var IPId = await this.iP.createIP(this.kindId, 

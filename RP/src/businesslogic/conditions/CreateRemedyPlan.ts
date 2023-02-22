@@ -47,7 +47,7 @@ export class CreateRemediPlan implements Iaction{
     }
 
     private async checkData(data : executeParameters){
-        var errors : string[] = [] //toDO: I'm not sure this information are inside data and note read from external source
+        var errors : string[] = [] 
         if(!data.parameters.owner)
             data.parameters.owner = await this.owner.getOwner(data.trigger)
         if(!data.parameters.priority)
